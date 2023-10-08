@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="colorpicker, color palettes, color theory, UI design, UX design, brand styleguide">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#12004b">
+    <meta name="msapplication-TileColor" content="#12004b">
+    <meta name="theme-color" content="#12004b">
+    <meta property="og:title" content="Koilors">
+    <meta property="og:site_name" content="Koilors">
+    <meta property="og:url" content="http://thewildsushii.github.io/koilors">
+    <meta property="og:description" content="">
+    <meta property="og:type" content=website>
+    <meta property="og:image" content="http://thewildsushii.github.io/koilors/android-chrome-512x512.png">
+
+    <title>Koilors</title>
+
+    <script src="https://colorjs.io/dist/color.global.js"></script>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/canvasUtils.js"></script>
+    <script src="scripts/okcolor.js"></script>
+    <script src="scripts/schemes.js"></script>
+    <script src="scripts/main.js"></script>
+    <script src="scripts/colorpicker.js"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+    <link href="styles/colors.css" rel="stylesheet">
+    <link href="styles/theme.css" rel="stylesheet">
+    <link href="styles/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+    <aside>
+        <h3 class="mobile-only">Generate beautiful color palettes by picking just one <span
+                class="primary-text">color</span>.</h3>
+        <div id="chromaWheelContainer">
+            <canvas id="chromaWheel" width="24" height="24"></canvas>
+            <canvas id="chromaWheelHandle" width="256" height="256"></canvas>
+        </div>
+        <input type="text" value="#7141ff" maxlength="7" id="hex" name="hex">
+        <div>
+            <label for="h-range">Hue</label>
+            <div class="slider">
+                <canvas id="h-slider" width="360" height="1"></canvas>
+                <input type="range" value="286" min="0" max="359" id="h-range" name="h-range">
+                <input type="number" value="286" min="0" max="359" id="h-value" name="h-value">
+            </div>
+        </div>
+        <div>
+            <label for="s-range">Saturation</label>
+            <div class="slider">
+                <canvas id="s-slider" width="100" height="1"></canvas>
+                <input type="range" value="100" min="1" max="100" id="s-range" name="s-range">
+                <input type="number" value="100" min="1" max="100" id="s-value" name="s-value">
+            </div>
+        </div>
+        <div>
+            <label for="v-range">Value</label>
+            <div class="slider">
+                <canvas id="v-slider" width="100" height="1"></canvas>
+                <input type="range" value="48" min="1" max="100" id="v-range" name="v-range">
+                <input type="number" value="48" min="1" max="100" id="v-value" name="v-value">
+            </div>
+        </div>
+        <label for="scheme">Color scheme</label>
+        <select name="scheme" id="scheme" onchange="onSchemeChanged()">
+            <optgroup label="1 Color">
+                <option value="mono">Monochromatic</option>
+            </optgroup>
+            <optgroup label="2 Colors">
+                <option value="comp">Complementary</option>
+            </optgroup>
+            <optgroup label="3 Colors">
+                <option value="anal3">Analogous</option>
+                <option value="split">Split Complementary</option>
+                <option value="tri">Triadic</option>
+            </optgroup>
+            <optgroup label="4 Colors">
+                <option value="square">Square</option>
+                <option value="tetral">Tetradic Left</option>
+                <option value="tetrar">Tetradic Right</option>
+            </optgroup>
+            <optgroup label="5 Colors">
+                <option value="tones">Tones</option>
+                <option value="anal5">Analogous</option>
+                <option value="dsc">Double Split Complementary</option>
+            </optgroup>
+            <optgroup label="6 Colors">
+                <option value="poly">Polychromatic</option>
+            </optgroup>
+            <optgroup label="10 Colors">
+                <option value="full">All Colors</option>
+            </optgroup>
+        </select>
+    </aside>
+
+    <main>
+        <header>
+            <div onclick="randomize()"><span class="material-symbols-rounded" translate="no">casino</span><span
+                    class="pc-only">Randomize</span></div>
+            <div onclick="toggleDaynight()"><span id="daynight-button" class="material-symbols-rounded"
+                    translate="no">dark_mode</span><span class="pc-only">Toggle lights</span></div>
+        </header>
+
+        <h3 class="pc-only">Generate beautiful color palettes by picking just one <span
+                class="primary-text">color</span>.</h3>
+
+        <h3 class="warning-text">Some features are still work in progress...</h3>
+
+        <p id="clipboardP" class="success-text">Copied: <span id="copiedText">#7141ff</span> into clipboard!</p>
+
+        <section id="colors">
+        </section>
+
+        <!-- <details>
+            <summary>
+                <h2>Export to CSS</h2>
+            </summary>
+            <h3 class="warning-text">Work in progress! ¯\_(ツ)_/¯</h3>
+        </details> -->
+
+    </main>
+
+</body>
+
+</html>
