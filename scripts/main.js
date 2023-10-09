@@ -261,7 +261,7 @@ function onSchemeChanged() {
 
     colordata.h = mainColor.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
     colordata.s = schemeSelect.value;
-    window.location.hash = btoa(JSON.stringify(colordata));
+    history.replaceState(undefined, undefined, "#" + btoa(JSON.stringify(colordata)));
 }
 
 function createShadeDivs(color) {
