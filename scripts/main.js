@@ -98,79 +98,17 @@ ready(function () {
         }
     });
 
-    onRangeChange(hRange, function (e) {
-        mainColor = setHue(mainColor, Number(hRange.value));
-        onMainColorChanged();
-        renderChromaWheel();
-        renderChromaWheelHandle();
-        renderSaturation();
-        renderValue();
-        renderLightness();
-    });
-    hValue.addEventListener("change", function (e) {
-        mainColor = setHue(mainColor, Number(hValue.value));
-        onMainColorChanged();
-        renderChromaWheel();
-        renderChromaWheelHandle();
-        renderSaturation();
-        renderValue();
-        renderLightness();
-    });
+    onRangeChange(hRange, onHueChanged);
+    hValue.addEventListener("change", onHueChanged);
 
-    onRangeChange(sRange, function (e) {
-        mainColor = setSaturation(mainColor, Number(sRange.value / 100.0));
-        onMainColorChanged();
-        renderChromaWheel();
-        renderChromaWheelHandle();
-        renderHue();
-        renderValue();
-        renderLightness();
-    });
-    sValue.addEventListener("change", function (e) {
-        mainColor = setSaturation(mainColor, Number(sValue.value / 100.0));
-        onMainColorChanged();
-        renderChromaWheel();
-        renderChromaWheelHandle();
-        renderHue();
-        renderValue();
-        renderLightness();
-    });
+    onRangeChange(sRange, onSaturationChanged);
+    sValue.addEventListener("change", onSaturationChanged);
 
-    onRangeChange(vRange, function (e) {
-        mainColor = setValue(mainColor, Number(vRange.value / 100.0));
+    onRangeChange(vRange, onValueChanged);
+    vValue.addEventListener("change", onValueChanged);
 
-        onMainColorChanged();
-        renderChromaWheel();
-        renderHue();
-        renderSaturation();
-        renderLightness();
-    });
-    vValue.addEventListener("change", function (e) {
-        mainColor = setValue(mainColor, Number(vValue.value / 100.0));
-
-        onMainColorChanged();
-        renderChromaWheel();
-        renderHue();
-        renderSaturation();
-        renderLightness();
-    });
-
-    onRangeChange(lRange, function (e) {
-        mainColor = setLightness(mainColor, Number(lRange.value / 100.0));
-
-        onMainColorChanged();
-        renderChromaWheel();
-        renderHue();
-        renderSaturation();
-    });
-    lValue.addEventListener("change", function (e) {
-        mainColor = setLightness(mainColor, Number(lValue.value / 100.0));
-
-        onMainColorChanged();
-        renderChromaWheel();
-        renderHue();
-        renderSaturation();
-    });
+    onRangeChange(lRange, onLightnessChanged);
+    lValue.addEventListener("change", onLightnessChanged);
 
     onRangeChange(gradientStepsRange, function (e) {
         gradientSteps = Number(gradientStepsRange.value);
@@ -205,6 +143,43 @@ ready(function () {
     }
 
 });
+
+function onHueChanged(e) {
+    mainColor = setHue(mainColor, loopDegrees(Number(e.target.value)));
+    onMainColorChanged();
+    renderChromaWheel();
+    renderChromaWheelHandle();
+    renderSaturation();
+    renderValue();
+    renderLightness();
+}
+
+function onSaturationChanged(e) {
+    mainColor = setSaturation(mainColor, clamp(Number(e.target.value / 100.0), 0.004, 1.0));
+    onMainColorChanged();
+    renderChromaWheel();
+    renderChromaWheelHandle();
+    renderHue();
+    renderValue();
+    renderLightness();
+}
+
+function onValueChanged(e) {
+    mainColor = setValue(mainColor, clamp(Number(e.target.value / 100.0), 0.004, 1.0));
+    onMainColorChanged();
+    renderChromaWheel();
+    renderHue();
+    renderSaturation();
+    renderLightness();
+}
+
+function onLightnessChanged(e) {
+    mainColor = setLightness(mainColor, clamp(Number(e.target.value / 100.0), 0.004, 0.999));
+    onMainColorChanged();
+    renderChromaWheel();
+    renderHue();
+    renderSaturation();
+}
 
 function onMainColorChanged() {
 
