@@ -74,18 +74,18 @@ function getAnalogous5Scheme(color) {
     ];
 }
 
-function getTonesScheme(color) {
-    var palette = [];
+// function getTonesScheme(color) {
+//     var palette = [];
 
-    palette.push(color);
+//     palette.push(color);
 
-    palette.push(getTone(color, 0.75));
-    palette.push(getTone(color, 0.5));
-    palette.push(getTone(color, 0.25));
-    palette.push(getTone(color, 0.0));
+//     palette.push(getTone(color, 0.75));
+//     palette.push(getTone(color, 0.5));
+//     palette.push(getTone(color, 0.25));
+//     palette.push(getTone(color, 0.0));
 
-    return palette;
-}
+//     return palette;
+// }
 
 function getDoubleSplitComplementaryScheme(color) {
     return [
@@ -105,6 +105,13 @@ function getPolychromaticScheme(color) {
         rotateColor(color, 4.0 * 60.0),
         rotateColor(color, 5.0 * 60.0)
     ];
+}
+
+function getComplementaryAnalogous(color) {
+    var complementary = getComplementaryScheme(color);
+    var anal1 = getAnalogous3Scheme(complementary[0]);
+    var anal2 = getAnalogous3Scheme(complementary[1]);
+    return [...anal1, ...anal2];
 }
 
 function getAllColors(color) {

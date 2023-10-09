@@ -8,6 +8,8 @@ var sCanvas;
 var sCtx;
 var vCanvas;
 var vCtx;
+var lCanvas;
+var lCtx;
 
 var isUsingChromaWheel = false;
 
@@ -24,6 +26,8 @@ ready(function () {
     sCtx = sCanvas.getContext("2d", { colorSpace: "display-p3" });
     vCanvas = document.getElementById("v-slider");
     vCtx = vCanvas.getContext("2d", { colorSpace: "display-p3" });
+    lCanvas = document.getElementById("l-slider");
+    lCtx = lCanvas.getContext("2d", { colorSpace: "display-p3" });
     renderAllPickers();
 
     chromaWheelHandleCanvas.addEventListener("mousedown", function (e) {
@@ -59,6 +63,7 @@ function interactWithChromaWheel(e) {
     renderHue();
     renderSaturation();
     renderValue();
+    renderLightness();
 
     onMainColorChanged();
 }
@@ -117,10 +122,19 @@ function renderValue() {
     });
 }
 
+function renderLightness() {
+    var okhsl = toOkhsl(mainColor);
+    renderToCanvas(lCanvas, lCtx, function (x, y) {
+        okhsl.l = x;
+        return fromOkhsl(okhsl);
+    });
+}
+
 function renderAllPickers() {
     renderChromaWheel();
     renderChromaWheelHandle();
     renderHue();
     renderSaturation();
     renderValue();
+    renderLightness();
 }

@@ -80,7 +80,19 @@ function loopDegrees(x) {
 }
 
 function removeChilds(parent) {
-    while(parent.firstChild) {
+    while (parent.firstChild) {
         parent.removeChild(parent.lastChild);
     }
+}
+
+function sortColors(colors, invertL = false) {
+    if (invertL) {
+        return [...colors].sort(function (a, b) {
+            return b.oklab.l - a.oklab.l;
+        });
+    }
+
+    return [...colors].sort(function (a, b) {
+        return a.oklab.l - b.oklab.l;
+    });
 }

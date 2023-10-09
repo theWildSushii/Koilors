@@ -355,7 +355,7 @@ function fromOklch(oklch) {
 
 function setHue(color, hue) {
     var okhsv = toOkhsv(color);
-    okhsv.h = hue/360.0;
+    okhsv.h = hue / 360.0;
     return fromOkhsv(okhsv);
 }
 
@@ -371,6 +371,12 @@ function setValue(color, value) {
     return fromOkhsv(okhsv);
 }
 
+function setLightness(color, value) {
+    var okhsl = toOkhsl(color);
+    okhsl.l = value;
+    return fromOkhsl(okhsl);
+}
+
 function getShade(color, shade) {
     var okhsl = toOkhsl(color);
     okhsl.l = shade;
@@ -381,6 +387,27 @@ function getTone(color, tone) {
     var okhsl = toOkhsl(color);
     okhsl.s *= tone;
     return fromOkhsl(okhsl);
+}
+
+function lerpColor(a, b, t) {
+    // return a.mix(b, t, {space: "oklab"});
+
+    var color = new Color("oklab", [
+        lerp(a.oklab.l, b.oklab.l, t),
+        lerp(a.oklab.a, b.oklab.a, t),
+        lerp(a.oklab.b, b.oklab.b, t)
+    ]);
+
+    var okhsl = toOkhsl(color);
+
+    var okhslA = toOkhsl(a);
+    var okhslB = toOkhsl(b);
+
+    okhsl.s = lerp(okhslA.s, okhslB.s, t);
+    okhsl.l = lerp(okhslA.l, okhslB.l, t);
+
+    return fromOkhsl(okhsl);
+
 }
 
 function getClosestHarmonicHue(from, to) {

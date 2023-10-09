@@ -256,6 +256,35 @@ header>*:hover {
     cursor: pointer;
 }
 
+#gradient {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    gap: 4px;
+    padding: 8px 16px;
+}
+
+#gradient>* {
+    border-radius: 50%;
+    flex-basis: 64px;
+    aspect-ratio: 1;
+    border-color: #636363;
+    border-style: solid;
+    border-width: 3.14159px;
+    cursor: pointer;
+}
+
+div.form {
+    border-radius: 16px;
+    background-color: var(--surface-container);
+    padding: 16px;
+}
+
+div.form > * {
+    margin: 8px auto;
+}
+
 @media only screen and (max-width: 767px) {
     .pc-only {
         display: none;
@@ -290,17 +319,6 @@ header>*:hover {
 
     #shades>div {
         gap: 8px;
-    }
-
-    #base-palette {
-        margin: 16px auto;
-    }
-
-    #base-palette>div {
-        border-radius: 32px;
-        flex-grow: 1;
-        aspect-ratio: 0.618;
-        max-height: 128px;
     }
 
 }
