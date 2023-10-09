@@ -218,10 +218,19 @@ header>* {
     flex-direction: row;
     align-items: center;
     gap: 8px;
+    color: var(--on-surface);
+    fill: var(--on-surface);
+    text-decoration: none;
+}
+
+header svg {
+    height: 24px;
+    width: auto;
 }
 
 header>*:hover {
     color: var(--primary);
+    fill: var(--primary);
 }
 
 #colors {
