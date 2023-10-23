@@ -1,18 +1,20 @@
 {
     "name": "Koilors",
     "short_name": "Koilors",
+    "description": "Generate beautiful color palettes by picking just one color.",
     "icons": [
         {
-            "src": "android-chrome-192x192.png",
+            "src": "app-icon-192.png",
             "sizes": "192x192",
             "type": "image/png"
         },
         {
-            "src": "android-chrome-512x512.png",
+            "src": "app-icon-512.png",
             "sizes": "512x512",
             "type": "image/png"
         }
     ],
+    "start_url": "/",
     "theme_color": "#12004b",
     "background_color": "#12004b",
     "display": "standalone"
