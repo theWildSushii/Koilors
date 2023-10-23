@@ -14,7 +14,7 @@
             "type": "image/png"
         }
     ],
-    "start_url": "/",
+    "start_url": "/Koilors/",
     "theme_color": "#12004b",
     "background_color": "#12004b",
     "display": "standalone"
