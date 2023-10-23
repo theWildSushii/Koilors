@@ -85,13 +85,7 @@ function removeChilds(parent) {
     }
 }
 
-function sortColors(colors, invertL = false) {
-    if (invertL) {
-        return [...colors].sort(function (a, b) {
-            return b.oklab.l - a.oklab.l;
-        });
-    }
-
+function sortColors(colors) {
     return [...colors].sort(function (a, b) {
         return a.oklab.l - b.oklab.l;
     });

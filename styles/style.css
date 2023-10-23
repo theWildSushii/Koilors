@@ -291,7 +291,26 @@ div.form {
 }
 
 div.form > * {
-    margin: 8px auto;
+    margin: 8px 4px;
+}
+
+.slider-input {
+    display: flex;
+    max-width: 256px;
+    align-items: center;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-content: center;
+    gap: 4px;
+}
+
+.slider-input > input[type="range"] {
+    flex-grow: 1;
+}
+
+.slider-input > input[type="number"] {
+    width: 40px;
 }
 
 @media only screen and (max-width: 767px) {

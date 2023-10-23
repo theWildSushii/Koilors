@@ -157,10 +157,21 @@
             <section id="gradient">
             </section>
             <div class="form">
-                <label for="gradientSize">Steps</label>
-                <input type="range" min="3" max="9" value="5" id="gradientSize" name="gradientSize"><br />
-                <input type="checkbox" name="invertL" id="invertL" onclick="invertLChanged()">
-                <label for="invertL">Invert Lightness</label>
+                <label for="gradientSizeRange">Steps</label>
+                <div class="slider-input">
+                    <input type="range" min="3" max="10" value="5" id="gradientSizeRange" name="gradientSizeRange"><br />
+                    <input type="number" min="3" max="10" value="5" id="gradientSizeText" name="gradientSizeText"><br />
+                </div>
+                <label for="LStartRange">Start Lightness</label>
+                <div class="slider-input">
+                    <input type="range" min="0" max="100" value="10" id="LStartRange" name="LStartRange"><br />
+                    <input type="number" min="0" max="100" value="10" id="LStartText" name="LStartText"><br />
+                </div>
+                <label for="LEndRange">End Lightness</label>
+                <div class="slider-input">
+                    <input type="range" min="0" max="100" value="90" id="LEndRange" name="LEndRange"><br />
+                    <input type="number" min="0" max="100" value="90" id="LEndText" name="LEndText"><br />
+                </div>
             </div>
         </details>
         <details>

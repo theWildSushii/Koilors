@@ -403,6 +403,7 @@ function lerpColor(a, b, t) {
     var okhslA = toOkhsl(a);
     var okhslB = toOkhsl(b);
 
+    // okhsl.h = t <= 0.5 ? okhslA.h : okhslB.h;
     okhsl.s = lerp(okhslA.s, okhslB.s, t);
     okhsl.l = lerp(okhslA.l, okhslB.l, t);
 
