@@ -128,16 +128,27 @@ ready(function () {
     LEndText.addEventListener("change", onEndLChanged);
 
     var keywords = window.location.hash.split("/");
+    randomize(false);
     try {
         mainColor = new Color(keywords[0]);
         schemeSelect.value = keywords[1];
         gradientSteps = Math.round(Number(keywords[2]));
-        startL = clamp(Math.round(Number(keywords[3])) / 100.0, 0.004, 0.999);
-        endL = clamp(Math.round(Number(keywords[4])) / 100.0, 0.004, 0.999);
-        onMainColorChanged();
-    } catch {
-        randomize();
+        gradientSizeRange.value = gradientSteps;
+        gradientSizeText.value = gradientSteps;
+        var startLRaw = Math.round(Number(keywords[3]));
+        LStartRange.value = startLRaw;
+        LStartText.value = startLRaw;
+        startL = clamp(startLRaw / 100.0, 0.004, 0.999);
+        var endLRaw = Math.round(Number(keywords[4]));
+        LEndRange.value = endLRaw;
+        LEndText.value = endLRaw;
+        endL = clamp(endLRaw / 100.0, 0.004, 0.999);
+    } catch(e) {
+        console.error(e);
+        randomize(false);
     }
+    onMainColorChanged();
+    renderAllPickers();
 
 });
 
@@ -372,16 +383,31 @@ function fillNeutralColors(color) {
     root.style.setProperty("--N100", getShade(neutralColor, 1.0).to("oklab").display());
 }
 
-function randomize() {
+function randomize(updateUI = true) {
     var okhsv = {
         h: Math.random(),
         s: lerp(0.618, 1.0, Math.random()),
-        v: lerp(0.618, 1.0, Math.random())
+        v: lerp(0.75, 1.0, Math.random())
     };
     mainColor = fromOkhsv(okhsv);
     schemeSelect.value = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
-    onMainColorChanged();
-    renderAllPickers();
+    gradientSteps = Math.round(lerp(3, 10, Math.random()));
+    var startLRaw = 100.0 / (gradientSteps + 1.0);
+    var endLRaw = 100.0 - startLRaw;
+    if(updateUI) {
+        gradientSizeRange.value = gradientSteps;
+        gradientSizeText.value = gradientSteps;
+        startLRaw = Math.round(startLRaw);
+        LStartRange.value = startLRaw;
+        LStartText.value = startLRaw;
+        endLRaw = Math.round(endLRaw);
+        LEndRange.value = endLRaw;
+        LEndText.value = endLRaw;
+        onMainColorChanged();
+        renderAllPickers();
+    }
+    startL = clamp(startLRaw / 100.0, 0.004, 0.999);
+    endL = clamp(endLRaw / 100.0, 0.004, 0.999);
 }
 
 function copyBackgroundColorToClipboard(event) {
