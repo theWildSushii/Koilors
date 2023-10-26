@@ -65,21 +65,6 @@ main>p {
     text-align: center;
 }
 
-details {
-    margin: 16px;
-}
-
-summary>* {
-    display: inline-block;
-    text-align: left;
-}
-
-details h1,
-details h2,
-details h3 {
-    text-align: left;
-}
-
 #chromaWheelContainer {
     position: relative;
     width: 224px;
@@ -288,6 +273,7 @@ div.form {
     border-radius: 16px;
     background-color: var(--surface-container);
     padding: 16px;
+    margin: 8px;
 }
 
 div.form > * {
@@ -296,7 +282,6 @@ div.form > * {
 
 .slider-input {
     display: flex;
-    max-width: 256px;
     align-items: center;
     justify-content: flex-start;
     flex-wrap: wrap;
@@ -343,6 +328,10 @@ div.form > * {
 
     main {
         overflow-y: auto;
+    }
+
+    .slider-input {
+        max-width: 256px;
     }
 
     #shades>div {
