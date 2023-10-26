@@ -1,10 +1,7 @@
 function rotateColor(color, delta) {
-
     var okhsv = toOkhsv(color);
     okhsv.h = loopDegrees(okhsv.h + (delta / 360.0));
     return fromOkhsv(okhsv);
-
-    // return new Color("oklch", [color.oklch.l, color.oklch.c, loopDegrees(color.oklch.h + delta)]);
 }
 
 
@@ -74,19 +71,6 @@ function getAnalogous5Scheme(color) {
     ];
 }
 
-// function getTonesScheme(color) {
-//     var palette = [];
-
-//     palette.push(color);
-
-//     palette.push(getTone(color, 0.75));
-//     palette.push(getTone(color, 0.5));
-//     palette.push(getTone(color, 0.25));
-//     palette.push(getTone(color, 0.0));
-
-//     return palette;
-// }
-
 function getDoubleSplitComplementaryScheme(color) {
     return [
         rotateColor(color, -36.0),
@@ -115,13 +99,9 @@ function getComplementaryAnalogous(color) {
 }
 
 function getAllColors(color) {
-
     var okhsv = toOkhsv(color);
-
     okhsv.h = getClosestHarmonicHue(okhsv.h * 360.0 , 27.0) / 360.0;
-
     var red = fromOkhsv(okhsv);
-
     return [red,
         rotateColor(red, 36.0),
         rotateColor(red, 72.0),

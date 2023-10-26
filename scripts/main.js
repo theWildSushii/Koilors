@@ -13,7 +13,6 @@ var colorSchemes = [
     "square",
     "tetral",
     "tetrar",
-    // "tones",
     "anal5",
     "dsc",
     "poly",
@@ -22,41 +21,16 @@ var colorSchemes = [
 ];
 
 var root;
-
-var hexInput;
-var hRange;
-var hValue;
-var sRange;
-var sValue;
-var vRange;
-var vValue;
-var lRange;
-var lValue;
-
-var schemeSelect;
-
-var colorspaceSelect;
-
+var hexInput, hRange, hValue, sRange, sValue, vRange, vValue, lRange, lValue;
+var schemeSelect, colorspaceSelect;
 var daynightButton;
-
-var colorsContainer;
-var gradientContainer;
-
-var gradientSizeRange;
-var gradientSizeText;
-var LStartRange;
-var LStartText;
-var LEndRange;
-var LEndText;
-
-var clipboardP;
-var copiedText;
+var colorsContainer, gradientContainer;
+var gradientSizeRange, gradientSizeText, LStartRange, LStartText, LEndRange, LEndText;
+var clipboardP, copiedText;
 
 ready(function () {
-    hexInput = document.getElementById("hex");
-
     root = document.querySelector(":root");
-
+    hexInput = document.getElementById("hex");
     hRange = document.getElementById("h-range");
     hValue = document.getElementById("h-value");
     sRange = document.getElementById("s-range");
@@ -143,13 +117,12 @@ ready(function () {
         LEndRange.value = endLRaw;
         LEndText.value = endLRaw;
         endL = clamp(endLRaw / 100.0, 0.004, 0.999);
-    } catch(e) {
+    } catch (e) {
         console.error(e);
         randomize(false);
     }
     onMainColorChanged();
     renderAllPickers();
-
 });
 
 function onHueChanged(e) {
@@ -304,9 +277,6 @@ function onSchemeChanged() {
         case "tetrar": //Tetradic Right
             palette = getTetradicRightScheme(mainColor);
             break;
-        // case "tones": //Tones
-        //     palette = getTonesScheme(mainColor);
-        //     break;
         case "anal5": //Analogous 5
             palette = getAnalogous5Scheme(mainColor);
             break;
@@ -323,11 +293,9 @@ function onSchemeChanged() {
             palette = getAllColors(mainColor);
             break;
     }
-
     for (var i = 0; i < palette.length; i++) {
         createShadeDivs(palette[i]);
     }
-
     generateSimpleGradient();
 }
 
@@ -391,10 +359,10 @@ function randomize(updateUI = true) {
     };
     mainColor = fromOkhsv(okhsv);
     schemeSelect.value = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
-    gradientSteps = Math.round(lerp(3, 10, Math.random()));
+    gradientSteps = Math.round(lerp(3, 11, Math.random()));
     var startLRaw = 100.0 / (gradientSteps + 1.0);
     var endLRaw = 100.0 - startLRaw;
-    if(updateUI) {
+    if (updateUI) {
         gradientSizeRange.value = gradientSteps;
         gradientSizeText.value = gradientSteps;
         startLRaw = Math.round(startLRaw);
@@ -426,9 +394,9 @@ function generateSimpleGradient() {
     code += "/" + Math.round(gradientSteps);
     code += "/" + clamp(Math.round(startL * 100.0), 0, 100);
     code += "/" + clamp(Math.round(endL * 100.0), 0, 100);
-    
+
     history.replaceState(undefined, undefined, code);
-    
+
     removeChilds(gradientContainer);
 
     if (palette.length == 1) {
@@ -443,17 +411,25 @@ function generateSimpleGradient() {
 
     var sortedPalette = sortColors(palette);
     for (var i = 0; i < gradientSteps; i++) {
-        var t = i / (gradientSteps - 1);
-        var shade = t;
-        // var index = remap(t, 0.0, 1.0, 0.0, sortedPalette.length - 1.0)
-        // var indexA = Math.floor(index);
-        // var indexB = Math.ceil(index);
-        // t = remap(t * (sortedPalette.length - 1.0), indexA, indexB, 0.0, 1.0);
-        // var color = lerpColor(sortedPalette[indexA], sortedPalette[indexB], t);
-        // var color = sortedPalette[Math.round(index)];
 
-        // var color = colorSpline(sortedPalette, shade);
-        color = sortedPalette[Math.round(remap(shade, 0.0, 1.0, 0.0, sortedPalette.length - 1))];
+        var shade = i / (gradientSteps - 1.0);
+        var index = remap(i, 0.0, gradientSteps - 1.0, 0.0, sortedPalette.length - 1);
+
+        var color = sortedPalette[Math.round(index)];
+        var colorA = sortedPalette[Math.floor(index)];
+        var colorB = sortedPalette[Math.ceil(index)];
+
+        var okhslA = toOkhsl(colorA);
+        var okhslB = toOkhsl(colorB);
+
+        var distance = Math.abs(okhslB.h - okhslA.h);
+        if (distance > 0.5) {
+            distance = 1.0 - distance;
+        }
+
+        if (distance <= 0.1) {
+            color = lerpColor(colorA, colorB, index % 1);
+        }
 
         color = getShade(color, lerp(startL, endL, shade));
 
@@ -462,23 +438,4 @@ function generateSimpleGradient() {
         colorDiv.addEventListener("click", copyBackgroundColorToClipboard);
         gradientContainer.appendChild(colorDiv);
     }
-}
-
-function colorSpline(colors, t) {
-    if (colors.length == 1) {
-        return colors[0];
-    }
-    if (colors.length == 2) {
-        return lerpColor(colors[0], colors[1], t);
-    }
-    var recursive = [];
-    for (var i = 0; i < colors.length - 1; i++) {
-        recursive.push(lerpColor(colors[i], colors[i + 1], t));
-    }
-    return colorSpline(recursive, t);
-}
-
-function invertLChanged() {
-    invertLightness = invertLButton.checked;
-    generateSimpleGradient();
 }

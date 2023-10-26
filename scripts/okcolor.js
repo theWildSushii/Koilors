@@ -191,19 +191,14 @@ function get_Cs(L, a_, b_) {
 }
 
 function toOkhsl(color) {
-
     let C = Math.sqrt(color.oklab.a * color.oklab.a + color.oklab.b * color.oklab.b);
     let a_ = color.oklab.a / C;
     let b_ = color.oklab.b / C;
-
     let L = color.oklab.l;
-    // let h = 0.5 + 0.5 * Math.atan2(-color.oklab.b, -color.oklab.a) / Math.PI;
-
     let Cs = get_Cs(L, a_, b_);
     let C_0 = Cs[0];
     let C_mid = Cs[1];
     let C_max = Cs[2];
-
     let s;
     if (C < C_mid) {
         let k_0 = 0;
@@ -221,9 +216,6 @@ function toOkhsl(color) {
         let t = (C - k_0) / (k_1 + k_2 * (C - k_0));
         s = 0.8 + 0.2 * t;
     }
-
-    // let l = toe(L);
-
     return {
         h: 0.5 + 0.5 * Math.atan2(-color.oklab.b, -color.oklab.a) / Math.PI,
         s: s,
@@ -235,12 +227,10 @@ function fromOkhsl(okhsl) {
     let a_ = Math.cos(2 * Math.PI * okhsl.h);
     let b_ = Math.sin(2 * Math.PI * okhsl.h);
     let L = toe_inv(okhsl.l);
-
     let Cs = get_Cs(L, a_, b_);
     let C_0 = Cs[0];
     let C_mid = Cs[1];
     let C_max = Cs[2];
-
     let C, t, k_0, k_1, k_2;
     if (okhsl.s < 0.8) {
         t = 1.25 * okhsl.s;
@@ -253,16 +243,7 @@ function fromOkhsl(okhsl) {
         k_1 = 0.2 * C_mid * C_mid * 1.25 * 1.25 / C_0;
         k_2 = (1 - (k_1) / (C_max - C_mid));
     }
-
     C = k_0 + t * k_1 / (1 - k_2 * t);
-
-    // If we would only use one of the Cs:
-    //C = s*C_0;
-    //C = s*1.25*C_mid;
-    //C = s*C_max;
-
-    // let rgb = oklab_to_linear_srgb(L, C * a_, C * b_);
-
     var output = new Color("oklab", [L, C * a_, C * b_]);
     output.alpha = 1;
     return output;
@@ -272,35 +253,23 @@ function toOkhsv(color) {
     let C = Math.sqrt(color.oklab.a * color.oklab.a + color.oklab.b * color.oklab.b);
     let a_ = color.oklab.a / C;
     let b_ = color.oklab.b / C;
-
     let L = color.oklab.l;
-    // let h = 0.5 + 0.5 * Math.atan2(-color.oklab.b, -color.oklab.a) / Math.PI;
-
     let ST_max = get_ST_max(a_, b_);
     let S_max = ST_max[0];
     let S_0 = 0.5;
     let T = ST_max[1];
     let k = 1 - S_0 / S_max;
-
     t = T / (C + L * T);
     let L_v = t * L;
     let C_v = t * C;
-
     L_vt = toe_inv(L_v);
     C_vt = C_v * L_vt / L_v;
-
     rgb_scale = oklab_to_linear_srgb(L_vt, a_ * C_vt, b_ * C_vt);
     scale_L = Math.cbrt(1 / (Math.max(rgb_scale[0], rgb_scale[1], rgb_scale[2], 0)));
-
     L = L / scale_L;
     C = C / scale_L;
-
     C = C * toe(L) / L;
     L = toe(L);
-
-    // v = L / L_v;
-    // s = (S_0 + T) * C_v / ((T * S_0) + T * k * C_v);
-
     return {
         h: 0.5 + 0.5 * Math.atan2(-color.oklab.b, -color.oklab.a) / Math.PI,
         s: (S_0 + T) * C_v / ((T * S_0) + T * k * C_v),
@@ -320,19 +289,13 @@ function fromOkhsv(okhsv) {
     let C_v = okhsv.s * T * S_0 / (S_0 + T - T * k * okhsv.s);
     let L = okhsv.v * L_v;
     let C = okhsv.v * C_v;
-    // to present steps along the way
-    //L = v;
-    //C = v*s*S_max;
-    //L = v*(1 - s*S_max/(S_max+T));
-    //C = v*s*S_max*T/(S_max+T);
     let L_vt = toe_inv(L_v);
     let C_vt = C_v * L_vt / L_v;
-    let L_new = toe_inv(L); // * L_v/L_vt;
+    let L_new = toe_inv(L);
     C = C * L_new / L;
     L = L_new;
     let rgb_scale = oklab_to_linear_srgb(L_vt, a_ * C_vt, b_ * C_vt);
     let scale_L = Math.cbrt(1 / (Math.max(rgb_scale[0], rgb_scale[1], rgb_scale[2], 0)));
-    // remove to see effect without rescaling
     L = L * scale_L;
     C = C * scale_L;
 
@@ -383,32 +346,14 @@ function getShade(color, shade) {
     return fromOkhsl(okhsl);
 }
 
-function getTone(color, tone) {
-    var okhsl = toOkhsl(color);
-    okhsl.s *= tone;
-    return fromOkhsl(okhsl);
-}
-
 function lerpColor(a, b, t) {
-    // return a.mix(b, t, {space: "oklab"});
-
-    var color = new Color("oklab", [
-        lerp(a.oklab.l, b.oklab.l, t),
-        lerp(a.oklab.a, b.oklab.a, t),
-        lerp(a.oklab.b, b.oklab.b, t)
-    ]);
-
+    var color = a.mix(b, t, { space: "oklab" });
     var okhsl = toOkhsl(color);
-
     var okhslA = toOkhsl(a);
     var okhslB = toOkhsl(b);
-
-    // okhsl.h = t <= 0.5 ? okhslA.h : okhslB.h;
     okhsl.s = lerp(okhslA.s, okhslB.s, t);
     okhsl.l = lerp(okhslA.l, okhslB.l, t);
-
     return fromOkhsl(okhsl);
-
 }
 
 function getClosestHarmonicHue(from, to) {
