@@ -298,6 +298,15 @@ div.form > * {
     width: 40px;
 }
 
+#ko-fi {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    padding: 16px 8px;
+}
+
 @media only screen and (max-width: 767px) {
     .pc-only {
         display: none;
