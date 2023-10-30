@@ -16,8 +16,7 @@ var colorSchemes = [
     "anal5",
     "dsc",
     "poly",
-    "analc",
-    "full"
+    "analc"
 ];
 
 var root;
