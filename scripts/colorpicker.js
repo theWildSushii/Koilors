@@ -40,18 +40,22 @@ ready(function () {
         isUsingChromaWheel = false;
     });
 
-    worker = new Worker("scripts/canvas-worker.js");
-    worker.postMessage({
-        action: "init",
-        chromaWheel: chromaWheelOff,
-        chromaWheelHandle: chromaWheelHandleOff,
-        h: hCanvasOff,
-        s: sCanvasOff,
-        v: vCanvasOff,
-        l: lCanvasOff,
-    }, [
-        chromaWheelOff, chromaWheelHandleOff, hCanvasOff, sCanvasOff, vCanvasOff, lCanvasOff
-    ]);
+    try {
+        worker = new Worker("scripts/canvas-worker.js");
+        worker.postMessage({
+            action: "init",
+            chromaWheel: chromaWheelOff,
+            chromaWheelHandle: chromaWheelHandleOff,
+            h: hCanvasOff,
+            s: sCanvasOff,
+            v: vCanvasOff,
+            l: lCanvasOff,
+        }, [
+            chromaWheelOff, chromaWheelHandleOff, hCanvasOff, sCanvasOff, vCanvasOff, lCanvasOff
+        ]);
+    } catch(e) {
+        console.error(e);
+    }
 
 });
 
@@ -78,8 +82,10 @@ function interactWithChromaWheel(e) {
 }
 
 function renderAllPickers() {
-    worker.postMessage({
-        action: "render",
-        mainColor: mainData.mainColor.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" })
-    });
+    try {
+        worker.postMessage({
+            action: "render",
+            mainColor: mainData.mainColor.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" })
+        });
+    } catch { }
 }
