@@ -220,25 +220,31 @@ header>*:hover {
 
 #colors {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
-    gap: 4px;
+    gap: 16px;
     padding: 8px 16px;
+    align-items: stretch;
+    align-content: center;
+    max-width: 100%;
 }
 
 #colors>* {
+    flex-grow: 1;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     gap: 4px;
     flex-wrap: nowrap;
-    flex-basis: 64px;
+    /* flex-basis: 64px; */
     flex-shrink: 1;
+    justify-content: center;
+    align-items: center;
 }
 
 #colors>*>*:nth-child(1) {
     border-radius: 38.2%;
-    margin: 24px 0px;
+    margin: 0px 12px;
 }
 
 #colors>*>* {
@@ -247,6 +253,8 @@ header>*:hover {
     border-color: #636363;
     border-style: solid;
     border-width: 3.14159px;
+    flex-shrink: 1;
+    flex-basis:  64px;
     cursor: pointer;
 }
 
