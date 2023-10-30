@@ -36,14 +36,13 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap"
-        rel="stylesheet">
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-
-    <link href="styles/colors.css" rel="stylesheet">
-    <link href="styles/theme.css" rel="stylesheet">
-    <link href="styles/style.css" rel="stylesheet">
+    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap">
+    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"/>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Quicksand:400,700'>
+    <link rel="stylesheet" href="styles/colors.css">
+    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="stylesheet" href="styles/kofi.css">
 </head>
 
 <body>
@@ -53,8 +52,7 @@
         <defs>
             <g id="github">
                 <title>GitHub</title>
-                <path
-                    d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
+                <path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12" />
             </g>
         </defs>
     </svg>
@@ -68,7 +66,7 @@
         </div>
         <input type="text" value="#7141ff" maxlength="7" id="hex" name="hex">
         <div>
-            <label for="h-range">Hue</label>
+            <label for="h-value">Hue</label>
             <div class="slider">
                 <canvas id="h-slider" width="360" height="1"></canvas>
                 <input type="range" value="286" min="0" max="359" id="h-range" name="h-range">
@@ -76,7 +74,7 @@
             </div>
         </div>
         <div>
-            <label for="s-range">Saturation</label>
+            <label for="s-value">Saturation</label>
             <div class="slider">
                 <canvas id="s-slider" width="100" height="1"></canvas>
                 <input type="range" value="90" min="0" max="100" id="s-range" name="s-range">
@@ -84,7 +82,7 @@
             </div>
         </div>
         <div>
-            <label for="v-range">Value</label>
+            <label for="v-value">Value</label>
             <div class="slider">
                 <canvas id="v-slider" width="100" height="1"></canvas>
                 <input type="range" value="100" min="0" max="100" id="v-range" name="v-range">
@@ -92,7 +90,7 @@
             </div>
         </div>
         <div>
-            <label for="l-range">Lightness</label>
+            <label for="l-value">Lightness</label>
             <div class="slider">
                 <canvas id="l-slider" width="100" height="1"></canvas>
                 <input type="range" value="48" min="0" max="100" id="l-range" name="l-range">
@@ -118,7 +116,6 @@
                 <option value="tetrar">Tetradic Right</option>
             </optgroup>
             <optgroup label="5 Colors">
-                <!-- <option value="tones">Tones</option> -->
                 <option value="anal5">Analogous</option>
                 <option value="dsc">Double Split Complementary</option>
             </optgroup>
@@ -134,12 +131,16 @@
 
     <main>
         <header>
-            <div onclick="randomize()"><span class="material-symbols-rounded" translate="no">casino</span><span
-                    class="pc-only">Randomize</span></div>
-            <div onclick="toggleDaynight()"><span id="daynight-button" class="material-symbols-rounded"
-                    translate="no">dark_mode</span><span class="pc-only">Toggle lights</span></div>
+            <div onclick="randomize()">
+                <span class="material-symbols-rounded" translate="no">casino</span>
+                <span class="pc-only">Randomize</span>
+            </div>
+            <div onclick="toggleDaynight()">
+                <span id="daynight-button" class="material-symbols-rounded" translate="no">dark_mode</span>
+                <span class="pc-only">Toggle lights</span>
+            </div>
 
-            <a href="https://github.com/theWildSushii/Koilors" target="_blank">
+            <a href="https://github.com/theWildSushii/Koilors" target="_blank" title="GitHub Repo">
                 <svg viewBox="0 0 24 24">
                     <use xlink:href="#github"></use>
                 </svg>
@@ -147,8 +148,7 @@
             </a>
         </header>
 
-        <h3 class="pc-only">Generate beautiful color palettes by picking just one <span
-                class="primary-text">color</span>.</h3>
+        <h3 class="pc-only">Generate beautiful color palettes by picking just one <span class="primary-text">color</span>.</h3>
 
         <h3 class="warning-text">Some features are still work in progress...</h3>
 
@@ -158,11 +158,10 @@
             <h2>Simple palette</h2>
             <section id="gradient">
             </section>
-            <div class="form">
+            <form>
                 <label for="gradientSizeRange">Steps</label>
                 <div class="slider-input">
-                    <input type="range" min="3" max="11" value="5" id="gradientSizeRange"
-                        name="gradientSizeRange"><br />
+                    <input type="range" min="3" max="11" value="5" id="gradientSizeRange" name="gradientSizeRange"><br />
                     <input type="number" min="3" max="11" value="5" id="gradientSizeText" name="gradientSizeText"><br />
                 </div>
                 <label for="LStartRange">Start Lightness</label>
@@ -175,19 +174,25 @@
                     <input type="range" min="0" max="100" value="90" id="LEndRange" name="LEndRange"><br />
                     <input type="number" min="0" max="100" value="90" id="LEndText" name="LEndText"><br />
                 </div>
-            </div>
+            </form>
         </section>
-        <section id="ko-fi">
-            <script type='text/javascript' src='https://storage.ko-fi.com/cdn/widget/Widget_2.js'></script>
-            <script
-                type='text/javascript'>kofiwidget2.init('Support Me on Ko-fi', '#7141ff', 'O4O4QIF53'); kofiwidget2.draw();</script>
-        </section>
+
         <section>
             <h2>Full palette</h2>
             <section id="colors">
             </section>
         </section>
 
+        <section id="ko-fi">
+            <div class=btn-container>
+                <a title="Support me on ko-fi.com" class="kofi-button" href="https://ko-fi.com/O4O4QIF53" target="_blank">
+                    <span class="kofitext">
+                        <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi donations" class="kofiimg" />Support Me on Ko-fi
+                    </span>
+                </a>
+            </div>
+        </section>
+        
     </main>
 
 </body>

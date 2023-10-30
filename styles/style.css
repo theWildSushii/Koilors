@@ -277,14 +277,14 @@ header>*:hover {
     cursor: pointer;
 }
 
-div.form {
+form {
     border-radius: 16px;
     background-color: var(--surface-container);
     padding: 16px;
     margin: 8px;
 }
 
-div.form > * {
+form > * {
     margin: 8px 4px;
 }
 
