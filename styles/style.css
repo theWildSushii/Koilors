@@ -67,10 +67,10 @@ main>p {
 
 #chromaWheelContainer {
     position: relative;
-    width: 224px;
-    height: 224px;
-    min-width: 224px;
-    min-height: 224px;
+    width: 192px;
+    height: 192px;
+    min-width: 192px;
+    min-height: 192px;
     aspect-ratio: 1;
     align-self: center;
     padding: 8px;

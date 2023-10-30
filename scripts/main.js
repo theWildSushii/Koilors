@@ -1,61 +1,35 @@
-var mainColor = new Color("#7141ff");
-var palette = getComplementaryScheme(mainColor);
-var gradientSteps = 5;
-var startL = 0.1;
-var endL = 0.9;
-
-var colorSchemes = [
-    "mono",
-    "comp",
-    "anal3",
-    "split",
-    "tri",
-    "square",
-    "tetral",
-    "tetrar",
-    "anal5",
-    "dsc",
-    "poly",
-    "analc"
-];
+var mainData = new DataModel();
+var palette = [new Color("#7141ff")];
 
 var root;
-var hexInput, hRange, hValue, sRange, sValue, vRange, vValue, lRange, lValue;
+var hexInput, hSlider, sSlider, vSlider, lSlider;
 var schemeSelect, colorspaceSelect;
 var daynightButton;
 var colorsContainer, gradientContainer;
-var gradientSizeRange, gradientSizeText, LStartRange, LStartText, LEndRange, LEndText;
+var gradientSizeSlider, LStartSlider, LEndSlider;
 var clipboardP, copiedText;
 
 ready(function () {
     root = document.querySelector(":root");
     hexInput = document.getElementById("hex");
-    hRange = document.getElementById("h-range");
-    hValue = document.getElementById("h-value");
-    sRange = document.getElementById("s-range");
-    sValue = document.getElementById("s-value");
-    vRange = document.getElementById("v-range");
-    vValue = document.getElementById("v-value");
-    lRange = document.getElementById("l-range");
-    lValue = document.getElementById("l-value");
+    hSlider = new TextSlider("h-range", "h-value");
+    sSlider = new TextSlider("s-range", "s-value");
+    vSlider = new TextSlider("v-range", "v-value");
+    lSlider = new TextSlider("l-range", "l-value");
 
     clipboardP = document.getElementById("clipboardP");
     copiedText = document.getElementById("copiedText");
 
     schemeSelect = document.getElementById("scheme");
-    colorspaceSelect = document.getElementById("colorspace");
 
     daynightButton = document.getElementById("daynight-button");
 
     colorsContainer = document.getElementById("colors");
     gradientContainer = document.getElementById("gradient");
 
-    gradientSizeRange = document.getElementById("gradientSizeRange");
-    gradientSizeText = document.getElementById("gradientSizeText");
-    LStartRange = document.getElementById("LStartRange");
-    LStartText = document.getElementById("LStartText");
-    LEndRange = document.getElementById("LEndRange");
-    LEndText = document.getElementById("LEndText");
+    gradientSizeSlider = new TextSlider("gradientSizeRange", "gradientSizeText");
+    LStartSlider = new TextSlider("LStartRange", "LStartText");
+    LEndSlider = new TextSlider("LEndRange", "LEndText");
 
     if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
         daynightButton.innerHTML = "light_mode";
@@ -67,159 +41,57 @@ ready(function () {
         root.classList.remove("light");
     }
 
-    hexInput.addEventListener("change", function (e) {
-        try {
-            mainColor = new Color(hexInput.value);
-            onMainColorChanged();
-            renderAllPickers();
-        } catch {
-            try {
-                mainColor = new Color("#" + hexInput.value);
-                onMainColorChanged();
-                renderAllPickers();
-            } catch { }
-        }
-    });
+    hexInput.addEventListener("change", onHexChanged);
 
-    onRangeChange(hRange, onHueChanged);
-    hValue.addEventListener("change", onHueChanged);
+    hSlider.addListener(onHueChanged);
+    sSlider.addListener(onSaturationChanged);
+    vSlider.addListener(onValueChanged);
+    lSlider.addListener(onLightnessChanged);
+    gradientSizeSlider.addListener(onGradientStepsChanged);
+    LStartSlider.addListener(onStartLChanged);
+    LEndSlider.addListener(onEndLChanged);
 
-    onRangeChange(sRange, onSaturationChanged);
-    sValue.addEventListener("change", onSaturationChanged);
-
-    onRangeChange(vRange, onValueChanged);
-    vValue.addEventListener("change", onValueChanged);
-
-    onRangeChange(lRange, onLightnessChanged);
-    lValue.addEventListener("change", onLightnessChanged);
-
-    onRangeChange(gradientSizeRange, onGradientStepsChanged);
-    gradientSizeText.addEventListener("change", onGradientStepsChanged);
-    onRangeChange(LStartRange, onStartLChanged);
-    LStartText.addEventListener("change", onStartLChanged);
-    onRangeChange(LEndRange, onEndLChanged);
-    LEndText.addEventListener("change", onEndLChanged);
-
-    var keywords = window.location.hash.split("/");
-    randomize(false);
-    try {
-        mainColor = new Color(keywords[0]);
-        schemeSelect.value = keywords[1];
-        gradientSteps = Math.round(Number(keywords[2]));
-        gradientSizeRange.value = gradientSteps;
-        gradientSizeText.value = gradientSteps;
-        var startLRaw = Math.round(Number(keywords[3]));
-        LStartRange.value = startLRaw;
-        LStartText.value = startLRaw;
-        startL = clamp(startLRaw / 100.0, 0.004, 0.999);
-        var endLRaw = Math.round(Number(keywords[4]));
-        LEndRange.value = endLRaw;
-        LEndText.value = endLRaw;
-        endL = clamp(endLRaw / 100.0, 0.004, 0.999);
-    } catch (e) {
-        console.error(e);
-        randomize(false);
-    }
-    onMainColorChanged();
-    renderAllPickers();
+    mainData.string = window.location.hash;
+    
+    updateUI();
 });
 
-function onHueChanged(e) {
-    mainColor = setHue(mainColor, loopDegrees(Number(e.target.value)));
+function updateUI() {
+    renderAllPickers();
     onMainColorChanged();
-    renderChromaWheel();
-    renderChromaWheelHandle();
-    renderSaturation();
-    renderValue();
-    renderLightness();
-}
-
-function onSaturationChanged(e) {
-    mainColor = setSaturation(mainColor, clamp(Number(e.target.value / 100.0), 0.004, 1.0));
-    onMainColorChanged();
-    renderChromaWheel();
-    renderChromaWheelHandle();
-    renderHue();
-    renderValue();
-    renderLightness();
-}
-
-function onValueChanged(e) {
-    mainColor = setValue(mainColor, clamp(Number(e.target.value / 100.0), 0.004, 1.0));
-    onMainColorChanged();
-    renderChromaWheel();
-    renderHue();
-    renderSaturation();
-    renderLightness();
-}
-
-function onLightnessChanged(e) {
-    mainColor = setLightness(mainColor, clamp(Number(e.target.value / 100.0), 0.004, 0.999));
-    onMainColorChanged();
-    renderChromaWheel();
-    renderHue();
-    renderSaturation();
-}
-
-function onGradientStepsChanged(e) {
-    gradientSteps = Number(e.target.value);
-    if (e.target == gradientSizeText) {
-        gradientSizeRange.value = gradientSteps;
-    } else {
-        gradientSizeText.value = gradientSteps;
-    }
-    generateSimpleGradient();
-}
-
-function onStartLChanged(e) {
-    startL = Number(e.target.value);
-    if (e.target == LStartRange) {
-        LStartText.value = startL;
-    } else {
-        LStartRange.value = startL;
-    }
-    startL = clamp(startL / 100.0, 0.004, 0.999);
-    generateSimpleGradient();
-}
-
-function onEndLChanged(e) {
-    endL = Number(e.target.value);
-    if (e.target == LEndRange) {
-        LEndText.value = endL;
-    } else {
-        LEndRange.value = endL;
-    }
-    endL = clamp(endL / 100.0, 0.004, 0.999);
-    generateSimpleGradient();
+    generateBasePalette();
+    generateSimplePalette();
+    generateFullPalette();
+    schemeSelect.value = mainData.scheme;
+    gradientSizeSlider.value = mainData.gradientSteps;
+    LStartSlider.value = mainData.startL;
+    LEndSlider.value = mainData.endL;
+    history.replaceState(undefined, undefined, mainData.string);
 }
 
 function onMainColorChanged() {
 
-    root.style.setProperty("--mainColor", mainColor.to("oklab").display());
-    root.style.setProperty("--onMainColor", mainColor.oklch.l > 0.5 ? "#000000" : "#ffffff");
+    root.style.setProperty("--mainColor", mainData.mainColor.to("oklab").display());
+    root.style.setProperty("--onMainColor", mainData.mainColor.oklch.l > 0.5 ? "#000000" : "#ffffff");
 
-    var okhsv = toOkhsv(mainColor);
-    var okhsl = toOkhsl(mainColor);
+    var okhsv = toOkhsv(mainData.mainColor);
+    var okhsl = toOkhsl(mainData.mainColor);
 
-    hexInput.value = mainColor.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
+    hexInput.value = mainData.mainColor.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
 
     var hue = Math.round(loopDegrees(okhsv.h * 360.0));
     var saturation = Math.round(okhsv.s * 100.0);
     var value = Math.round(okhsv.v * 100.0);
     var lightness = Math.round(okhsl.l * 100.0);
 
-    hRange.value = hue;
-    hValue.value = hue;
-    sRange.value = saturation;
-    sValue.value = saturation;
-    vRange.value = value;
-    vValue.value = value;
-    lRange.value = lightness;
-    lValue.value = lightness;
+    hSlider.value = hue;
+    sSlider.value = saturation;
+    vSlider.value = value;
+    lSlider.value = lightness;
 
-    fillShades("--P", mainColor);
+    fillShades("--P", mainData.mainColor);
 
-    fillNeutralColors(mainColor);
+    fillNeutralColors(mainData.mainColor);
 
     var errorColor = {
         h: 27.0 / 360.0,
@@ -244,58 +116,50 @@ function onMainColorChanged() {
     };
     successColor.h = getClosestHarmonicHue(hue, successColor.h * 360.0) / 360.0;
     fillShades("--OK", fromOkhsl(successColor));
-
-    onSchemeChanged();
-
 }
 
-function onSchemeChanged() {
-    removeChilds(colorsContainer);
-    switch (schemeSelect.value) {
+function generateBasePalette() {
+    switch (mainData.scheme) {
         case "mono": //Monochromatic
-            palette = [mainColor];
+            palette = [mainData.mainColor];
             break;
         case "comp": //Complementary
-            palette = getComplementaryScheme(mainColor);
+            palette = getComplementaryScheme(mainData.mainColor);
             break;
         case "anal3": //Analogous 3
-            palette = getAnalogous3Scheme(mainColor);
+            palette = getAnalogous3Scheme(mainData.mainColor);
             break;
         case "split": //Split Complementary
-            palette = getSplitComplementaryScheme(mainColor);
+            palette = getSplitComplementaryScheme(mainData.mainColor);
             break;
         case "tri": //Triadic
-            palette = getTriadicScheme(mainColor);
+            palette = getTriadicScheme(mainData.mainColor);
             break;
         case "square": //Square
-            palette = getSquareScheme(mainColor);
+            palette = getSquareScheme(mainData.mainColor);
             break;
         case "tetral": //Tetradic Left
-            palette = getTetradicLeftScheme(mainColor);
+            palette = getTetradicLeftScheme(mainData.mainColor);
             break;
         case "tetrar": //Tetradic Right
-            palette = getTetradicRightScheme(mainColor);
+            palette = getTetradicRightScheme(mainData.mainColor);
             break;
         case "anal5": //Analogous 5
-            palette = getAnalogous5Scheme(mainColor);
+            palette = getAnalogous5Scheme(mainData.mainColor);
             break;
         case "dsc": //Double Split Complementary
-            palette = getDoubleSplitComplementaryScheme(mainColor);
+            palette = getDoubleSplitComplementaryScheme(mainData.mainColor);
             break;
         case "poly": //Polychromatic
-            palette = getPolychromaticScheme(mainColor);
+            palette = getPolychromaticScheme(mainData.mainColor);
             break;
         case "analc": //Complementary Analogous
-            palette = getComplementaryAnalogous(mainColor);
+            palette = getComplementaryAnalogous(mainData.mainColor);
             break;
         case "full": //All Colors
-            palette = getAllColors(mainColor);
+            palette = getAllColors(mainData.mainColor);
             break;
     }
-    for (var i = 0; i < palette.length; i++) {
-        createShadeDivs(palette[i]);
-    }
-    generateSimpleGradient();
 }
 
 function createShadeDivs(color) {
@@ -310,6 +174,13 @@ function createShadeDivs(color) {
         shade.style.backgroundColor = getShade(color, i / 10.0).to("oklab").display();
         shade.addEventListener("click", copyBackgroundColorToClipboard);
         shadesContainer.appendChild(shade);
+    }
+}
+
+function generateFullPalette() {
+    removeChilds(colorsContainer);
+    for (var i = 0; i < palette.length; i++) {
+        createShadeDivs(palette[i]);
     }
 }
 
@@ -331,8 +202,8 @@ function fillShades(prefix, color) {
     }
 }
 
-function fillNeutralColors(color) {
-    var okhsl = toOkhsl(color);
+function fillNeutralColors() {
+    var okhsl = toOkhsl(mainData.mainColor);
     okhsl.s *= 0.382;
     var neutralColor = fromOkhsl(okhsl);
     root.style.setProperty("--N4", getShade(neutralColor, 0.04).to("oklab").display());
@@ -350,58 +221,14 @@ function fillNeutralColors(color) {
     root.style.setProperty("--N100", getShade(neutralColor, 1.0).to("oklab").display());
 }
 
-function randomize(updateUI = true) {
-    var okhsv = {
-        h: Math.random(),
-        s: lerp(0.618, 1.0, Math.random()),
-        v: lerp(0.75, 1.0, Math.random())
-    };
-    mainColor = fromOkhsv(okhsv);
-    schemeSelect.value = colorSchemes[Math.floor(Math.random() * colorSchemes.length)];
-    gradientSteps = Math.round(lerp(3, 11, Math.random()));
-    var startLRaw = 100.0 / (gradientSteps + 1.0);
-    var endLRaw = 100.0 - startLRaw;
-    if (updateUI) {
-        gradientSizeRange.value = gradientSteps;
-        gradientSizeText.value = gradientSteps;
-        startLRaw = Math.round(startLRaw);
-        LStartRange.value = startLRaw;
-        LStartText.value = startLRaw;
-        endLRaw = Math.round(endLRaw);
-        LEndRange.value = endLRaw;
-        LEndText.value = endLRaw;
-        onMainColorChanged();
-        renderAllPickers();
-    }
-    startL = clamp(startLRaw / 100.0, 0.004, 0.999);
-    endL = clamp(endLRaw / 100.0, 0.004, 0.999);
-}
-
-function copyBackgroundColorToClipboard(event) {
-    var color = new Color(event.target.style.backgroundColor);
-    var hex = color.to("srgb").clone().toGamut({ method: "clip" }).toString({ format: "hex" });
-    clipboardP.style.display = "block";
-    copiedText.innerText = hex;
-    copiedText.style.textShadowColor = color.display();
-    navigator.clipboard.writeText(hex);
-}
-
-function generateSimpleGradient() {
-
-    var code = mainColor.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
-    code += "/" + schemeSelect.value;
-    code += "/" + Math.round(gradientSteps);
-    code += "/" + clamp(Math.round(startL * 100.0), 0, 100);
-    code += "/" + clamp(Math.round(endL * 100.0), 0, 100);
-
-    history.replaceState(undefined, undefined, code);
+function generateSimplePalette() {
 
     removeChilds(gradientContainer);
 
     if (palette.length == 1) {
-        for (var i = 0; i < gradientSteps; i++) {
+        for (var i = 0; i < mainData.gradientSteps; i++) {
             var shade = document.createElement("div");
-            shade.style.backgroundColor = getShade(palette[0], lerp(startL, endL, i / (gradientSteps - 1))).to("oklab").display();
+            shade.style.backgroundColor = getShade(palette[0], mainData.L(i / (mainData.gradientSteps - 1))).to("oklab").display();
             shade.addEventListener("click", copyBackgroundColorToClipboard);
             gradientContainer.appendChild(shade);
         }
@@ -409,10 +236,10 @@ function generateSimpleGradient() {
     }
 
     var sortedPalette = sortColors(palette);
-    for (var i = 0; i < gradientSteps; i++) {
+    for (var i = 0; i < mainData.gradientSteps; i++) {
 
-        var shade = i / (gradientSteps - 1.0);
-        var index = remap(i, 0.0, gradientSteps - 1.0, 0.0, sortedPalette.length - 1);
+        var shade = i / (mainData.gradientSteps - 1.0);
+        var index = remap(i, 0.0, mainData.gradientSteps - 1.0, 0.0, sortedPalette.length - 1);
 
         var color = sortedPalette[Math.round(index)];
         var colorA = sortedPalette[Math.floor(index)];
@@ -430,7 +257,7 @@ function generateSimpleGradient() {
             color = lerpColor(colorA, colorB, index % 1);
         }
 
-        color = getShade(color, lerp(startL, endL, shade));
+        color = getShade(color, mainData.L(shade));
 
         var colorDiv = document.createElement("div");
         colorDiv.style.backgroundColor = color.display();

@@ -6,29 +6,6 @@ function ready(callback) {
     });
 }
 
-function onRangeChange(rangeInputElmt, listener) {
-
-    var inputEvtHasNeverFired = true;
-
-    var rangeValue = { current: undefined, mostRecent: undefined };
-
-    rangeInputElmt.addEventListener("input", function (evt) {
-        inputEvtHasNeverFired = false;
-        rangeValue.current = evt.target.value;
-        if (rangeValue.current !== rangeValue.mostRecent) {
-            listener(evt);
-        }
-        rangeValue.mostRecent = rangeValue.current;
-    });
-
-    rangeInputElmt.addEventListener("change", function (evt) {
-        if (inputEvtHasNeverFired) {
-            listener(evt);
-        }
-    });
-
-}
-
 function clamp(x, min, max) {
     return Math.min(Math.max(x, min), max);
 }
@@ -89,4 +66,13 @@ function sortColors(colors) {
     return [...colors].sort(function (a, b) {
         return a.oklab.l - b.oklab.l;
     });
+}
+
+function polarCoordinates(u, v) {
+    var deltaX = u - 0.5;
+    var deltaY = v - 0.5;
+    return {
+        radius: Math.sqrt(deltaX * deltaX + deltaY * deltaY) * 2.0,
+        angle: Math.atan2(deltaX, deltaY) * 1.0 / (2.0 * Math.PI)
+    };
 }
