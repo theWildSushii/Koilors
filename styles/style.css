@@ -278,9 +278,9 @@ header>*:hover {
 }
 
 form {
-    border-radius: 16px;
+    border-radius: 8px;
     background-color: var(--surface-container);
-    padding: 16px;
+    padding: 8px;
     margin: 8px;
 }
 
