@@ -36,9 +36,7 @@ class DataModel {
             this.gradientSteps = Math.round(Number(keywords[2]));
             this.startL = Math.round(Number(keywords[3]));
             this.endL = Math.round(Number(keywords[4]));
-        } catch (e) {
-            this.randomize();
-        }
+        } catch {}
     }
 
     randomize() {

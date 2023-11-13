@@ -356,6 +356,17 @@ function lerpColor(a, b, t) {
     return fromOkhsl(okhsl);
 }
 
+function colorSpline(colors, t) {
+    if (colors.length == 1) {
+        return colors[0];
+    }
+    var recursive = [];
+    for (var i = 0; i < colors.length - 1; i++) {
+        recursive.push(lerpColor(colors[i], colors[i + 1], t));
+    }
+    return colorSpline(recursive, t);
+}
+
 function getClosestHarmonicHue(from, to) {
     if (Math.abs(loopDegrees(to) - loopDegrees(from)) <= 18.0) {
         return from;

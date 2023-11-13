@@ -52,7 +52,7 @@ ready(function () {
     LEndSlider.addListener(onEndLChanged);
 
     mainData.string = window.location.hash;
-    
+
     updateUI();
 });
 
@@ -169,11 +169,12 @@ function createShadeDivs(color) {
     colorDiv.style.backgroundColor = color.display();
     colorDiv.addEventListener("click", copyBackgroundColorToClipboard);
     shadesContainer.appendChild(colorDiv);
-    for (var i = 1; i <= 9; i++) {
-        var shade = document.createElement("div");
-        shade.style.backgroundColor = getShade(color, i / 10.0).to("oklab").display();
-        shade.addEventListener("click", copyBackgroundColorToClipboard);
-        shadesContainer.appendChild(shade);
+    for (var i = 0; i < mainData.gradientSteps; i++) {
+        var shade = i / (mainData.gradientSteps - 1.0);
+        var shadeDiv = document.createElement("div");
+        shadeDiv.style.backgroundColor = getShade(color, mainData.L(shade)).to("oklab").display();
+        shadeDiv.addEventListener("click", copyBackgroundColorToClipboard);
+        shadesContainer.appendChild(shadeDiv);
     }
 }
 
@@ -245,17 +246,7 @@ function generateSimplePalette() {
         var colorA = sortedPalette[Math.floor(index)];
         var colorB = sortedPalette[Math.ceil(index)];
 
-        var okhslA = toOkhsl(colorA);
-        var okhslB = toOkhsl(colorB);
-
-        var distance = Math.abs(okhslB.h - okhslA.h);
-        if (distance > 0.5) {
-            distance = 1.0 - distance;
-        }
-
-        if (distance <= 0.1) {
-            color = lerpColor(colorA, colorB, index % 1);
-        }
+        var color = colorSpline([colorA, color, colorB], index % 1);
 
         color = getShade(color, mainData.L(shade));
 
