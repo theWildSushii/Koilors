@@ -9,6 +9,8 @@ var isUsingChromaWheel = false;
 
 var worker;
 
+var chromaWheel, chromaWheelhandle, h, s, v, l; //CanvasWrappers in case Offscreencanvas is not supported
+
 ready(function () {
     chromaWheelCanvas = document.getElementById("chromaWheel");
     chromaWheelHandleCanvas = document.getElementById("chromaWheelHandle");
@@ -16,13 +18,6 @@ ready(function () {
     sCanvas = document.getElementById("s-slider");
     vCanvas = document.getElementById("v-slider");
     lCanvas = document.getElementById("l-slider");
-
-    var chromaWheelOff = chromaWheelCanvas.transferControlToOffscreen();
-    var chromaWheelHandleOff = chromaWheelHandleCanvas.transferControlToOffscreen();
-    var hCanvasOff = hCanvas.transferControlToOffscreen();
-    var sCanvasOff = sCanvas.transferControlToOffscreen();
-    var vCanvasOff = vCanvas.transferControlToOffscreen();
-    var lCanvasOff = lCanvas.transferControlToOffscreen();
 
     chromaWheelHandleCanvas.addEventListener("mousedown", function (e) {
         isUsingChromaWheel = true;
@@ -41,6 +36,13 @@ ready(function () {
     });
 
     try {
+        var chromaWheelOff = chromaWheelCanvas.transferControlToOffscreen();
+        var chromaWheelHandleOff = chromaWheelHandleCanvas.transferControlToOffscreen();
+        var hCanvasOff = hCanvas.transferControlToOffscreen();
+        var sCanvasOff = sCanvas.transferControlToOffscreen();
+        var vCanvasOff = vCanvas.transferControlToOffscreen();
+        var lCanvasOff = lCanvas.transferControlToOffscreen();
+
         worker = new Worker("scripts/canvas-worker.js");
         worker.postMessage({
             action: "init",
@@ -53,8 +55,15 @@ ready(function () {
         }, [
             chromaWheelOff, chromaWheelHandleOff, hCanvasOff, sCanvasOff, vCanvasOff, lCanvasOff
         ]);
-    } catch(e) {
-        console.error(e);
+    } catch (e) {
+        chromaWheelCanvas.width = 24;
+        chromaWheelCanvas.height = 24;
+        chromaWheel = new CanvasWrapper(chromaWheelCanvas);
+        chromaWheelHandle = new CanvasWrapper(chromaWheelHandleCanvas);
+        h = new CanvasWrapper(hCanvas);
+        s = new CanvasWrapper(sCanvas);
+        v = new CanvasWrapper(vCanvas);
+        l = new CanvasWrapper(lCanvas);
     }
 
 });
@@ -87,5 +96,12 @@ function renderAllPickers() {
             action: "render",
             mainColor: mainData.mainColor.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" })
         });
-    } catch { }
+    } catch (e) {
+        renderChromaWheel(chromaWheel, mainData.mainColor);
+        renderChromaWheelHandle(chromaWheelHandle, mainData.mainColor);
+        renderHue(h, mainData.mainColor);
+        renderSaturation(s, mainData.mainColor);
+        renderValue(v, mainData.mainColor);
+        renderLightness(l, mainData.mainColor);
+    }
 }
