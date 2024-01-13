@@ -56,6 +56,10 @@ function loopDegrees(x) {
     return x;
 }
 
+function stepValue(value, step) {
+    return Math.round(value / step) * step;
+}
+
 function removeChilds(parent) {
     while (parent.firstChild) {
         parent.removeChild(parent.lastChild);

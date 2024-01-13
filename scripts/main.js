@@ -79,10 +79,10 @@ function onMainColorChanged() {
 
     hexInput.value = mainData.mainColor.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
 
-    var hue = Math.round(loopDegrees(okhsv.h * 360.0));
-    var saturation = Math.round(okhsv.s * 100.0);
-    var value = Math.round(okhsv.v * 100.0);
-    var lightness = Math.round(okhsl.l * 100.0);
+    var hue = Number(stepValue(loopDegrees(okhsv.h * 360.0), 0.36).toFixed(2));
+    var saturation = Number(stepValue(okhsv.s * 100.0, 0.1).toFixed(2));
+    var value = Number(stepValue(okhsv.v * 100.0, 0.1).toFixed(2));
+    var lightness = Number(stepValue(okhsl.l * 100.0, 0.1).toFixed(2));
 
     hSlider.value = hue;
     sSlider.value = saturation;
@@ -96,26 +96,26 @@ function onMainColorChanged() {
     var errorColor = {
         h: 27.0 / 360.0,
         s: 1.0,
-        l: 0.57
+        v: 1.0
     };
     errorColor.h = getClosestHarmonicHue(hue, errorColor.h * 360.0) / 360.0;
-    fillShades("--E", fromOkhsl(errorColor));
+    fillShades("--E", fromOkhsv(errorColor));
 
     var warningColor = {
         h: 63.0 / 360.0,
         s: 1.0,
-        l: 0.73
+        v: 1.0
     };
     warningColor.h = getClosestHarmonicHue(hue, warningColor.h * 360.0) / 360.0;
-    fillShades("--W", fromOkhsl(warningColor));
+    fillShades("--W", fromOkhsv(warningColor));
 
     var successColor = {
         h: 135.0 / 360.0,
         s: 1.0,
-        l: 0.87
+        v: 1.0
     };
     successColor.h = getClosestHarmonicHue(hue, successColor.h * 360.0) / 360.0;
-    fillShades("--OK", fromOkhsl(successColor));
+    fillShades("--OK", fromOkhsv(successColor));
 }
 
 function generateBasePalette() {

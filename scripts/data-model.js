@@ -22,8 +22,8 @@ class DataModel {
         var code = this.mainColor.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
         code += "/" + this.scheme;
         code += "/" + Math.round(this.gradientSteps);
-        code += "/" + Math.round(this.startL);
-        code += "/" + Math.round(this.endL);
+        code += "/" + this.startL;
+        code += "/" + this.endL;
         return code;
     }
 
@@ -34,8 +34,8 @@ class DataModel {
             this.mainColor = new Color(keywords[0]);
             this.scheme = keywords[1];
             this.gradientSteps = Math.round(Number(keywords[2]));
-            this.startL = Math.round(Number(keywords[3]));
-            this.endL = Math.round(Number(keywords[4]));
+            this.startL = Number(keywords[3]);
+            this.endL = Number(keywords[4]);
         } catch {}
     }
 
