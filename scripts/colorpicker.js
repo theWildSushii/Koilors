@@ -36,6 +36,8 @@ ready(function () {
     });
 
     try {
+        worker = new Worker("scripts/canvas-worker.js");
+        
         var chromaWheelOff = chromaWheelCanvas.transferControlToOffscreen();
         var chromaWheelHandleOff = chromaWheelHandleCanvas.transferControlToOffscreen();
         var hCanvasOff = hCanvas.transferControlToOffscreen();
@@ -43,7 +45,6 @@ ready(function () {
         var vCanvasOff = vCanvas.transferControlToOffscreen();
         var lCanvasOff = lCanvas.transferControlToOffscreen();
 
-        worker = new Worker("scripts/canvas-worker.js");
         worker.postMessage({
             action: "init",
             chromaWheel: chromaWheelOff,
