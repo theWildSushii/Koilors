@@ -1,4 +1,4 @@
-var mainData = new DataModel();
+const mainData = new DataModel();
 var palette = [new Color("#7141ff")];
 
 var root;
@@ -52,6 +52,8 @@ ready(function () {
     LEndSlider.addListener(onEndLChanged);
 
     mainData.string = window.location.hash;
+
+    window.addEventListener('hashchange', onHashChanged);
 
     updateUI();
 });

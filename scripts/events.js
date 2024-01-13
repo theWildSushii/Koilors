@@ -63,3 +63,8 @@ function randomize() {
     mainData.randomize();
     updateUI();
 }
+
+function onHashChanged(event) {
+    mainData.string = window.location.hash;
+    updateUI();
+}
