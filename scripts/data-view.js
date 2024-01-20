@@ -211,7 +211,10 @@ ready(function () {
         detailsTab.checked = true;
         selectedColorDiv.style.backgroundColor = value.display();
         hex.innerText = value.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
-        srgb.innerText = value.to("srgb").toGamut({ method: "clip" }).toString({
+        //We create a Color object from the hex value to round up sRGB values
+        //and avoid possible conflicts on other softwares
+        var srgbColor = new Color(hex.innerText);
+        srgb.innerText = srgbColor.toString({
             format: {
                 name: "rgb",
                 coords: [
@@ -225,9 +228,9 @@ ready(function () {
         oklch.innerText = value.to("oklch").toString();
         lab.innerText = value.to("lab").toString();
         lch.innerText = value.to("lch").toString();
-        hsv.innerText = value.to("hsv").toGamut({ method: "clip" }).toString({ format: "hsv" });
-        hsl.innerText = value.to("hsl").toGamut({ method: "clip" }).toString({ format: "hsl" });
-        hwb.innerText = value.to("hwb").toGamut({ method: "clip" }).toString({ format: "hwb" });
+        hsv.innerText = srgbColor.to("hsv").toString({ format: "hsv" });
+        hsl.innerText = srgbColor.to("hsl").toString({ format: "hsl" });
+        hwb.innerText = srgbColor.to("hwb").toString({ format: "hwb" });
         displayP3.innerText = value.to("p3").toGamut({ method: "clip" }).toString();
         rec2020.innerText = value.to("rec2020").toGamut({ method: "clip" }).toString();
     });
