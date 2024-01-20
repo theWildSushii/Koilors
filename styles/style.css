@@ -170,6 +170,10 @@ main>* {
     background-color: var(--gray);
 }
 
+#generatedShades {
+    height: 192px!important;
+}
+
 #colors>div>div,
 #colors>section>div>div {
     flex-grow: 1;
