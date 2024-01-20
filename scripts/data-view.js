@@ -312,7 +312,7 @@ function updateHash() {
     }
     isUpdatingHash = true;
     setTimeout(function () {
-        window.location.hash = getHash();
+        history.replaceState(undefined, undefined, getHash());
         isUpdatingHash = false;
     });
 }
