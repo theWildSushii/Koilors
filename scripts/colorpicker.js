@@ -1,108 +1,149 @@
-var chromaWheelCanvas;
-var chromaWheelHandleCanvas;
-var hCanvas;
-var sCanvas;
-var vCanvas;
-var lCanvas;
+var hueWheelCanvas, hueWheelHandleCanvas;
+var svBoxCanvas, svBoxHandleCanvas;
 
-var isUsingChromaWheel = false;
+var isUsingHueWheel = false;
+var isUsingSVBox = false;
 
 var worker;
 
-var chromaWheel, chromaWheelhandle, h, s, v, l; //CanvasWrappers in case Offscreencanvas is not supported
+var hueWheel, svBox; //CanvasWrappers in case OffscreenCanvas is not supported
+var hueWheelHandle, svBoxHandle;
+
+var hasQueue = false;
+var isRendering = false;
 
 ready(function () {
-    chromaWheelCanvas = document.getElementById("chromaWheel");
-    chromaWheelHandleCanvas = document.getElementById("chromaWheelHandle");
-    hCanvas = document.getElementById("h-slider");
-    sCanvas = document.getElementById("s-slider");
-    vCanvas = document.getElementById("v-slider");
-    lCanvas = document.getElementById("l-slider");
+    hueWheelCanvas = id("hueWheel");
+    hueWheelHandleCanvas = id("hueWheelHandle");
+    svBoxCanvas = id("svBox");
+    svBoxHandleCanvas = id("svBoxHandle");
 
-    chromaWheelHandleCanvas.addEventListener("mousedown", function (e) {
-        isUsingChromaWheel = true;
-        interactWithChromaWheel(e);
+    hueWheelHandleCanvas.addEventListener("pointerdown", function (e) {
+        if (!e.isPrimary) {
+            return;
+        }
+        isUsingHueWheel = true;
+        interactWithHueWheel(e.offsetX, e.offsetY);
     });
 
-    document.addEventListener("mousemove", function (e) {
-        if (isUsingChromaWheel) {
-            interactWithChromaWheel(e);
+    svBoxHandleCanvas.addEventListener("pointerdown", function (e) {
+        if (!e.isPrimary) {
+            return;
+        }
+        isUsingSVBox = true;
+        interactWithSVBox(e.offsetX, e.offsetY);
+    });
+
+    document.addEventListener("pointermove", function (e) {
+        if (!e.isPrimary) {
+            return;
+        }
+        if (isUsingHueWheel) {
+            var point = getRelativeCoordinates(e.clientX, e.clientY, hueWheelHandleCanvas);
+            interactWithHueWheel(e.offsetX, e.offsetY);
+            e.preventDefault();
+        }
+        if (isUsingSVBox) {
+            var point = getRelativeCoordinates(e.clientX, e.clientY, svBoxHandleCanvas);
+            interactWithSVBox(point.x, point.y);
             e.preventDefault();
         }
     });
 
-    document.addEventListener("mouseup", function (e) {
-        isUsingChromaWheel = false;
+    document.addEventListener("pointerup", function (e) {
+        if (!e.isPrimary) {
+            return;
+        }
+        isUsingHueWheel = false;
+        isUsingSVBox = false;
     });
 
     try {
         worker = new Worker("scripts/canvas-worker.js");
-        
-        var chromaWheelOff = chromaWheelCanvas.transferControlToOffscreen();
-        var chromaWheelHandleOff = chromaWheelHandleCanvas.transferControlToOffscreen();
-        var hCanvasOff = hCanvas.transferControlToOffscreen();
-        var sCanvasOff = sCanvas.transferControlToOffscreen();
-        var vCanvasOff = vCanvas.transferControlToOffscreen();
-        var lCanvasOff = lCanvas.transferControlToOffscreen();
+
+        worker.onmessage = onWorkerDone;
+
+        var hueWheelOff = hueWheelCanvas.transferControlToOffscreen();
+        var svBoxOff = svBoxCanvas.transferControlToOffscreen();
 
         worker.postMessage({
             action: "init",
-            chromaWheel: chromaWheelOff,
-            chromaWheelHandle: chromaWheelHandleOff,
-            h: hCanvasOff,
-            s: sCanvasOff,
-            v: vCanvasOff,
-            l: lCanvasOff,
+            hueWheel: hueWheelOff,
+            svBox: svBoxOff,
         }, [
-            chromaWheelOff, chromaWheelHandleOff, hCanvasOff, sCanvasOff, vCanvasOff, lCanvasOff
+            hueWheelOff, svBoxOff
         ]);
     } catch (e) {
-        chromaWheelCanvas.width = 24;
-        chromaWheelCanvas.height = 24;
-        chromaWheel = new CanvasWrapper(chromaWheelCanvas);
-        chromaWheelHandle = new CanvasWrapper(chromaWheelHandleCanvas);
-        h = new CanvasWrapper(hCanvas);
-        s = new CanvasWrapper(sCanvas);
-        v = new CanvasWrapper(vCanvas);
-        l = new CanvasWrapper(lCanvas);
+        hueWheelCanvas.width = 36;
+        hueWheelCanvas.height = 36;
+        hueWheel = new CanvasWrapper(hueWheelCanvas);
+        svBox = new CanvasWrapper(svBoxCanvas);
     }
+    hueWheelHandle = new CanvasWrapper(hueWheelHandleCanvas);
+    svBoxHandle = new CanvasWrapper(svBoxHandleCanvas);
 
+    mainColor.listen((x) => { renderAllPickers(); });
 });
 
-function getMousePos(canvas, e) {
-    var mouseX = e.offsetX * canvas.width / canvas.clientWidth | 0;
-    var mouseY = e.offsetY * canvas.height / canvas.clientHeight | 0;
+function getMousePos(canvas, x, y) {
+    var mouseX = x * canvas.width / canvas.clientWidth | 0;
+    var mouseY = y * canvas.height / canvas.clientHeight | 0;
     return {
         x: saturate(mouseX / canvas.width),
         y: saturate(mouseY / canvas.height)
     };
 }
 
-function interactWithChromaWheel(e) {
-    var point = getMousePos(chromaWheelHandleCanvas, e);
+function getRelativeCoordinates(x, y, element) {
+    const rect = element.getBoundingClientRect();
+    return {
+        x: x - rect.left,
+        y: y - rect.top
+    };
+}
+
+function interactWithHueWheel(x, y) {
+    var point = getMousePos(hueWheelHandleCanvas, x, y);
     var uv = polarCoordinates(point.x, 1.0 - point.y);
+    var okhsv = toOkhsv(mainColor.value);
+    okhsv.h = uv.angle;
+    mainColor.value = fromOkhsv(okhsv);
+}
 
-    var okhsl = toOkhsl(mainData.mainColor);
+function interactWithSVBox(x, y) {
+    var point = getMousePos(svBoxHandleCanvas, x, y);
+    var okhsv = toOkhsv(mainColor.value);
+    okhsv.s = clamp(point.x, 0.01, 1.0);
+    okhsv.v = clamp(1 - point.y, 0.01, 1.0);
+    mainColor.value = fromOkhsv(okhsv);
+}
 
-    okhsl.h = uv.angle;
-    okhsl.s = saturate(uv.radius);
-
-    mainData.mainColor = fromOkhsl(okhsl);
-    updateUI();
+function onWorkerDone(e) {
+    isRendering = false;
+    if (hasQueue) {
+        hasQueue = false;
+        renderAllPickers();
+    }
 }
 
 function renderAllPickers() {
+    renderHueWheelHandle(hueWheelHandle, mainColor.value);
+    renderSVBoxHandle(svBoxHandle, mainColor.value);
     try {
+        if (isRendering) {
+            hasQueue = true;
+            return;
+        }
+        isRendering = true;
         worker.postMessage({
             action: "render",
-            mainColor: mainData.mainColor.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" })
+            L: mainColor.value.oklab.l,
+            a: mainColor.value.oklab.a,
+            b: mainColor.value.oklab.b,
         });
     } catch (e) {
-        renderChromaWheel(chromaWheel, mainData.mainColor);
-        renderChromaWheelHandle(chromaWheelHandle, mainData.mainColor);
-        renderHue(h, mainData.mainColor);
-        renderSaturation(s, mainData.mainColor);
-        renderValue(v, mainData.mainColor);
-        renderLightness(l, mainData.mainColor);
+        renderHueWheel(hueWheel, mainColor.value);
+        renderSVBox(svBox, mainColor.value);
+        isRendering = false;
     }
 }

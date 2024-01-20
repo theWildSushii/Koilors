@@ -6,6 +6,19 @@ function ready(callback) {
     });
 }
 
+function id(id) {
+    return document.getElementById(id);
+}
+
+function addChangeListener(element, func) {
+    element.addEventListener("keydown", (e) => {
+        if (e.key === 'Enter') {
+            func(e);
+        }
+    });
+    element.addEventListener("change", func);
+}
+
 function clamp(x, min, max) {
     return Math.min(Math.max(x, min), max);
 }

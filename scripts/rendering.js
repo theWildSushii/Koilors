@@ -17,7 +17,6 @@ class CanvasWrapper {
         var renderTexture = this.context.createImageData(this.canvas.width, this.canvas.height);
         var dataSizeX = this.canvas.width * 4;
         var dataSizeY = this.canvas.height * 4;
-
         if ((this.context.getContextAttributes?.().colorSpace === "display-p3")) {
             //Using P3
             for (let i = 0; i < renderTexture.data.length; i += 4) {
@@ -42,28 +41,12 @@ class CanvasWrapper {
         }
         this.context.putImageData(renderTexture, 0, 0);
     }
-
 }
 
-function renderChromaWheel(canvas, mainColor) {
-    var okhsl = toOkhsl(mainColor);
-    canvas.renderShader(function (x, y) {
-        var uv = polarCoordinates(x, 1.0 - y);
-        okhsl.h = uv.angle;
-        okhsl.s = saturate(uv.radius);
-        return fromOkhsl(okhsl);
-    });
-
-}
-
-function renderChromaWheelHandle(canvas, mainColor) {
-    var okhsl = toOkhsl(mainColor);
-    var x = ((okhsl.s * Math.sin(okhsl.h * (2.0 * Math.PI))) + 1.0) / 2.0;
-    var y = ((okhsl.s * -Math.cos(okhsl.h * (2.0 * Math.PI))) + 1.0) / 2.0;
-
-    canvas.context.clearRect(0, 0, chromaWheelHandle.width, chromaWheelHandle.height);
+function renderHandle(canvas, mainColor, x, y) {
+    canvas.context.clearRect(0, 0, canvas.width, canvas.height);
     canvas.context.beginPath();
-    canvas.context.arc(x * chromaWheelHandle.width, y * chromaWheelHandle.height, 24, 0, 2.0 * Math.PI);
+    canvas.context.arc(x * canvas.width, y * canvas.height, 16, 0, 2.0 * Math.PI);
     canvas.context.lineWidth = 4;
     canvas.context.strokeStyle = "#000000";
     canvas.context.stroke();
@@ -75,34 +58,34 @@ function renderChromaWheelHandle(canvas, mainColor) {
     canvas.context.closePath();
 }
 
-function renderHue(canvas, mainColor) {
+function renderHueWheel(canvas, mainColor) {
     var okhsv = toOkhsv(mainColor);
     canvas.renderShader(function (x, y) {
-        okhsv.h = x;
+        var uv = polarCoordinates(x, 1.0 - y);
+        okhsv.h = uv.angle;
         return fromOkhsv(okhsv);
     });
 }
 
-function renderSaturation(canvas, mainColor) {
+function renderHueWheelHandle(canvas, mainColor) {
+    var okhsv = toOkhsv(mainColor);
+    var x = (0.9 * (Math.sin(okhsv.h * (2.0 * Math.PI))) + 1.0) / 2.0;
+    var y = (0.9 * (-Math.cos(okhsv.h * (2.0 * Math.PI))) + 1.0) / 2.0;
+    renderHandle(canvas, mainColor, x, y);
+}
+
+function renderSVBox(canvas, mainColor) {
     var okhsv = toOkhsv(mainColor);
     canvas.renderShader(function (x, y) {
         okhsv.s = x;
+        okhsv.v = 1 - y;
         return fromOkhsv(okhsv);
     });
 }
 
-function renderValue(canvas, mainColor) {
+function renderSVBoxHandle(canvas, mainColor) {
     var okhsv = toOkhsv(mainColor);
-    canvas.renderShader(function (x, y) {
-        okhsv.v = x;
-        return fromOkhsv(okhsv);
-    });
-}
-
-function renderLightness(canvas, mainColor) {
-    var okhsl = toOkhsl(mainColor);
-    canvas.renderShader(function (x, y) {
-        okhsl.l = x;
-        return fromOkhsl(okhsl);
-    });
+    var x = okhsv.s;
+    var y = 1 - okhsv.v;
+    renderHandle(canvas, mainColor, x, y);
 }

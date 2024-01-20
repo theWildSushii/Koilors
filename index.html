@@ -27,23 +27,25 @@
     <title>Koilors</title>
 
     <script src="https://colorjs.io/dist/color.global.js"></script>
-    <script src="scripts/data-model.js"></script>
+    <script src="scripts/livedata.js"></script>
     <script src="scripts/text-slider.js"></script>
-    <script src="scripts/utils.js"></script>
     <script src="scripts/okcolor.js"></script>
+    <script src="scripts/utils.js"></script>
+    <script src="scripts/data-model.js"></script>
     <script src="scripts/schemes.js"></script>
     <script src="scripts/rendering.js"></script>
     <script src="scripts/colorpicker.js"></script>
-    <script src="scripts/events.js"></script>
-    <script src="scripts/main.js"></script>
+    <script src="scripts/data-view.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap">
-    <link rel='stylesheet' href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link rel='stylesheet'
+        href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Quicksand:400,700'>
     <link rel="stylesheet" href="styles/colors.css">
-    <link rel="stylesheet" href="styles/theme.css">
+    <link rel="stylesheet" href="styles/roles.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/kofi.css">
 </head>
@@ -61,92 +63,90 @@
         </defs>
     </svg>
 
-    <aside>
-        <h3 class="mobile-only">Generate beautiful color palettes by picking just one <span
-                class="primary-text">color</span>.</h3>
-        <div id="chromaWheelContainer">
-            <canvas id="chromaWheel" width="32" height="32"></canvas>
-            <canvas id="chromaWheelHandle" width="512" height="512"></canvas>
-        </div>
-        <input type="text" value="#7141ff" maxlength="7" id="hex" name="hex">
+    <header>
         <div>
-            <label for="h-value">Hue</label>
-            <div class="slider">
-                <canvas id="h-slider" width="360" height="1"></canvas>
-                <input type="range" value="286" min="0" max="360" step="0.36" id="h-range" name="h-range">
-                <input type="number" value="286" min="0" max="360" step="0.36" id="h-value" name="h-value">
-            </div>
+            <h1>Koilors</h1>
+            <p>Generate beautiful color palettes by picking just one <span>color</span>.</p>
         </div>
         <div>
-            <label for="s-value">Saturation</label>
-            <div class="slider">
-                <canvas id="s-slider" width="100" height="1"></canvas>
-                <input type="range" value="90" min="0" max="100" step="0.1" id="s-range" name="s-range">
-                <input type="number" value="90" min="0" max="100" step="0.1" id="s-value" name="s-value">
-            </div>
-        </div>
-        <div>
-            <label for="v-value">Value</label>
-            <div class="slider">
-                <canvas id="v-slider" width="100" height="1"></canvas>
-                <input type="range" value="100" min="0" max="100" step="0.1" id="v-range" name="v-range">
-                <input type="number" value="100" min="0" max="100" step="0.1" id="v-value" name="v-value">
-            </div>
-        </div>
-        <div>
-            <label for="l-value">Lightness</label>
-            <div class="slider">
-                <canvas id="l-slider" width="100" height="1"></canvas>
-                <input type="range" value="48" min="0" max="100" step="0.1" id="l-range" name="l-range">
-                <input type="number" value="48" min="0" max="100" step="0.1" id="l-value" name="l-value">
-            </div>
-        </div>
-    </aside>
-
-    <main>
-        <header>
-            <div onclick="randomize()">
-                <span class="material-symbols-rounded" translate="no">casino</span>
-                <span class="pc-only">Randomize</span>
-            </div>
-            <div onclick="toggleDaynight()">
-                <span id="daynight-button" class="material-symbols-rounded" translate="no">dark_mode</span>
-                <span class="pc-only">Toggle lights</span>
-            </div>
-
+            <span class="material-symbols-rounded" translate="no" onclick="randomize()">casino</span>
+            <span id="daynight-button" class="material-symbols-rounded" translate="no"
+                onclick="toggleDaynight()">dark_mode</span>
             <a href="https://github.com/theWildSushii/Koilors" target="_blank" title="GitHub Repo">
                 <svg viewBox="0 0 24 24">
                     <use xlink:href="#github"></use>
                 </svg>
-                <span class="pc-only">GitHub Repo</span>
             </a>
-        </header>
+        </div>
+    </header>
 
-        <h3 class="pc-only">Generate beautiful color palettes by picking just one <span
-                class="primary-text">color</span>.</h3>
+    <nav>
+        <input type="radio" name="nav" id="colorsTab" checked>
+        <label for="colorsTab"><span class="material-symbols-rounded">palette</span><br />Colors</label>
+        <input type="radio" name="nav" id="toolsTab">
+        <label for="toolsTab"><span class="material-symbols-rounded">tune</span><br />Tune</label>
+        <input type="radio" name="nav" id="detailsTab">
+        <label for="detailsTab"><span class="material-symbols-rounded">code</span><br />Details</label>
+    </nav>
 
-        <p id="clipboardP" class="success-text">Copied: <span id="copiedText">#7141ff</span> into clipboard!</p>
-
-        <section>
+    <main>
+        <section id="colors">
+            <h2>Base colors</h2>
+            <div id="baseColors">
+            </div>
+            <h2>Generated shades</h2>
+            <div id="generatedShades">
+            </div>
+            <h2>Individual shades</h2>
+            <section id="individualShades">
+            </section>
+        </section>
+        <aside id="tools">
+            <div id="canvasHolder">
+                <canvas id="hueWheel" width="48" height="48"></canvas>
+                <div></div>
+                <canvas id="hueWheelHandle" width="512" height="512"></canvas>
+                <canvas id="svBox" width="24" height="24"></canvas>
+                <canvas id="svBoxHandle" width="256" height="256"></canvas>
+            </div>
             <form>
-                <label for="gradientSizeText">Steps</label>
-                <div class="slider-input">
-                    <input type="range" min="3" max="11" value="5" step="1" id="gradientSizeRange"
-                        name="gradientSizeRange"><br />
-                    <input type="number" min="3" max="11" value="5" step="1" id="gradientSizeText" name="gradientSizeText"><br />
+                <input type="text" value="#7141ff" id="colorInput" name="colorInput">
+                <div>
+                    <label for="hue">Hue</label>
+                    <input type="number" value="286" min="0" max="360" step="0.36" id="hue" name="hue">
                 </div>
-                <label for="LStartText">Start Lightness</label>
-                <div class="slider-input">
-                    <input type="range" min="0" max="100" value="10" step="0.1" id="LStartRange" name="LStartRange"><br />
-                    <input type="number" min="0" max="100" value="10" step="0.1" id="LStartText" name="LStartText"><br />
+                <div>
+                    <label for="saturation">Saturation</label>
+                    <input type="number" value="90" min="0" max="100" step="0.1" id="saturation" name="saturation">
                 </div>
-                <label for="LEndText">End Lightness</label>
-                <div class="slider-input">
-                    <input type="range" min="0" max="100" value="90" step="0.1" id="LEndRange" name="LEndRange"><br />
-                    <input type="number" min="0" max="100" value="90" step="0.1" id="LEndText" name="LEndText"><br />
+                <div>
+                    <label for="value">Value</label>
+                    <input type="number" value="100" min="0" max="100" step="0.1" id="value" name="value">
                 </div>
-                <label for="scheme">Color scheme</label>
-                <select name="scheme" id="scheme" onchange="onSchemeChanged()">
+                <div>
+                    <label for="lightnessText">Lightness</label>
+                    <input type="number" value="48" min="0" max="100" step="0.1" id="lightnessText"
+                        name="lightnessText">
+                </div>
+                <input type="range" min="0" max="100" value="48" step="0.01" id="lightnessRange" name="lightnessRange">
+                <div>
+                    <label for="gradientSizeText">Steps</label>
+                    <input type="number" min="3" max="11" value="9" step="1" id="gradientSizeText"
+                        name="gradientSizeText">
+                </div>
+                <input type="range" min="3" max="11" value="9" step="1" id="gradientSizeRange" name="gradientSizeRange">
+                <div>
+                    <label for="LStartText">Start Lightness</label>
+                    <input type="number" min="0" max="100" value="10" step="0.1" id="LStartText" name="LStartText">
+                </div>
+                <input type="range" min="0" max="100" value="10" step="0.1" id="LStartRange" name="LStartRange">
+                <div>
+                    <label for="LEndText">End Lightness</label>
+                    <input type="number" min="0" max="100" value="90" step="0.1" id="LEndText" name="LEndText">
+                </div>
+                <input type="range" min="0" max="100" value="90" step="0.1" id="LEndRange" name="LEndRange">
+                <label for="colorScheme">Color scheme</label><br />
+                <select name="colorScheme" id="colorScheme">
                     <optgroup label="1 Color">
                         <option value="mono">Monochromatic</option>
                     </optgroup>
@@ -176,27 +176,93 @@
                     </optgroup>
                 </select>
             </form>
-        </section>
+        </aside>
+        <aside id="details">
+            <div id="selectedColor"></div>
 
-        <section id="gradient">
-        </section>
-
-        <section id="colors">
-        </section>
-
-        <section id="ko-fi">
-            <div class=btn-container>
-                <a title="Support me on ko-fi.com" class="kofi-button" href="https://ko-fi.com/O4O4QIF53"
-                    target="_blank">
-                    <span class="kofitext">
-                        <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi donations"
-                            class="kofiimg" />Support Me on Ko-fi
-                    </span>
-                </a>
+            <p>Hex (sRGB)</p>
+            <div>
+                <p id="hex"></p>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hex')">content_copy</span>
             </div>
-        </section>
 
+            <p>sRGB</p>
+            <div>
+                <p id="srgb"></p>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('srgb')">content_copy</span>
+            </div>
+
+            <p>OkLab</p>
+            <div>
+                <p id="oklab"></p>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('oklab')">content_copy</span>
+            </div>
+
+            <p>OkLch</p>
+            <div>
+                <p id="oklch"></p>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('oklch')">content_copy</span>
+            </div>
+
+            <p>HSV</p>
+            <div>
+                <p id="hsv"></p>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hsv')">content_copy</span>
+            </div>
+
+            <p>HSL</p>
+            <div>
+                <p id="hsl"></p>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hsl')">content_copy</span>
+            </div>
+
+            <p>HWB</p>
+            <div>
+                <p id="hwb"></p>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hwb')">content_copy</span>
+            </div>
+
+            <p>Lab</p>
+            <div>
+                <p id="lab"></p>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('lab')">content_copy</span>
+            </div>
+
+            <p>Lch</p>
+            <div>
+                <p id="lch"></p>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('lch')">content_copy</span>
+            </div>
+
+            <p>Display P3</p>
+            <div>
+                <p id="display-p3"></p>
+                <span class="material-symbols-rounded" translate="no"
+                    onclick="copyFrom('display-p3')">content_copy</span>
+            </div>
+
+            <p>Rec.2020</p>
+            <div>
+                <p id="rec2020"></p>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('rec2020')">content_copy</span>
+            </div>
+        </aside>
     </main>
+
+    <footer>
+        <div class=btn-container>
+            <a title="Support me on ko-fi.com" class="kofi-button" href="https://ko-fi.com/O4O4QIF53" target="_blank">
+                <span class="kofitext">
+                    <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi donations"
+                        class="kofiimg" />Support Me on Ko-fi
+                </span>
+            </a>
+        </div>
+    </footer>
+
+    <div id="snackbar">
+        #7141ff copied to clipboard!
+    </div>
 
 </body>
 

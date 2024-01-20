@@ -7,16 +7,11 @@
     --on-primary: var(--P20);
     --primary-container: var(--P30);
     --on-primary-container: var(--P90);
-
-    --secondary: var(--S80);
-    --on-secondary: var(--S20);
-    --secondary-container: var(--S30);
-    --on-secondary-container: var(--S90);
-
-    --tertiary: var(--T80);
-    --on-tertiary: var(--T20);
-    --tertiary-container: var(--T30);
-    --on-tertiary-container: var(--T90);
+    
+    --inverse-primary: var(--P20);
+    --inverse-on-primary: var(--P80);
+    --inverse-primary-container: var(--P70);
+    --inverse-on-primary-container: var(--P10);
 
     --error: var(--E80);
     --on-error: var(--E20);
@@ -46,6 +41,10 @@
     --outline: var(--NV60);
     --outline-variant: var(--NV30);
 
+    --inverse-surface-dim: var(--N94);
+    --inverse-surface: var(--N94);
+    --on-inverse-surface: var(--N10);
+
     color-scheme: dark;
 }
 
@@ -57,15 +56,10 @@
         --primary-container: var(--P90);
         --on-primary-container: var(--P10);
     
-        --secondary: var(--S40);
-        --on-secondary: var(--S100);
-        --secondary-container: var(--S90);
-        --on-secondary-container: var(--S10);
-    
-        --tertiary: var(--T40);
-        --on-tertiary: var(--T100);
-        --tertiary-container: var(--T90);
-        --on-tertiary-container: var(--T10);
+        --inverse-primary: var(--P60);
+        --inverse-on-primary: var(--P0);
+        --inverse-primary-container: var(--P10);
+        --inverse-on-primary-container: var(--P90);
     
         --error: var(--E40);
         --on-error: var(--E100);
@@ -94,6 +88,10 @@
         --on-surface-variant: var(--NV30);
         --outline: var(--NV50);
         --outline-variant: var(--NV80);
+
+        --inverse-surface-dim: var(--N13);
+        --inverse-surface: var(--N2);
+        --on-inverse-surface: var(--N90);
         
         color-scheme: light;
     }
@@ -104,16 +102,6 @@
     --on-primary: var(--P100);
     --primary-container: var(--P90);
     --on-primary-container: var(--P10);
-
-    --secondary: var(--S40);
-    --on-secondary: var(--S100);
-    --secondary-container: var(--S90);
-    --on-secondary-container: var(--S10);
-
-    --tertiary: var(--T40);
-    --on-tertiary: var(--T100);
-    --tertiary-container: var(--T90);
-    --on-tertiary-container: var(--T10);
 
     --error: var(--E40);
     --on-error: var(--E100);
@@ -142,115 +130,10 @@
     --on-surface-variant: var(--NV30);
     --outline: var(--NV50);
     --outline-variant: var(--NV80);
+
+    --inverse-surface-dim: var(--N13);
+    --inverse-surface: var(--N2);
+    --on-inverse-surface: var(--N90);
     
     color-scheme: light;
-}
-
-.primary {
-    background-color: var(--primary);
-    color: var(--on-primary);
-}
-
-.primary-text {
-    color: var(--primary);
-}
-
-.primary-container {
-    background-color: var(--primary-container);
-    color: var(--on-primary-container);
-}
-
-.secondary {
-    background-color: var(--secondary);
-    color: var(--on-secondary);
-}
-
-.secondary-container {
-    background-color: var(--secondary-container);
-    color: var(--on-secondary-container);
-}
-
-.secondary-text {
-    color: var(--secondary);
-}
-
-.tertiary {
-    background-color: var(--tertiary);
-    color: var(--on-tertiary);
-}
-
-.tertiary-container {
-    background-color: var(--tertiary-container);
-    color: var(--on-tertiary-container);
-}
-
-.tertiary-text {
-    color: var(--tertiary);
-}
-
-.container {
-    background-color: var(--surface-container);
-    color: var(--on-surface-container);
-}
-
-.container-high {
-    background-color: var(--surface-container-high);
-    color: var(--on-surface-container);
-}
-
-.container-highest {
-    background-color: var(--surface-container-highest);
-    color: var(--on-surface-container);
-}
-
-.container-low {
-    background-color: var(--surface-container-low);
-    color: var(--on-surface-container);
-}
-
-.container-lower {
-    background-color: var(--surface-container-lower);
-    color: var(--on-surface-container);
-}
-
-.error {
-    background-color: var(--error);
-    color: var(--on-error);
-}
-
-.error-container {
-    background-color: var(--error-container);
-    color: var(--on-error-container);
-}
-
-.error-text {
-    color: var(--error);
-}
-
-.warning {
-    background-color: var(--warning);
-    color: var(--on-warning);
-}
-
-.warning-container {
-    background-color: var(--warning-container);
-    color: var(--on-warning-container);
-}
-
-.warning-text {
-    color: var(--warning);
-}
-
-.success {
-    background-color: var(--success);
-    color: var(--on-success);
-}
-
-.success-container {
-    background-color: var(--success-container);
-    color: var(--on-success-container);
-}
-
-.success-text {
-    color: var(--success);
 }

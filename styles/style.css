@@ -1,170 +1,280 @@
 * {
-    font-family: 'Lexend', sans-serif;
-    accent-color: var(--primary);
     transition: all 0.0833s ease-in-out;
 }
 
-.material-symbols-rounded {
-    font-variation-settings:
-        'FILL' 1,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24;
-}
-
 body {
-    padding: 0px;
-    margin: 0px;
-    background-color: var(--surface);
-    color: var(--on-surface);
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-items: stretch;
-    align-content: flex-start;
-}
-
-aside {
-    padding: 16px 8px;
-    border-radius: 8px;
-    margin: 8px 8px 0px 8px;
     background-color: var(--surface-container);
     color: var(--on-surface-container);
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-    justify-content: flex-start;
-    flex-wrap: nowrap;
-}
-
-aside>* {
     margin: 0px;
+    margin-bottom: 56px;
+    font-family: 'Lexend', sans-serif;
 }
 
-main {
-    flex-grow: 1;
-    overflow-y: auto;
+.material-symbols-rounded {
+  font-variation-settings:
+  'FILL' 0,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
 
-h1,
-h2,
-h3 {
-    text-align: center;
+header {
+    display: grid;
+    grid-template:
+        "body" 1fr /
+        1fr;
+    height: 56px;
+    position: sticky;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    margin-bottom: 4px;
+    background-color: var(--surface);
+    color: var(--on-surface);
+    padding: 0px 16px;
 }
 
-#clipboardP {
+header>div {
+    grid-area: body;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    gap: 16px;
+    width: 100%;
+    height: 100%;
+}
+
+header>div:first-child {
+    justify-content: flex-start;
+    align-items: baseline;
+}
+
+header>div:last-child {
+    justify-content: flex-end;
+    align-items: center;
+    gap: 24px;
+}
+
+.material-symbols-rounded {
+    cursor: pointer;
+    user-select: none;
+}
+
+header h1 {
+    font-size: 16pt;
+    color: var(--primary);
+}
+
+header p {
+    display: none;
+    font-size: 14px;
+}
+
+header p span {
+    color: var(--primary);
+}
+
+header a {
+    height: 24px;
+    aspect-ratio: 1;
+    fill: var(--on-surface);
+}
+
+header span:hover,
+header a:hover {
+    color: var(--primary);
+    fill: var(--primary);
+}
+
+main>* {
+    background-color: var(--surface);
+    color: var(--on-surface);
+}
+
+nav {
+    display: flex;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 10;
+    background-color: var(--surface);
+    color: var(--on-surface);
+    height: 56px;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+nav input {
     display: none;
 }
 
-#copiedText {
-    text-shadow: 0px 0px 4px #777777;
+input:checked+label>span {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
 }
 
-main>p {
+nav label {
+    flex-grow: 1;
+    flex-shrink: 1;
+    text-align: center;
+    font-size: 8pt;
+    cursor: pointer;
+}
+
+input:checked+label,
+input:hover+label {
+    color: var(--primary);
+}
+
+#tools,
+#colors,
+#details {
+    display: none;
+}
+
+nav:has(#toolsTab:checked)~main>#tools {
+    display: block !important;
+}
+
+nav:has(#colorsTab:checked)~main>#colors {
+    display: block !important;
+}
+
+nav:has(#detailsTab:checked)~main>#details {
+    display: block !important;
+}
+
+main>* {
+    padding: 4px;
+}
+
+#colors h2 {
     text-align: center;
 }
 
-#chromaWheelContainer {
-    position: relative;
-    width: 192px;
-    height: 192px;
-    min-width: 192px;
-    min-height: 192px;
-    aspect-ratio: 1;
-    align-self: center;
-    padding: 8px;
-    border-radius: 50%;
-    background-color: var(--surface-container-high);
+#colors>div,
+#colors>section>div {
+    display: flex;
+    overflow: hidden;
+    height: 128px;
+    margin: 8px 4px;
+    padding: 1.5px;
+    gap: 1.5px;
+    border-radius: 8px;
+    background-color: var(--gray);
 }
 
-#chromaWheel {
-    position: absolute;
-    aspect-ratio: 1;
-    width: calc(100% - 16px);
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-    border-radius: 50%;
+#colors>div>div,
+#colors>section>div>div {
+    flex-grow: 1;
+    flex-shrink: 1;
+    border-radius: 8px;
+    cursor: pointer;
 }
 
-#chromaWheelHandle {
-    position: absolute;
-    aspect-ratio: 1;
-    width: calc(100% - 16px);
-    top: 8px;
-    left: 8px;
-    right: 8px;
-    bottom: 8px;
-    border-radius: 50%;
-}
-
-.slider {
-    position: relative;
-    height: 24px;
-    padding: 8px;
+#canvasHolder {
+    display: grid;
+    grid-template:
+        "body" 1fr /
+        1fr;
+    width: 244px;
     margin: 8px auto;
-    border-radius: 16px;
+    height: 244px;
+    justify-content: center;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    border-radius: 100%;
+    background-color: var(--surface-container);
+    aspect-ratio: 1;
+}
+
+#canvasHolder>* {
+    grid-area: body;
+    aspect-ratio: 1;
+}
+
+#hueWheel,
+#hueWheelHandle {
+    height: 100%;
+    width: 100%;
+}
+
+#hueWheel {
+    border-radius: 50%;
+}
+
+#canvasHolder>div {
+    height: 80%;
+    width: 80%;
+    background-color: var(--surface-container);
+    border-radius: 50%;
+}
+
+canvas {
+    touch-action: none;
+}
+
+#svBox,
+#svBoxHandle {
+    height: 50%;
+    width: 50%;
+}
+
+form>* {
+    margin: 8px 8px;
+}
+
+form>input,
+form>select {
+    display: block;
+    width: 85%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+form select {
+    padding: 8px 16px;
+    border-radius: 56px;
+    border: none;
     background-color: var(--surface-container-high);
+    color: var(--on-surface);
 }
 
-.slider canvas {
-    position: absolute;
-    top: 8px;
-    bottom: 8px;
-    left: 8px;
-    width: calc(100% - 76px);
-    border-radius: 8px;
-    height: 24px;
-    z-index: 0;
+form>div {
+    display: flex;
 }
 
-.slider input[type="range"] {
-    position: absolute;
-    top: 8px;
-    bottom: 8px;
-    left: 8px;
-    z-index: 1;
-    width: calc(100% - 76px);
-    height: 24px;
-    padding: 0px;
-    margin: 0px;
-    appearance: none;
-    background-color: transparent;
+form>div>* {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0%;
 }
 
-.slider input[type="number"] {
-    position: absolute;
-    top: 8px;
-    bottom: 8px;
-    right: 8px;
-    z-index: 1;
-    width: 48px;
+form>div>*:first-child {
+    flex-grow: 2;
 }
 
-input[type="number"],
-input[type="text"] {
-    background-color: var(--surface-container-low);
-    color: var(--on-surface-container);
-    border-color: var(--outline);
-    border-style: solid;
-    border-width: 1px;
-    border-radius: 8px;
+form input {
+    background-color: var(--surface-container);
+    color: var(--on-surface);
+}
+
+form input[type="number"],
+form input[type="text"] {
+    border: none;
     text-align: center;
+    padding: 4px 2px;
+    border-radius: 8px;
 }
 
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type=number] {
-    -moz-appearance: textfield;
-    appearance: textfield;
-}
-
-#hex {
+#colorInput {
     display: block;
     margin: 16px auto;
     padding: 8px 4px;
@@ -174,185 +284,152 @@ input[type=number] {
     text-align: center;
 }
 
-select {
-    background-color: var(--surface-container-highest);
-    border: none;
-    border-radius: 24px;
-    padding: 12px 12px;
+#selectedColor {
+    height: 56px;
 }
 
-header {
-    height: 24px;
-    padding: 16px 12px;
+#details div {
     border-radius: 8px;
-    margin: 8px;
-    background-color: var(--surface-container);
-    justify-content: center;
-    display: flex;
-    align-items: center;
-    gap: 32px;
-}
-
-header>* {
-    height: 24px;
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    flex-wrap: nowrap;
-    flex-direction: row;
-    align-items: center;
-    gap: 8px;
-    color: var(--on-surface);
-    fill: var(--on-surface);
-    text-decoration: none;
-}
-
-header svg {
-    height: 24px;
-    width: auto;
-}
-
-header>*:hover {
-    color: var(--primary);
-    fill: var(--primary);
-}
-
-#colors {
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    justify-content: center;
-    gap: 16px;
-    padding: 8px 16px;
-    align-items: stretch;
-    align-content: center;
-    max-width: 100%;
-}
-
-#colors>* {
-    flex-grow: 1;
-    display: flex;
-    flex-direction: row;
-    gap: 4px;
-    flex-wrap: nowrap;
-    /* flex-basis: 64px; */
-    flex-shrink: 1;
-    justify-content: center;
-    align-items: center;
-}
-
-#colors>*>*:nth-child(1) {
-    border-radius: 38.2%;
-    margin: 0px 12px;
-}
-
-#colors>*>* {
-    border-radius: 50%;
-    aspect-ratio: 1;
-    border-color: #636363;
-    border-style: solid;
-    border-width: 3.14159px;
-    flex-shrink: 1;
-    flex-basis:  64px;
-    cursor: pointer;
-}
-
-#gradient {
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
     justify-content: center;
-    gap: 4px;
-    padding: 8px 16px;
-    margin: 32px;
-}
-
-#gradient>* {
-    border-radius: 50%;
-    flex-basis: 64px;
-    aspect-ratio: 1;
-    border-color: #636363;
-    border-style: solid;
-    border-width: 3.14159px;
-    cursor: pointer;
-}
-
-form {
-    border-radius: 8px;
+    align-items: center;
+    gap: 2px;
+    margin: 8px 12px;
     background-color: var(--surface-container);
     padding: 8px;
-    margin: 8px;
 }
 
-form > * {
-    margin: 8px 4px;
-}
-
-.slider-input {
-    display: flex;
-    align-items: center;
-    justify-content: flex-start;
-    flex-wrap: wrap;
-    flex-direction: row;
-    align-content: center;
-    gap: 4px;
-}
-
-.slider-input > input[type="range"] {
+#details div>p {
     flex-grow: 1;
+    margin: 0px;
 }
 
-.slider-input > input[type="number"] {
-    width: 40px;
+#details>P {
+    margin-top: 24px;
+    margin-left: 8px;
+    margin-right: 8px;
+    margin-bottom: 0px;
 }
 
-#ko-fi {
-    display: flex;
-    flex-wrap: nowrap;
+#details div>span {
+    width: 24px;
+    margin-right: 4px;
+}
+
+#details div>span:active, #details div>span:hover {
+  font-variation-settings:
+  'FILL' 1,
+  'wght' 400,
+  'GRAD' 0,
+  'opsz' 24
+}
+
+#details {
+    font-size: 10pt;
+}
+
+footer {
+    display: grid;
+    grid-template:
+        "body" 1fr /
+        1fr;
+    align-content: center;
     justify-content: center;
     align-items: center;
-    flex-direction: row;
-    padding: 16px 8px;
+    justify-items: center;
+    background-color: var(--surface);
+    margin-top: 4px;
 }
 
-@media only screen and (max-width: 767px) {
-    .pc-only {
-        display: none;
-    }
+footer>* {
+    grid-area: body;
+    margin: 16px;
+}
+
+#snackbar {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    position: fixed;
+    left: 8px;
+    right: 8px;
+    bottom: -64px;
+    border-radius: 4px;
+    background-color: var(--inverse-surface);
+    color: var(--inverse-primary);
+    min-height: 48px;
+    max-height: 68px;
+    padding: 0px 16px;
+    z-index: 15;
+    vertical-align: middle;
+    align-items: center;
+    flex-wrap: nowrap;
+}
+
+#snackbar.open {
+    bottom: 64px;
 }
 
 @media only screen and (min-width: 768px) {
 
-    .mobile-only {
-        display: none;
+    header p {
+        display: block;
     }
+
+}
+
+@media only screen and (min-width: 1024px) {
 
     body {
-        height: 100vh;
-        display: flex;
-        flex-wrap: nowrap;
-        justify-content: stretch;
-        align-items: stretch;
-        align-content: flex-start;
-        flex-direction: row;
-    }
-
-    aside {
-        width: 256px;
-        gap: 8px;
-        overflow-y: auto;
+        margin-bottom: 0px;
     }
 
     main {
-        overflow-y: auto;
+        display: grid;
+        grid-template:
+            "tools colors details" 1fr /
+            256px 1fr 256px;
+        min-height: calc(100% - 64px);
+        align-content: stretch;
+        justify-content: space-evenly;
+        align-items: stretch;
+        justify-items: stretch;
+        gap: 4px;
     }
 
-    .slider-input {
-        max-width: 256px;
+    main>* {
+        border-radius: 4px;
     }
 
-    #shades>div {
-        gap: 8px;
+    #tools {
+        display: block;
+        grid-area: tools;
+    }
+
+    #colors {
+        display: block;
+        grid-area: colors;
+    }
+
+    #details {
+        display: block;
+        grid-area: details;
+    }
+
+    nav {
+        display: none;
+    }
+
+    #snackbar {
+        position: fixed;
+        left: unset;
+        right: 16px;
+    }
+
+    #snackbar.open {
+        bottom: 16px;
     }
 
 }
