@@ -35,29 +35,20 @@ function lerp(a, b, t) {
     return (1.0 - t) * a + t * b;
 }
 
-function lerp3(a, b, c, t) {
-    if (t > 0.0) {
-        return lerp(b, c, t);
+function spline(floats, t) {
+    if (floats.length == 1) {
+        return floats[0];
     }
-    if (t < 0.0) {
-        return lerp(b, a, Math.abs(t));
+    var recursive = [];
+    for (var i = 0; i < floats.length - 1; i++) {
+        recursive.push(lerp(floats[i], floats[i + 1], t));
     }
-    return b;
+    return spline(recursive, t);
 }
 
 function rate(value, rate) {
     return lerp3(0.0, value, 1.0, rate);
 }
-
-// function loopValue(x) {
-//     if (x > 1.0) {
-//         return loopValue(x - 1.0);
-//     }
-//     if (x < 0.0) {
-//         return loopValue(x + 1.0);
-//     }
-//     return x;
-// }
 
 function loopDegrees(x) {
     if (x > 360) {

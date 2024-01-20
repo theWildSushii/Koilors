@@ -31,7 +31,7 @@ function L(l) {
     return clamp(lerp(startL.value, endL.value, l) / 100.0, 0.0, 1.0);
 }
 
-const schemes = ["mono", "comp", "anal3", "split", "tri", "square", "tetral", "tetrar", "anal5", "dsc", "poly", "analc"];
+const schemes = ["mono", "comp", "anal3", "split", "tri", "square", "tetral", "tetrar", "anal5", "dsc", "poly", "analc", "full"];
 
 function randomize() {
     var okhsv = {
@@ -40,7 +40,7 @@ function randomize() {
         v: lerp(0.75, 1.0, Math.random())
     };
     mainColor.value = fromOkhsv(okhsv);
-    scheme.value = schemes[Math.floor(Math.random() * schemes.length)];
+    scheme.value = schemes[Math.floor(Math.pow(Math.random(), 1.618) * schemes.length)];
     switch (scheme.value) {
         case "mono": //Monochromatic
         case "comp": //Complementary
@@ -49,16 +49,16 @@ function randomize() {
         case "anal3": //Analogous 3
         case "split": //Split Complementary
         case "tri": //Triadic
-            gradientSteps.value = Math.random() < 0.25 ? 3 : 6;
+            gradientSteps.value = Math.random() < 0.618 ? 9 : Math.random() < 0.618 ? 6 : 3;
             break;
         case "square": //Square
         case "tetral": //Tetradic Left
         case "tetrar": //Tetradic Right
-            gradientSteps.value = Math.random() < 0.382 ? 4 : 8;
+            gradientSteps.value = Math.random() < 0.618 ? 8 : 4;
             break;
         case "anal5": //Analogous 5
         case "dsc": //Double Split Complementary
-            gradientSteps.value = Math.random() < 0.5 ? 5 : 10;
+            gradientSteps.value = Math.random() < 0.618 ? 10 : 5;
             break;
         case "poly": //Polychromatic
         case "analc": //Complementary Analogous
@@ -68,12 +68,31 @@ function randomize() {
             gradientSteps.value = 10
             break;
     }
-    startL.value = Math.round(100.0 / (gradientSteps.value + 1.0));
-    endL.value = Math.round(100.0 - startL.value);
-    if (Math.random() <= 0.1) {
-        startL.value = 100 - startL.value;
-        endL.value = 100 - endL.value;
+
+    var sl = 0.0;
+    var el = 1.0;
+
+    var sortedPalette = sortColors(palette.value);
+
+    sl = spline([
+        0.0,
+        toOkhsl(sortedPalette[0]).l,
+        1.0 / (gradientSteps.value + 1.0)
+    ], Math.random());
+
+    el = spline([
+        1.0,
+        toOkhsl(sortedPalette[sortedPalette.length - 1]).l,
+        1.0 - sl
+    ], Math.random());
+
+    if (Math.random() <= 0.05) {
+        sl = 1.0 - sl;
+        el = 1.0 - el;
     }
+    startL.value = Number((sl * 100.0).toFixed(1));
+    endL.value = Number((el * 100.0).toFixed(1));
+
 }
 
 ready(function () {
