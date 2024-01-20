@@ -1,5 +1,5 @@
 var root;
-var colorInput, hueInput, saturationInput, valueInput, lightnessSlider;
+var colorInput, hueInput, saturationInput, valueInput;
 var gradientSizeSlider, startLSlider, endLSlider, colorSchemeSelect;
 var baseColorsDiv, generatedShadesDiv, individualShadesSection;
 var daynightButton, snackbar, colorsTab, detailsTab;
@@ -89,7 +89,6 @@ ready(function () {
     hexP3 = id("hex-display-p3");
     displayP3 = id("display-p3");
     rec2020 = id("rec2020");
-    lightnessSlider = new TextSlider("lightnessRange", "lightnessText");
     gradientSizeSlider = new TextSlider("gradientSizeRange", "gradientSizeText");
     startLSlider = new TextSlider("LStartRange", "LStartText");
     endLSlider = new TextSlider("LEndRange", "LEndText");
@@ -105,10 +104,6 @@ ready(function () {
     }
 
     root.style.setProperty("--gray", (fromOkhsl({ h: 0.5, s: 0.0, l: 0.5 })).to("oklab").display());
-
-
-    // var colorInput, hueInput, saturationInput, valueInput, lightnessSlider;
-    // var gradientSizeSlider, startLSlider, endLSlider, colorSchemeSelect;
 
     addChangeListener(colorInput, (e) => {
         try {
@@ -130,10 +125,6 @@ ready(function () {
 
     addChangeListener(valueInput, (e) => {
         mainColor.value = setValue(mainColor.value, clamp(valueInput.value / 100.0, 0.05, 0.999));
-    });
-
-    lightnessSlider.addListener((e) => {
-        mainColor.value = setLightness(mainColor.value, clamp(lightnessSlider.value / 100.0, 0.09, 0.999));
     });
 
     gradientSizeSlider.addListener((e) => {
@@ -161,7 +152,6 @@ ready(function () {
         hueInput.value = Number(stepValue(loopDegrees(okhsv.h * 360.0), 0.36).toFixed(2));
         saturationInput.value = Number(stepValue(okhsv.s * 100.0, 0.1).toFixed(2));
         valueInput.value = Number(stepValue(okhsv.v * 100.0, 0.1).toFixed(2));
-        lightnessSlider.value = Number(stepValue(okhsl.l * 100.0, 0.1).toFixed(2));
 
         for (var i = 0; i <= 100; i += 10) {
             root.style.setProperty("--P" + i, getShade(color, i / 100.0).to("oklab").display());
@@ -252,7 +242,6 @@ function updateColors() {
         return;
     }
     isUpdatingColors = true;
-    // var baseColorsDiv, generatedShadesDiv, individualShadesSection;
     setTimeout(function () {
         removeChilds(baseColorsDiv);
         removeChilds(generatedShadesDiv);

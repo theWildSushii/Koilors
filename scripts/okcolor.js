@@ -322,12 +322,6 @@ function setValue(color, value) {
     return fromOkhsv(okhsv);
 }
 
-function setLightness(color, value) {
-    var okhsl = toOkhsl(color);
-    okhsl.l = value;
-    return fromOkhsl(okhsl);
-}
-
 function getShade(color, shade) {
     var okhsl = toOkhsl(color);
     okhsl.l = shade;
