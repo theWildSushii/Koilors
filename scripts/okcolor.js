@@ -304,18 +304,6 @@ function fromOkhsv(okhsv) {
     return output;
 }
 
-function extractOklch(color) {
-    return {
-        l: color.oklch.l,
-        c: color.oklch.c,
-        h: color.oklch.h
-    }
-}
-
-function fromOklch(oklch) {
-    return new Color("oklch", [oklch.l, oklch.c, oklch.h]);
-}
-
 function setHue(color, hue) {
     var okhsv = toOkhsv(color);
     okhsv.h = hue / 360.0;

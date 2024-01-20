@@ -4,7 +4,6 @@ function rotateColor(color, delta) {
     return fromOkhsv(okhsv);
 }
 
-
 function getComplementaryScheme(color) {
     return [
         color,
