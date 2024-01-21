@@ -286,6 +286,7 @@ form input[type="text"] {
     background-color: var(--mainColor);
     color: var(--onMainColor);
     text-align: center;
+    font-weight: 700;
 }
 
 #selectedColor {
