@@ -271,7 +271,10 @@ function updateColors() {
 
         });
 
-        var sortedPalette = sortColors(palette.value);
+        // var sortedPalette = sortColors(palette.value);
+        var sortedPalette = [...palette.value];
+        sortedPalette.push(mainColor.value);
+        sortedPalette = sortColors(sortedPalette);
         for (var i = 0; i < gradientSteps.value; i++) {
             var shade = i / (gradientSteps.value - 1.0);
             var index = remap(i, 0.0, gradientSteps.value - 1.0, 0.0, sortedPalette.length - 1);
