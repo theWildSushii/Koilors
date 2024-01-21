@@ -46,10 +46,6 @@ function spline(floats, t) {
     return spline(recursive, t);
 }
 
-function rate(value, rate) {
-    return lerp3(0.0, value, 1.0, rate);
-}
-
 function loopDegrees(x) {
     if (x > 360) {
         return loopDegrees(x - 360.0);
