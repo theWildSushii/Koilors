@@ -31,7 +31,7 @@ function L(l) {
     return clamp(lerp(startL.value, endL.value, l) / 100.0, 0.0, 1.0);
 }
 
-const schemes = ["mono", "comp", "anal3", "split", "tri", "square", "tetral", "tetrar", "anal5", "dsc", "poly", "analc", "full"];
+const schemes = ["mono", "comp", "anal3", "anal5", "split", "tri", "tetral", "tetrar", "square", "dsc", "poly", "analc", "full"];
 
 function randomize() {
     var okhsv = {
