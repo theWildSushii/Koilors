@@ -13,6 +13,10 @@ class CanvasWrapper {
         return this.canvas.height;
     }
 
+    clear() {
+        this.context.clearRect(0, 0, this.width, this.height);
+    }
+
     renderShader(shader) {
         var renderTexture = this.context.createImageData(this.canvas.width, this.canvas.height);
         var dataSizeX = this.canvas.width * 4;
@@ -43,14 +47,13 @@ class CanvasWrapper {
     }
 }
 
-function renderHandle(canvas, mainColor, x, y) {
-    canvas.context.clearRect(0, 0, canvas.width, canvas.height);
+function renderHandle(canvas, color, x, y, radiusMultiplier) {
     canvas.context.beginPath();
-    canvas.context.arc(x * canvas.width, y * canvas.height, 16, 0, 2.0 * Math.PI);
+    canvas.context.arc(x * canvas.width, y * canvas.height, 16 * radiusMultiplier, 0, 2.0 * Math.PI);
     canvas.context.lineWidth = 4;
     canvas.context.strokeStyle = "#000000";
     canvas.context.stroke();
-    canvas.context.fillStyle = mainColor.display();
+    canvas.context.fillStyle = color.display();
     canvas.context.fill();
     canvas.context.lineWidth = 2;
     canvas.context.strokeStyle = "#ffffff";
@@ -67,11 +70,11 @@ function renderHueWheel(canvas, mainColor) {
     });
 }
 
-function renderHueWheelHandle(canvas, mainColor) {
+function renderHueWheelHandle(canvas, mainColor, radiusMultiplier) {
     var okhsv = toOkhsv(mainColor);
     var x = (0.9 * (Math.sin(okhsv.h * (2.0 * Math.PI))) + 1.0) / 2.0;
     var y = (0.9 * (-Math.cos(okhsv.h * (2.0 * Math.PI))) + 1.0) / 2.0;
-    renderHandle(canvas, mainColor, x, y);
+    renderHandle(canvas, mainColor, x, y, radiusMultiplier);
 }
 
 function renderSVBox(canvas, mainColor) {
@@ -83,9 +86,9 @@ function renderSVBox(canvas, mainColor) {
     });
 }
 
-function renderSVBoxHandle(canvas, mainColor) {
+function renderSVBoxHandle(canvas, mainColor, radiusMultiplier) {
     var okhsv = toOkhsv(mainColor);
     var x = okhsv.s;
     var y = 1 - okhsv.v;
-    renderHandle(canvas, mainColor, x, y);
+    renderHandle(canvas, mainColor, x, y, radiusMultiplier);
 }

@@ -82,7 +82,11 @@ ready(function () {
     hueWheelHandle = new CanvasWrapper(hueWheelHandleCanvas);
     svBoxHandle = new CanvasWrapper(svBoxHandleCanvas);
 
-    mainColor.listen((x) => { renderAllPickers(); });
+    mainColor.listen((x) => { renderGradients(); });
+    palette.listen((x) => { renderHandles(); });
+    startL.listen((x) => { renderSVBoxHandles(); });
+    endL.listen((x) => { renderSVBoxHandles(); });
+    gradientSteps.listen((x) => { renderSVBoxHandles(); });
 });
 
 function getMousePos(canvas, x, y) {
@@ -126,9 +130,31 @@ function onWorkerDone(e) {
     }
 }
 
-function renderAllPickers() {
-    renderHueWheelHandle(hueWheelHandle, mainColor.value);
-    renderSVBoxHandle(svBoxHandle, mainColor.value);
+function renderHueWheelHandles() {
+    hueWheelHandle.clear();
+    for (var i = 0; i < palette.value.length; i++) {
+        renderHueWheelHandle(hueWheelHandle, palette.value[i], 0.618);
+    }
+    renderHueWheelHandle(hueWheelHandle, mainColor.value, 1.0);
+}
+
+function renderSVBoxHandles() {
+    svBoxHandle.clear();
+
+    for (var i = 0; i < gradientSteps.value; i++) {
+        var shade = i / (gradientSteps.value - 1.0);
+        renderSVBoxHandle(svBoxHandle, getShade(mainColor.value, L(shade)), 0.618);
+    }
+
+    renderSVBoxHandle(svBoxHandle, mainColor.value, 1.0);
+}
+
+function renderHandles() {
+    renderHueWheelHandles();
+    renderSVBoxHandles();
+}
+
+function renderGradients() {
     try {
         if (isRendering) {
             hasQueue = true;
@@ -146,4 +172,9 @@ function renderAllPickers() {
         renderSVBox(svBox, mainColor.value);
         isRendering = false;
     }
+}
+
+function renderAllPickers() {
+    renderHandles();
+    renderGradients();
 }
