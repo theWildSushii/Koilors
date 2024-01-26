@@ -61,34 +61,66 @@ function renderHandle(canvas, color, x, y, radiusMultiplier) {
     canvas.context.closePath();
 }
 
-function renderHueWheel(canvas, mainColor) {
-    var okhsv = toOkhsv(mainColor);
-    canvas.renderShader(function (x, y) {
-        var uv = polarCoordinates(x, 1.0 - y);
-        okhsv.h = uv.angle;
-        return fromOkhsv(okhsv);
-    });
+function renderHueWheel(canvas, mainColor, okhsl) {
+    if (okhsl) {
+        var okhsl = toOkhsl(mainColor);
+        canvas.renderShader(function (x, y) {
+            var uv = polarCoordinates(x, 1.0 - y);
+            okhsl.h = uv.angle;
+            return fromOkhsl(okhsl);
+        });
+    } else {
+        var okhsv = toOkhsv(mainColor);
+        canvas.renderShader(function (x, y) {
+            var uv = polarCoordinates(x, 1.0 - y);
+            okhsv.h = uv.angle;
+            return fromOkhsv(okhsv);
+        });
+    }
 }
 
-function renderHueWheelHandle(canvas, mainColor, radiusMultiplier) {
-    var okhsv = toOkhsv(mainColor);
-    var x = (0.9 * (Math.sin(okhsv.h * (2.0 * Math.PI))) + 1.0) / 2.0;
-    var y = (0.9 * (-Math.cos(okhsv.h * (2.0 * Math.PI))) + 1.0) / 2.0;
-    renderHandle(canvas, mainColor, x, y, radiusMultiplier);
+function renderHueWheelHandle(canvas, mainColor, radiusMultiplier, okhsl) {
+    if (okhsl) {
+        var okhsl = toOkhsl(mainColor);
+        var x = (0.9 * (Math.sin(okhsl.h * (2.0 * Math.PI))) + 1.0) / 2.0;
+        var y = (0.9 * (-Math.cos(okhsl.h * (2.0 * Math.PI))) + 1.0) / 2.0;
+        renderHandle(canvas, mainColor, x, y, radiusMultiplier);
+    } else {
+        var okhsv = toOkhsv(mainColor);
+        var x = (0.9 * (Math.sin(okhsv.h * (2.0 * Math.PI))) + 1.0) / 2.0;
+        var y = (0.9 * (-Math.cos(okhsv.h * (2.0 * Math.PI))) + 1.0) / 2.0;
+        renderHandle(canvas, mainColor, x, y, radiusMultiplier);
+    }
 }
 
-function renderSVBox(canvas, mainColor) {
-    var okhsv = toOkhsv(mainColor);
-    canvas.renderShader(function (x, y) {
-        okhsv.s = x;
-        okhsv.v = 1 - y;
-        return fromOkhsv(okhsv);
-    });
+function renderSVBox(canvas, mainColor, okhsl) {
+    if (okhsl) {
+        var okhsl = toOkhsl(mainColor);
+        canvas.renderShader(function (x, y) {
+            okhsl.s = x;
+            okhsl.l = 1 - y;
+            return fromOkhsl(okhsl);
+        });
+    } else {
+        var okhsv = toOkhsv(mainColor);
+        canvas.renderShader(function (x, y) {
+            okhsv.s = x;
+            okhsv.v = 1.0 - y;
+            return fromOkhsv(okhsv);
+        });
+    }
 }
 
-function renderSVBoxHandle(canvas, mainColor, radiusMultiplier) {
-    var okhsv = toOkhsv(mainColor);
-    var x = okhsv.s;
-    var y = 1 - okhsv.v;
-    renderHandle(canvas, mainColor, x, y, radiusMultiplier);
+function renderSVBoxHandle(canvas, mainColor, radiusMultiplier, okhsl) {
+    if (okhsl) {
+        var okhsl = toOkhsl(mainColor);
+        var x = okhsl.s;
+        var y = 1.0 - okhsl.l;
+        renderHandle(canvas, mainColor, x, y, radiusMultiplier);
+    } else {
+        var okhsv = toOkhsv(mainColor);
+        var x = okhsv.s;
+        var y = 1.0 - okhsv.v;
+        renderHandle(canvas, mainColor, x, y, radiusMultiplier);
+    }
 }

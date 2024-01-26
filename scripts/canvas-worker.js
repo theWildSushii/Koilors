@@ -3,10 +3,11 @@ importScripts("https://colorjs.io/dist/color.global.js", "okcolor.js", "utils.js
 var mainColor;
 var hueWheel;
 var svBox;
+var okhsl = false;
 
 function renderEverything() {
-    renderHueWheel(hueWheel, mainColor);
-    renderSVBox(svBox, mainColor);
+    renderHueWheel(hueWheel, mainColor, okhsl);
+    renderSVBox(svBox, mainColor, okhsl);
 }
 
 onmessage = (evt) => {
@@ -20,6 +21,7 @@ onmessage = (evt) => {
             var a = evt.data.a;
             var b = evt.data.b;
             mainColor = new Color("oklab", [L, a, b]);
+            okhsl = evt.data.okhsl;
             renderEverything();
             break;
     }

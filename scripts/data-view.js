@@ -5,6 +5,7 @@ var baseColorsDiv, generatedShadesDiv, individualShadesSection;
 var daynightButton, snackbar, colorsTab, detailsTab;
 var selectedColorDiv;
 var hex, srgb, oklab, oklch, lab, lch, hsv, hsl, hwb, displayP3, rec2020;
+var okhslCheckBox, valueLightnessLabel;
 
 function toggleDaynight() {
     if (root.classList.contains("light")) {
@@ -92,6 +93,8 @@ ready(function () {
     gradientSizeSlider = new TextSlider("gradientSizeRange", "gradientSizeText");
     startLSlider = new TextSlider("LStartRange", "LStartText");
     endLSlider = new TextSlider("LEndRange", "LEndText");
+    okhslCheckBox = id("okhsl");
+    valueLightnessLabel = id("valuelightness");
 
     if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
         daynightButton.innerHTML = "light_mode";
@@ -116,15 +119,39 @@ ready(function () {
     });
 
     addChangeListener(hueInput, (e) => {
-        mainColor.value = setHue(mainColor.value, hueInput.value);
+        if(isOkhsl.value) {
+            var okhsl = toOkhsl(mainColor.value);
+            okhsl.h = hueInput.value / 360.0;
+            mainColor.value = fromOkhsl(okhsl);
+        } else {
+            var okhsv = toOkhsv(mainColor.value);
+            okhsv.h = hueInput.value / 360.0;
+            mainColor.value = fromOkhsv(okhsv);
+        }
     });
 
     addChangeListener(saturationInput, (e) => {
-        mainColor.value = setSaturation(mainColor.value, clamp(saturationInput.value / 100.0, 0.05, 0.999));
+        if(isOkhsl.value) {
+            var okhsl = toOkhsl(mainColor.value);
+            okhsl.s = clamp(saturationInput.value / 100.0, 0.05, 0.999);
+            mainColor.value = fromOkhsl(okhsl);
+        } else {
+            var okhsv = toOkhsv(mainColor.value);
+            okhsv.s = clamp(saturationInput.value / 100.0, 0.05, 0.999);
+            mainColor.value = fromOkhsv(okhsv);
+        }
     });
 
     addChangeListener(valueInput, (e) => {
-        mainColor.value = setValue(mainColor.value, clamp(valueInput.value / 100.0, 0.05, 0.999));
+        if(isOkhsl.value) {
+            var okhsl = toOkhsl(mainColor.value);
+            okhsl.l = clamp(valueInput.value / 100.0, 0.05, 0.999);
+            mainColor.value = fromOkhsl(okhsl);
+        } else {
+            var okhsv = toOkhsv(mainColor.value);
+            okhsv.v = clamp(valueInput.value / 100.0, 0.05, 0.999);
+            mainColor.value = fromOkhsv(okhsv);
+        }
     });
 
     gradientSizeSlider.addListener((e) => {
@@ -146,12 +173,23 @@ ready(function () {
     mainColor.listen((color) => {
         var okhsv = toOkhsv(color);
         var okhsl = toOkhsl(color);
+
+        if (isOkhsl.value) {
+            var okhsl = toOkhsl(color);
+            hueInput.value = Number(loopDegrees(okhsl.h * 360.0).toFixed(2));
+            saturationInput.value = Number((okhsl.s * 100.0).toFixed(2));
+            valueInput.value = Number((okhsl.l * 100.0).toFixed(2));
+        } else {
+            var okhsv = toOkhsv(color);
+            hueInput.value = Number(loopDegrees(okhsv.h * 360.0).toFixed(2));
+            saturationInput.value = Number((okhsv.s * 100.0)).toFixed(2);
+            valueInput.value = Number((okhsv.v * 100.0).toFixed(2));
+        }
+
+        colorInput.value = color.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
+
         root.style.setProperty("--mainColor", color.to("oklab").display());
         root.style.setProperty("--onMainColor", color.oklch.l > 0.5 ? "#000000" : "#ffffff");
-        colorInput.value = color.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
-        hueInput.value = Number(stepValue(loopDegrees(okhsv.h * 360.0), 0.36).toFixed(2));
-        saturationInput.value = Number(stepValue(okhsv.s * 100.0, 0.1).toFixed(2));
-        valueInput.value = Number(stepValue(okhsv.v * 100.0, 0.1).toFixed(2));
 
         for (var i = 0; i <= 100; i += 10) {
             root.style.setProperty("--P" + i, getShade(color, i / 100.0).to("oklab").display());
@@ -236,6 +274,27 @@ ready(function () {
     });
 
     colorsTab.checked = true;
+
+    isOkhsl.listen((value) => {
+        okhslCheckBox.checked = value;
+        valueLightnessLabel.innerText = value ? "Lightness" : "Value";
+        if (value) {
+            var okhsl = toOkhsl(mainColor.value);
+            hueInput.value = Number(loopDegrees(okhsl.h * 360.0).toFixed(2));
+            saturationInput.value = Number((okhsl.s * 100.0).toFixed(2));
+            valueInput.value = Number((okhsl.l * 100.0).toFixed(2));
+        } else {
+            var okhsv = toOkhsv(mainColor.value);
+            hueInput.value = Number(loopDegrees(okhsv.h * 360.0).toFixed(2));
+            saturationInput.value = Number((okhsv.s * 100.0)).toFixed(2);
+            valueInput.value = Number((okhsv.v * 100.0).toFixed(2));
+        }
+
+    });
+
+    okhslCheckBox.addEventListener("change", (e) => {
+        isOkhsl.value = okhslCheckBox.checked;
+    });
 
 });
 

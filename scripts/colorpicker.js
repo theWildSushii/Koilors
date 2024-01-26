@@ -87,6 +87,7 @@ ready(function () {
     startL.listen((x) => { renderSVBoxHandles(); });
     endL.listen((x) => { renderSVBoxHandles(); });
     gradientSteps.listen((x) => { renderSVBoxHandles(); });
+    isOkhsl.listen((x) => { renderAllPickers(); });
 });
 
 function getMousePos(canvas, x, y) {
@@ -109,17 +110,30 @@ function getRelativeCoordinates(x, y, element) {
 function interactWithHueWheel(x, y) {
     var point = getMousePos(hueWheelHandleCanvas, x, y);
     var uv = polarCoordinates(point.x, 1.0 - point.y);
-    var okhsv = toOkhsv(mainColor.value);
-    okhsv.h = uv.angle;
-    mainColor.value = fromOkhsv(okhsv);
+    if (isOkhsl.value) {
+        var okhsl = toOkhsl(mainColor.value);
+        okhsl.h = uv.angle;
+        mainColor.value = fromOkhsl(okhsl);
+    } else {
+        var okhsv = toOkhsv(mainColor.value);
+        okhsv.h = uv.angle;
+        mainColor.value = fromOkhsv(okhsv);
+    }
 }
 
 function interactWithSVBox(x, y) {
     var point = getMousePos(svBoxHandleCanvas, x, y);
-    var okhsv = toOkhsv(mainColor.value);
-    okhsv.s = clamp(point.x, 0.01, 1.0);
-    okhsv.v = clamp(1 - point.y, 0.01, 1.0);
-    mainColor.value = fromOkhsv(okhsv);
+    if (isOkhsl.value) {
+        var okhsl = toOkhsl(mainColor.value);
+        okhsl.s = clamp(point.x, 0.01, 1.0);
+        okhsl.l = clamp(1 - point.y, 0.01, 1.0);
+        mainColor.value = fromOkhsl(okhsl);
+    } else {
+        var okhsv = toOkhsv(mainColor.value);
+        okhsv.s = clamp(point.x, 0.01, 1.0);
+        okhsv.v = clamp(1 - point.y, 0.01, 1.0);
+        mainColor.value = fromOkhsv(okhsv);
+    }
 }
 
 function onWorkerDone(e) {
@@ -133,9 +147,9 @@ function onWorkerDone(e) {
 function renderHueWheelHandles() {
     hueWheelHandle.clear();
     for (var i = 0; i < palette.value.length; i++) {
-        renderHueWheelHandle(hueWheelHandle, palette.value[i], 0.618);
+        renderHueWheelHandle(hueWheelHandle, palette.value[i], 0.618, isOkhsl.value);
     }
-    renderHueWheelHandle(hueWheelHandle, mainColor.value, 1.0);
+    renderHueWheelHandle(hueWheelHandle, mainColor.value, 1.0, isOkhsl.value);
 }
 
 function renderSVBoxHandles() {
@@ -143,10 +157,10 @@ function renderSVBoxHandles() {
 
     for (var i = 0; i < gradientSteps.value; i++) {
         var shade = i / (gradientSteps.value - 1.0);
-        renderSVBoxHandle(svBoxHandle, getShade(mainColor.value, L(shade)), 0.618);
+        renderSVBoxHandle(svBoxHandle, getShade(mainColor.value, L(shade)), 0.618, isOkhsl.value);
     }
 
-    renderSVBoxHandle(svBoxHandle, mainColor.value, 1.0);
+    renderSVBoxHandle(svBoxHandle, mainColor.value, 1.0, isOkhsl.value);
 }
 
 function renderHandles() {
@@ -166,10 +180,11 @@ function renderGradients() {
             L: mainColor.value.oklab.l,
             a: mainColor.value.oklab.a,
             b: mainColor.value.oklab.b,
+            okhsl: isOkhsl.value
         });
     } catch (e) {
-        renderHueWheel(hueWheel, mainColor.value);
-        renderSVBox(svBox, mainColor.value);
+        renderHueWheel(hueWheel, mainColor.value, isOkhsl.value);
+        renderSVBox(svBox, mainColor.value, isOkhsl.value);
         isRendering = false;
     }
 }

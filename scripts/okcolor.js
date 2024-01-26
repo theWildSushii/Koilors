@@ -304,24 +304,6 @@ function fromOkhsv(okhsv) {
     return output;
 }
 
-function setHue(color, hue) {
-    var okhsv = toOkhsv(color);
-    okhsv.h = hue / 360.0;
-    return fromOkhsv(okhsv);
-}
-
-function setSaturation(color, saturation) {
-    var okhsv = toOkhsv(color);
-    okhsv.s = saturation;
-    return fromOkhsv(okhsv);
-}
-
-function setValue(color, value) {
-    var okhsv = toOkhsv(color);
-    okhsv.v = value;
-    return fromOkhsv(okhsv);
-}
-
 function getShade(color, shade) {
     var okhsl = toOkhsl(color);
     okhsl.l = shade;
