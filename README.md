@@ -9,7 +9,8 @@
 ## How to install and run
 Clone or download this repo and use any simple HTTP server you like or open the `index.html` directly in your browser, there's no need for any building as this is written in good ol' plain HTML/JavaScript.
 
-*NOTE: Opening the `index.html` file directly doesn't allow web browsers to use web workers, instead, a slower fallback will be used.*
+> [!NOTE]
+> Opening the `index.html` file directly doesn't allow web browsers to use web workers, instead, a slower fallback will be used.
 
 ### Examples
 #### Using Node.js
