@@ -364,7 +364,7 @@ footer>* {
     bottom: -64px;
     border-radius: 4px;
     background-color: var(--inverse-surface);
-    color: var(--inverse-primary);
+    color: var(--inverse-on-surface);
     min-height: 48px;
     max-height: 68px;
     padding: 0px 16px;

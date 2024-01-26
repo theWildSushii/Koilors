@@ -13,21 +13,6 @@
     --inverse-primary-container: var(--P70);
     --inverse-on-primary-container: var(--P10);
 
-    --error: var(--E80);
-    --on-error: var(--E20);
-    --error-container: var(--E30);
-    --on-error-container: var(--E90);
-
-    --warning: var(--W80);
-    --on-warning: var(--W20);
-    --warning-container: var(--W30);
-    --on-warning-container: var(--W90);
-
-    --success: var(--OK80);
-    --on-success: var(--OK20);
-    --success-container: var(--OK30);
-    --on-success-container: var(--OK90);
-
     --surface-dim: var(--N6);
     --surface: var(--N6);
     --surface-bright: var(--N24);
@@ -43,7 +28,7 @@
 
     --inverse-surface-dim: var(--N94);
     --inverse-surface: var(--N94);
-    --on-inverse-surface: var(--N10);
+    --inverse-on-surface: var(--N10);
 
     color-scheme: dark;
 }
@@ -61,21 +46,6 @@
         --inverse-primary-container: var(--P10);
         --inverse-on-primary-container: var(--P90);
     
-        --error: var(--E40);
-        --on-error: var(--E100);
-        --error-container: var(--E90);
-        --on-error-container: var(--E10);
-    
-        --warning: var(--W40);
-        --on-warning: var(--W100);
-        --warning-container: var(--W90);
-        --on-warning-container: var(--W10);
-    
-        --success: var(--OK40);
-        --on-success: var(--OK100);
-        --success-container: var(--OK90);
-        --on-success-container: var(--OK10);
-    
         --surface-dim: var(--N87);
         --surface: var(--N98);
         --surface-bright: var(--N98);
@@ -91,7 +61,7 @@
 
         --inverse-surface-dim: var(--N13);
         --inverse-surface: var(--N2);
-        --on-inverse-surface: var(--N90);
+        --inverse-on-surface: var(--N90);
         
         color-scheme: light;
     }
@@ -102,21 +72,6 @@
     --on-primary: var(--P100);
     --primary-container: var(--P90);
     --on-primary-container: var(--P10);
-
-    --error: var(--E40);
-    --on-error: var(--E100);
-    --error-container: var(--E90);
-    --on-error-container: var(--E10);
-
-    --warning: var(--W40);
-    --on-warning: var(--W100);
-    --warning-container: var(--W90);
-    --on-warning-container: var(--W10);
-
-    --success: var(--OK40);
-    --on-success: var(--OK100);
-    --success-container: var(--OK90);
-    --on-success-container: var(--OK10);
 
     --surface-dim: var(--N87);
     --surface: var(--N98);
@@ -133,7 +88,7 @@
 
     --inverse-surface-dim: var(--N13);
     --inverse-surface: var(--N2);
-    --on-inverse-surface: var(--N90);
+    --inverse-on-surface: var(--N90);
     
     color-scheme: light;
 }

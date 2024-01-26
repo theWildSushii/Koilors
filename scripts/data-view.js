@@ -171,11 +171,9 @@ ready(function () {
     });
 
     mainColor.listen((color) => {
-        var okhsv = toOkhsv(color);
         var okhsl = toOkhsl(color);
 
         if (isOkhsl.value) {
-            var okhsl = toOkhsl(color);
             hueInput.value = Number(loopDegrees(okhsl.h * 360.0).toFixed(2));
             saturationInput.value = Number((okhsl.s * 100.0).toFixed(2));
             valueInput.value = Number((okhsl.l * 100.0).toFixed(2));
@@ -188,12 +186,9 @@ ready(function () {
 
         colorInput.value = colorToHex(color);
 
-        root.style.setProperty("--mainColor", color.to("oklab").display());
-        root.style.setProperty("--onMainColor", color.oklch.l > 0.5 ? "#000000" : "#ffffff");
+        root.style.setProperty("--mainColor", color.display());
+        root.style.setProperty("--onMainColor", color.oklab.l > 0.5 ? "#000000" : "#ffffff");
 
-        for (var i = 0; i <= 100; i += 10) {
-            root.style.setProperty("--P" + i, getShade(color, i / 100.0).to("oklab").display());
-        }
         okhsl.s *= 0.382;
         var neutralColor = fromOkhsl(okhsl);
         root.style.setProperty("--N2", getShade(neutralColor, 0.02).to("oklab").display());
@@ -368,11 +363,11 @@ function updateColors() {
         }
         for (var i = 0; i < gradientSteps.value; i++) {
             var shade = i / (gradientSteps.value - 1.0);
-            var index = remap(i, 0.0, gradientSteps.value - 1.0, 0.0, sortedPalette.length - 1);
-
+            
             var color = mainColor.value; //Temporal value
-
+            
             if (discreteMix) {
+                var index = remap(i, 0.0, gradientSteps.value - 1.0, 0.0, sortedPalette.length - 1);
                 var colorA = sortedPalette[Math.floor(index)];
                 var colorB = sortedPalette[Math.round(index)];
                 var colorC = sortedPalette[Math.ceil(index)];
@@ -395,6 +390,21 @@ function updateColors() {
             div.style.backgroundColor = color.display();
             div.addEventListener("click", selectBackgroundColor);
             generatedShadesDiv.appendChild(div);
+        }
+
+        for (var i = 0; i <= 100; i += 10) {
+            var color = mainColor.value;
+            var shade = i / 100.0;
+            if(discreteMix) {
+                var index = remap(i, 0.0, 100.0, 0.0, sortedPalette.length - 1);
+                var colorA = sortedPalette[Math.floor(index)];
+                var colorB = sortedPalette[Math.round(index)];
+                var colorC = sortedPalette[Math.ceil(index)];
+                color = colorSpline([colorA, colorB, colorC], index % 1);
+            } else {
+                color = colorSpline(sortedPalette, shade);
+            }
+            root.style.setProperty("--P" + i, getShade(color, shade).display());
         }
 
         isUpdatingColors = false;
