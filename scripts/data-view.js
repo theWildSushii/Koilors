@@ -186,7 +186,7 @@ ready(function () {
             valueInput.value = Number((okhsv.v * 100.0).toFixed(2));
         }
 
-        colorInput.value = color.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
+        colorInput.value = colorToHex(color);
 
         root.style.setProperty("--mainColor", color.to("oklab").display());
         root.style.setProperty("--onMainColor", color.oklch.l > 0.5 ? "#000000" : "#ffffff");
@@ -248,7 +248,7 @@ ready(function () {
     selectedColor.listen((value) => {
         detailsTab.checked = true;
         selectedColorDiv.style.backgroundColor = value.display();
-        hex.innerText = value.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
+        hex.innerText = colorToHex(value);
         //We create a Color object from the hex value to round up sRGB values
         //and avoid possible conflicts on other softwares
         var srgbColor = new Color(hex.innerText);

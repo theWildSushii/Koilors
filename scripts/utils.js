@@ -80,3 +80,11 @@ function polarCoordinates(u, v) {
         angle: Math.atan2(deltaX, deltaY) * 1.0 / (2.0 * Math.PI)
     };
 }
+
+function colorToHex(color) {
+    var string = color.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
+    if(string.length == 4) {
+        string = string[0] + string[1] + string[1] + string[2] + string[2] + string[3] + string[3];
+    }
+    return string;
+}
