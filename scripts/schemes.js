@@ -62,11 +62,11 @@ function getTetradicRightScheme(color) {
 
 function getAnalogous5Scheme(color) {
     return [
+        rotateColor(color, -72.0),
         rotateColor(color, -36.0),
-        rotateColor(color, -18.0),
         color,
-        rotateColor(color, 18.0),
-        rotateColor(color, 36.0)
+        rotateColor(color, 36.0),
+        rotateColor(color, 72.0)
     ];
 }
 
@@ -98,18 +98,16 @@ function getComplementaryAnalogous(color) {
 }
 
 function getAllColors(color) {
-    var okhsv = toOkhsv(color);
-    okhsv.h = getClosestHarmonicHue(okhsv.h * 360.0 , 27.0) / 360.0;
-    var red = fromOkhsv(okhsv);
-    return [red,
-        rotateColor(red, 36.0),
-        rotateColor(red, 72.0),
-        rotateColor(red, 108.0),
-        rotateColor(red, 144.0),
-        rotateColor(red, 180.0),
-        rotateColor(red, 216.0),
-        rotateColor(red, 252.0),
-        rotateColor(red, 288.0),
-        rotateColor(red, 324.0)
+    return [
+        rotateColor(color, -180.0),
+        rotateColor(color, -144.0),
+        rotateColor(color, -108.0),
+        rotateColor(color, -72.0),
+        rotateColor(color, -36.0),
+        color,
+        rotateColor(color, 36.0),
+        rotateColor(color, 72.0),
+        rotateColor(color, 108.0),
+        rotateColor(color, 144.0)
     ];
 }

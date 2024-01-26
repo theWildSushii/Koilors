@@ -311,8 +311,7 @@ function getShade(color, shade) {
 }
 
 function lerpColor(a, b, t) {
-    var color = a.mix(b, t, { space: "oklab" });
-    var okhsl = toOkhsl(color);
+    var okhsl = toOkhsl(a.mix(b, t, { space: "oklab" }));
     var okhslA = toOkhsl(a);
     var okhslB = toOkhsl(b);
     okhsl.s = lerp(okhslA.s, okhslB.s, t);

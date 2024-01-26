@@ -119,7 +119,7 @@ ready(function () {
     });
 
     addChangeListener(hueInput, (e) => {
-        if(isOkhsl.value) {
+        if (isOkhsl.value) {
             var okhsl = toOkhsl(mainColor.value);
             okhsl.h = hueInput.value / 360.0;
             mainColor.value = fromOkhsl(okhsl);
@@ -131,7 +131,7 @@ ready(function () {
     });
 
     addChangeListener(saturationInput, (e) => {
-        if(isOkhsl.value) {
+        if (isOkhsl.value) {
             var okhsl = toOkhsl(mainColor.value);
             okhsl.s = clamp(saturationInput.value / 100.0, 0.05, 0.999);
             mainColor.value = fromOkhsl(okhsl);
@@ -143,7 +143,7 @@ ready(function () {
     });
 
     addChangeListener(valueInput, (e) => {
-        if(isOkhsl.value) {
+        if (isOkhsl.value) {
             var okhsl = toOkhsl(mainColor.value);
             okhsl.l = clamp(valueInput.value / 100.0, 0.05, 0.999);
             mainColor.value = fromOkhsl(okhsl);
@@ -311,6 +311,15 @@ function updateColors() {
 
         palette.value.forEach(color => {
             var div = document.createElement("div");
+            //This prevents an exception thrown on Color.js
+            //when a value is too small. Probably caused by its
+            //string parser and exponential notation
+            if(Math.abs(color.oklab.a) <= 0.0001) {
+                color.oklab.a = 0.0;
+            }
+            if(Math.abs(color.oklab.b) <= 0.0001) {
+                color.oklab.b = 0.0;
+            }
             div.style.backgroundColor = color.display();
             div.addEventListener("click", selectBackgroundColor);
             baseColorsDiv.appendChild(div);
@@ -320,6 +329,15 @@ function updateColors() {
                 var shade = i / (gradientSteps.value - 1.0);
 
                 var shadedColor = getShade(color, L(shade));
+                //This prevents an exception thrown on Color.js
+                //when a value is too small. Probably caused by its
+                //string parser and exponential notation
+                if(Math.abs(shadedColor.oklab.a) <= 0.0001) {
+                    shadedColor.oklab.a = 0.0;
+                }
+                if(Math.abs(shadedColor.oklab.b) <= 0.0001) {
+                    shadedColor.oklab.b = 0.0;
+                }
 
                 var shadeDiv = document.createElement("div");
                 shadeDiv.style.backgroundColor = shadedColor.display();
@@ -330,20 +348,48 @@ function updateColors() {
 
         });
 
-        // var sortedPalette = sortColors(palette.value);
         var sortedPalette = [...palette.value];
-        sortedPalette.push(mainColor.value);
-        sortedPalette = sortColors(sortedPalette);
+        var discreteMix = true;
+        switch (scheme.value) {
+            case "full": //All Colors
+                sortedPalette.push(sortedPalette[0]);
+                discreteMix = false;
+                break;
+            case "mono": //Monochromatic
+            case "anal3": //Analogous 3
+            case "anal5": //Analogous 5
+                discreteMix = false;
+                break;
+            default:
+                sortedPalette.push(mainColor.value);
+                sortedPalette.push(...palette.value);
+                sortedPalette = sortColors(sortedPalette);
+                break;
+        }
         for (var i = 0; i < gradientSteps.value; i++) {
             var shade = i / (gradientSteps.value - 1.0);
             var index = remap(i, 0.0, gradientSteps.value - 1.0, 0.0, sortedPalette.length - 1);
 
-            var colorA = sortedPalette[Math.floor(index)];
-            var colorB = sortedPalette[Math.round(index)];
-            var colorC = sortedPalette[Math.ceil(index)];
+            var color = mainColor.value; //Temporal value
 
-            var color = colorSpline([colorA, colorB, colorC], index % 1);
+            if (discreteMix) {
+                var colorA = sortedPalette[Math.floor(index)];
+                var colorB = sortedPalette[Math.round(index)];
+                var colorC = sortedPalette[Math.ceil(index)];
+                color = colorSpline([colorA, colorB, colorC], index % 1);
+            } else {
+                color = colorSpline(sortedPalette, shade);
+            }
             color = getShade(color, L(shade));
+            //This prevents an exception thrown on Color.js
+            //when a value is too small. Probably caused by its
+            //string parser and exponential notation
+            if(Math.abs(color.oklab.a) <= 0.0001) {
+                color.oklab.a = 0.0;
+            }
+            if(Math.abs(color.oklab.b) <= 0.0001) {
+                color.oklab.b = 0.0;
+            }
 
             var div = document.createElement("div");
             div.style.backgroundColor = color.display();
