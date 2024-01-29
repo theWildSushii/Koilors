@@ -171,9 +171,9 @@ ready(function () {
     });
 
     mainColor.listen((color) => {
-        var okhsl = toOkhsl(color);
-
+        
         if (isOkhsl.value) {
+            var okhsl = toOkhsl(color);
             hueInput.value = Number(loopDegrees(okhsl.h * 360.0).toFixed(2));
             saturationInput.value = Number((okhsl.s * 100.0).toFixed(2));
             valueInput.value = Number((okhsl.l * 100.0).toFixed(2));
@@ -189,23 +189,25 @@ ready(function () {
         root.style.setProperty("--mainColor", color.display());
         root.style.setProperty("--onMainColor", color.oklab.l > 0.5 ? "#000000" : "#ffffff");
 
-        okhsl.s *= 0.382;
-        var neutralColor = fromOkhsl(okhsl);
-        root.style.setProperty("--N2", getShade(neutralColor, 0.02).to("oklab").display());
-        root.style.setProperty("--N4", getShade(neutralColor, 0.04).to("oklab").display());
-        root.style.setProperty("--N6", getShade(neutralColor, 0.06).to("oklab").display());
-        root.style.setProperty("--N10", getShade(neutralColor, 0.10).to("oklab").display());
-        root.style.setProperty("--N12", getShade(neutralColor, 0.12).to("oklab").display());
-        root.style.setProperty("--N13", getShade(neutralColor, 0.13).to("oklab").display());
-        root.style.setProperty("--N17", getShade(neutralColor, 0.17).to("oklab").display());
-        root.style.setProperty("--N22", getShade(neutralColor, 0.22).to("oklab").display());
-        root.style.setProperty("--N24", getShade(neutralColor, 0.24).to("oklab").display());
-        root.style.setProperty("--N87", getShade(neutralColor, 0.87).to("oklab").display());
-        root.style.setProperty("--N90", getShade(neutralColor, 0.90).to("oklab").display());
-        root.style.setProperty("--N92", getShade(neutralColor, 0.92).to("oklab").display());
-        root.style.setProperty("--N96", getShade(neutralColor, 0.96).to("oklab").display());
-        root.style.setProperty("--N98", getShade(neutralColor, 0.98).to("oklab").display());
-        root.style.setProperty("--N100", getShade(neutralColor, 1.0).to("oklab").display());
+        root.style.setProperty("--P0", getShade(mainColor.value, 0.00).to("oklab").display());
+        root.style.setProperty("--P2", getShade(mainColor.value, 0.02).to("oklab").display());
+        root.style.setProperty("--P4", getShade(mainColor.value, 0.04).to("oklab").display());
+        root.style.setProperty("--P6", getShade(mainColor.value, 0.06).to("oklab").display());
+        root.style.setProperty("--P10", getShade(mainColor.value, 0.10).to("oklab").display());
+        root.style.setProperty("--P12", getShade(mainColor.value, 0.12).to("oklab").display());
+        root.style.setProperty("--P13", getShade(mainColor.value, 0.13).to("oklab").display());
+        root.style.setProperty("--P17", getShade(mainColor.value, 0.17).to("oklab").display());
+        root.style.setProperty("--P22", getShade(mainColor.value, 0.22).to("oklab").display());
+        root.style.setProperty("--P24", getShade(mainColor.value, 0.24).to("oklab").display());
+        root.style.setProperty("--P30", getShade(mainColor.value, 0.30).to("oklab").display());
+        root.style.setProperty("--P80", getShade(mainColor.value, 0.80).to("oklab").display());
+        root.style.setProperty("--P87", getShade(mainColor.value, 0.87).to("oklab").display());
+        root.style.setProperty("--P90", getShade(mainColor.value, 0.90).to("oklab").display());
+        root.style.setProperty("--P92", getShade(mainColor.value, 0.92).to("oklab").display());
+        root.style.setProperty("--P94", getShade(mainColor.value, 0.94).to("oklab").display());
+        root.style.setProperty("--P96", getShade(mainColor.value, 0.96).to("oklab").display());
+        root.style.setProperty("--P98", getShade(mainColor.value, 0.98).to("oklab").display());
+        root.style.setProperty("--P100", getShade(mainColor.value, 1.0).to("oklab").display());
 
         updateHash();
 
@@ -309,10 +311,10 @@ function updateColors() {
             //This prevents an exception thrown on Color.js
             //when a value is too small. Probably caused by its
             //string parser and exponential notation
-            if(Math.abs(color.oklab.a) <= 0.0001) {
+            if (Math.abs(color.oklab.a) <= 0.0001) {
                 color.oklab.a = 0.0;
             }
-            if(Math.abs(color.oklab.b) <= 0.0001) {
+            if (Math.abs(color.oklab.b) <= 0.0001) {
                 color.oklab.b = 0.0;
             }
             div.style.backgroundColor = color.display();
@@ -327,10 +329,10 @@ function updateColors() {
                 //This prevents an exception thrown on Color.js
                 //when a value is too small. Probably caused by its
                 //string parser and exponential notation
-                if(Math.abs(shadedColor.oklab.a) <= 0.0001) {
+                if (Math.abs(shadedColor.oklab.a) <= 0.0001) {
                     shadedColor.oklab.a = 0.0;
                 }
-                if(Math.abs(shadedColor.oklab.b) <= 0.0001) {
+                if (Math.abs(shadedColor.oklab.b) <= 0.0001) {
                     shadedColor.oklab.b = 0.0;
                 }
 
@@ -351,9 +353,16 @@ function updateColors() {
                 discreteMix = false;
                 break;
             case "mono": //Monochromatic
+                discreteMix = false;
+                break;
             case "anal3": //Analogous 3
             case "anal5": //Analogous 5
                 discreteMix = false;
+                var headL = sortedPalette[0].oklab.l;
+                var tailL = sortedPalette[sortedPalette.length - 1].oklab.l;
+                if(headL > tailL){
+                    sortedPalette.reverse();
+                }
                 break;
             default:
                 sortedPalette.push(mainColor.value);
@@ -363,9 +372,9 @@ function updateColors() {
         }
         for (var i = 0; i < gradientSteps.value; i++) {
             var shade = i / (gradientSteps.value - 1.0);
-            
+
             var color = mainColor.value; //Temporal value
-            
+
             if (discreteMix) {
                 var index = remap(i, 0.0, gradientSteps.value - 1.0, 0.0, sortedPalette.length - 1);
                 var colorA = sortedPalette[Math.floor(index)];
@@ -379,10 +388,10 @@ function updateColors() {
             //This prevents an exception thrown on Color.js
             //when a value is too small. Probably caused by its
             //string parser and exponential notation
-            if(Math.abs(color.oklab.a) <= 0.0001) {
+            if (Math.abs(color.oklab.a) <= 0.0001) {
                 color.oklab.a = 0.0;
             }
-            if(Math.abs(color.oklab.b) <= 0.0001) {
+            if (Math.abs(color.oklab.b) <= 0.0001) {
                 color.oklab.b = 0.0;
             }
 
@@ -392,10 +401,14 @@ function updateColors() {
             generatedShadesDiv.appendChild(div);
         }
 
+        if(startL.value > endL.value) {
+            sortedPalette.reverse();
+        }
+
         for (var i = 0; i <= 100; i += 10) {
             var color = mainColor.value;
             var shade = i / 100.0;
-            if(discreteMix) {
+            if (discreteMix) {
                 var index = remap(i, 0.0, 100.0, 0.0, sortedPalette.length - 1);
                 var colorA = sortedPalette[Math.floor(index)];
                 var colorB = sortedPalette[Math.round(index)];
@@ -404,7 +417,7 @@ function updateColors() {
             } else {
                 color = colorSpline(sortedPalette, shade);
             }
-            root.style.setProperty("--P" + i, getShade(color, shade).display());
+            root.style.setProperty("--A" + i, getShade(color, shade).display());
         }
 
         isUpdatingColors = false;

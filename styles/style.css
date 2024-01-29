@@ -1,5 +1,6 @@
 * {
     transition: all 0.0833s ease-in-out;
+    border-color: var(--outline);
 }
 
 body {
@@ -15,7 +16,7 @@ body {
         'FILL' 0,
         'wght' 400,
         'GRAD' 0,
-        'opsz' 24
+        'opsz' 24;
 }
 
 header {
@@ -29,7 +30,7 @@ header {
     left: 0px;
     right: 0px;
     margin-bottom: 4px;
-    background-color: var(--surface);
+    background-color: var(--surface-container);
     color: var(--on-surface);
     padding: 0px 16px;
 }
@@ -62,7 +63,7 @@ header>div:last-child {
 
 header h1 {
     font-size: 16pt;
-    color: var(--primary);
+    color: var(--accent);
 }
 
 header p {
@@ -71,7 +72,7 @@ header p {
 }
 
 header p span {
-    color: var(--primary);
+    color: var(--accent);
 }
 
 header a {
@@ -82,8 +83,8 @@ header a {
 
 header span:hover,
 header a:hover {
-    color: var(--primary);
-    fill: var(--primary);
+    color: var(--accent);
+    fill: var(--accent);
 }
 
 main>* {
@@ -98,7 +99,7 @@ nav {
     left: 0px;
     right: 0px;
     z-index: 10;
-    background-color: var(--surface);
+    background-color: var(--surface-container);
     color: var(--on-surface);
     height: 56px;
     flex-wrap: nowrap;
@@ -129,7 +130,7 @@ nav label {
 
 input[type="radio"]:checked+label,
 input[type="radio"]:hover+label {
-    color: var(--primary);
+    color: var(--accent);
 }
 
 #tools,
@@ -167,7 +168,7 @@ main>* {
     padding: 1.5px;
     gap: 1.5px;
     border-radius: 8px;
-    background-color: var(--gray);
+    background-color: var(--gray, #777777);
 }
 
 #generatedShades {
@@ -195,7 +196,7 @@ main>* {
     justify-items: center;
     align-content: center;
     border-radius: 100%;
-    background-color: var(--surface-container);
+    background-color: var(--surface-container-low);
     aspect-ratio: 1;
 }
 
@@ -217,12 +218,12 @@ main>* {
 #canvasHolder>div {
     height: 80%;
     width: 80%;
-    background-color: var(--surface-container);
+    background-color: var(--surface-container-low);
     border-radius: 50%;
 }
 
 canvas {
-    touch-action: none;
+    touch-action: pinch-zoom;
 }
 
 #svBox,
@@ -247,7 +248,7 @@ form select {
     padding: 8px 16px;
     border-radius: 56px;
     border: none;
-    background-color: var(--surface-container-high);
+    background-color: var(--surface-container-low);
     color: var(--on-surface);
 }
 
@@ -283,8 +284,8 @@ form input[type="text"] {
     margin: 16px auto;
     padding: 8px 4px;
     border-radius: 32px;
-    background-color: var(--mainColor);
-    color: var(--onMainColor);
+    background-color: var(--mainColor, #777777);
+    color: var(--onMainColor, #000000);
     text-align: center;
     font-weight: 700;
 }
@@ -345,7 +346,7 @@ footer {
     justify-content: center;
     align-items: center;
     justify-items: center;
-    background-color: var(--surface);
+    background-color: var(--surface-container-lowest);
     margin-top: 4px;
 }
 
@@ -410,8 +411,8 @@ footer>* {
 
 .toggle input:checked~.on,
 .toggle input:not(:checked)~.off {
-    background-color: var(--primary);;
-    color: var(--on-primary);
+    background-color: var(--accent);;
+    color: var(--on-accent);
     font-weight: 700;
 }
 

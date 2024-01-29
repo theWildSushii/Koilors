@@ -1,34 +1,35 @@
 :root {
-    accent-color: var(--primary);
+    accent-color: var(--accent);
 }
 
-:root, :root.dark {
-    --primary: var(--P80);
-    --on-primary: var(--P20);
-    --primary-container: var(--P30);
-    --on-primary-container: var(--P90);
-    
-    --inverse-primary: var(--P20);
-    --inverse-on-primary: var(--P80);
-    --inverse-primary-container: var(--P70);
-    --inverse-on-primary-container: var(--P10);
+:root,
+:root.dark {
+    --accent: var(--A80);
+    --on-accent: var(--A20);
+    --accent-container: var(--A30);
+    --on-accent-container: var(--A90);
 
-    --surface-dim: var(--N6);
-    --surface: var(--N6);
-    --surface-bright: var(--N24);
-    --surface-container-lowest: var(--N4);
-    --surface-container-low: var(--N10);
-    --surface-container: var(--N12);
-    --surface-container-high: var(--N17);
-    --surface-container-highest: var(--N22);
-    --on-surface: var(--N90);
-    --on-surface-variant: var(--NV80);
-    --outline: var(--NV60);
-    --outline-variant: var(--NV30);
+    --inverse-accent: var(--A20);
+    --inverse-on-accent: var(--A80);
+    --inverse-accent-container: var(--A70);
+    --inverse-on-accent-container: var(--A10);
 
-    --inverse-surface-dim: var(--N94);
-    --inverse-surface: var(--N94);
-    --inverse-on-surface: var(--N10);
+    --surface-dim: var(--P6);
+    --surface: var(--P6);
+    --surface-bright: var(--P24);
+    --surface-container-lowest: var(--P4);
+    --surface-container-low: var(--P10);
+    --surface-container: var(--P12);
+    --surface-container-high: var(--P17);
+    --surface-container-highest: var(--P22);
+    --on-surface: var(--P90);
+    --on-surface-variant: var(--P80);
+    --outline: var(--P60);
+    --outline-variant: var(--P30);
+
+    --inverse-surface-dim: var(--P94);
+    --inverse-surface: var(--P94);
+    --inverse-on-surface: var(--P10);
 
     color-scheme: dark;
 }
@@ -36,59 +37,59 @@
 @media (prefers-color-scheme: light) {
 
     :root {
-        --primary: var(--P40);
-        --on-primary: var(--P100);
-        --primary-container: var(--P90);
-        --on-primary-container: var(--P10);
-    
-        --inverse-primary: var(--P60);
-        --inverse-on-primary: var(--P0);
-        --inverse-primary-container: var(--P10);
-        --inverse-on-primary-container: var(--P90);
-    
-        --surface-dim: var(--N87);
-        --surface: var(--N98);
-        --surface-bright: var(--N98);
-        --surface-container-lowest: var(--N100);
-        --surface-container-low: var(--N96);
-        --surface-container: var(--N94);
-        --surface-container-high: var(--N92);
-        --surface-container-highest: var(--N90);
-        --on-surface: var(--N10);
-        --on-surface-variant: var(--NV30);
-        --outline: var(--NV50);
-        --outline-variant: var(--NV80);
+        --accent: var(--A40);
+        --on-accent: var(--A100);
+        --accent-container: var(--A90);
+        --on-accent-container: var(--A10);
 
-        --inverse-surface-dim: var(--N13);
-        --inverse-surface: var(--N2);
-        --inverse-on-surface: var(--N90);
-        
+        --inverse-accent: var(--A60);
+        --inverse-on-accent: var(--A0);
+        --inverse-accent-container: var(--A10);
+        --inverse-on-accent-container: var(--A90);
+
+        --surface-dim: var(--P87);
+        --surface: var(--P98);
+        --surface-bright: var(--P98);
+        --surface-container-lowest: var(--P100);
+        --surface-container-low: var(--P96);
+        --surface-container: var(--P94);
+        --surface-container-high: var(--P92);
+        --surface-container-highest: var(--P90);
+        --on-surface: var(--P10);
+        --on-surface-variant: var(--P30);
+        --outline: var(--P50);
+        --outline-variant: var(--P80);
+
+        --inverse-surface-dim: var(--P13);
+        --inverse-surface: var(--P2);
+        --inverse-on-surface: var(--P90);
+
         color-scheme: light;
     }
 }
 
 :root.light {
-    --primary: var(--P40);
-    --on-primary: var(--P100);
-    --primary-container: var(--P90);
-    --on-primary-container: var(--P10);
+    --accent: var(--A40);
+    --on-accent: var(--A100);
+    --accent-container: var(--A90);
+    --on-accent-container: var(--A10);
 
-    --surface-dim: var(--N87);
-    --surface: var(--N98);
-    --surface-bright: var(--N98);
-    --surface-container-lowest: var(--N100);
-    --surface-container-low: var(--N96);
-    --surface-container: var(--N94);
-    --surface-container-high: var(--N92);
-    --surface-container-highest: var(--N90);
-    --on-surface: var(--N10);
-    --on-surface-variant: var(--NV30);
-    --outline: var(--NV50);
-    --outline-variant: var(--NV80);
+    --surface-dim: var(--P87);
+    --surface: var(--P98);
+    --surface-bright: var(--P98);
+    --surface-container-lowest: var(--P100);
+    --surface-container-low: var(--P96);
+    --surface-container: var(--P94);
+    --surface-container-high: var(--P92);
+    --surface-container-highest: var(--P90);
+    --on-surface: var(--P10);
+    --on-surface-variant: var(--P30);
+    --outline: var(--P50);
+    --outline-variant: var(--P80);
 
-    --inverse-surface-dim: var(--N13);
-    --inverse-surface: var(--N2);
-    --inverse-on-surface: var(--N90);
-    
+    --inverse-surface-dim: var(--P13);
+    --inverse-surface: var(--P2);
+    --inverse-on-surface: var(--P90);
+
     color-scheme: light;
 }
