@@ -60,6 +60,14 @@ function getTetradicRightScheme(color) {
     ];
 }
 
+function getCompoundScheme(color) {
+    return [color,
+        rotateColor(color, 36.0),
+        rotateColor(color, 180.0 - 36.0),
+        rotateColor(color, 180.0)
+    ];
+}
+
 function getAnalogous5Scheme(color) {
     return [
         rotateColor(color, -72.0),

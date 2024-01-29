@@ -32,7 +32,7 @@ function L(l) {
     return clamp(lerp(startL.value, endL.value, l) / 100.0, 0.0, 1.0);
 }
 
-const schemes = ["mono", "comp", "anal3", "anal5", "split", "tri", "tetral", "tetrar", "square", "dsc", "poly", "analc", "full"];
+const schemes = ["mono", "comp", "anal3", "anal5", "split", "tri", "tetral", "tetrar", "square", "cmpd", "dsc", "poly", "analc"];
 
 function randomize() {
     var okhsv = {
@@ -55,6 +55,7 @@ function randomize() {
         case "square": //Square
         case "tetral": //Tetradic Left
         case "tetrar": //Tetradic Right
+        case "cmpd": //Compound
             gradientSteps.value = Math.random() < 0.618 ? 8 : 4;
             break;
         case "anal5": //Analogous 5
@@ -122,6 +123,9 @@ ready(function () {
                 break;
             case "tetrar": //Tetradic Right
                 palette.value = getTetradicRightScheme(mainColor.value);
+                break;
+            case "cmpd": //Tetradic Right
+                palette.value = getCompoundScheme(mainColor.value);
                 break;
             case "anal5": //Analogous 5
                 palette.value = getAnalogous5Scheme(mainColor.value);

@@ -190,21 +190,22 @@ ready(function () {
         root.style.setProperty("--onMainColor", color.oklab.l > 0.5 ? "#000000" : "#ffffff");
 
         root.style.setProperty("--P0", getShade(mainColor.value, 0.00).to("oklab").display());
-        root.style.setProperty("--P2", getShade(mainColor.value, 0.02).to("oklab").display());
         root.style.setProperty("--P4", getShade(mainColor.value, 0.04).to("oklab").display());
         root.style.setProperty("--P6", getShade(mainColor.value, 0.06).to("oklab").display());
         root.style.setProperty("--P10", getShade(mainColor.value, 0.10).to("oklab").display());
         root.style.setProperty("--P12", getShade(mainColor.value, 0.12).to("oklab").display());
-        root.style.setProperty("--P13", getShade(mainColor.value, 0.13).to("oklab").display());
         root.style.setProperty("--P17", getShade(mainColor.value, 0.17).to("oklab").display());
+        root.style.setProperty("--P20", getShade(mainColor.value, 0.20).to("oklab").display());
         root.style.setProperty("--P22", getShade(mainColor.value, 0.22).to("oklab").display());
-        root.style.setProperty("--P24", getShade(mainColor.value, 0.24).to("oklab").display());
         root.style.setProperty("--P30", getShade(mainColor.value, 0.30).to("oklab").display());
+        root.style.setProperty("--P40", getShade(mainColor.value, 0.40).to("oklab").display());
+        root.style.setProperty("--P50", getShade(mainColor.value, 0.50).to("oklab").display());
+        root.style.setProperty("--P60", getShade(mainColor.value, 0.60).to("oklab").display());
         root.style.setProperty("--P80", getShade(mainColor.value, 0.80).to("oklab").display());
-        root.style.setProperty("--P87", getShade(mainColor.value, 0.87).to("oklab").display());
         root.style.setProperty("--P90", getShade(mainColor.value, 0.90).to("oklab").display());
         root.style.setProperty("--P92", getShade(mainColor.value, 0.92).to("oklab").display());
         root.style.setProperty("--P94", getShade(mainColor.value, 0.94).to("oklab").display());
+        root.style.setProperty("--P95", getShade(mainColor.value, 0.95).to("oklab").display());
         root.style.setProperty("--P96", getShade(mainColor.value, 0.96).to("oklab").display());
         root.style.setProperty("--P98", getShade(mainColor.value, 0.98).to("oklab").display());
         root.style.setProperty("--P100", getShade(mainColor.value, 1.0).to("oklab").display());
