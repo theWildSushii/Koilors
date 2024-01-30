@@ -1,6 +1,7 @@
 * {
-    transition: all 0.0833s ease-in-out;
+    transition: all 0.1309s ease-in-out;
     border-color: var(--outline);
+    min-width: 0px;
 }
 
 body {
@@ -85,6 +86,7 @@ header span:hover,
 header a:hover {
     color: var(--accent);
     fill: var(--accent);
+    font-variation-settings: 'FILL' 1;
 }
 
 main>* {
@@ -165,9 +167,9 @@ main>* {
     overflow: hidden;
     height: 128px;
     margin: 8px 4px;
-    padding: 1.5px;
+    padding: 2px;
     gap: 1.5px;
-    border-radius: 8px;
+    border-radius: 6px;
     background-color: var(--gray, #777777);
 }
 
@@ -179,7 +181,7 @@ main>* {
 #colors>section>div>div {
     flex-grow: 1;
     flex-shrink: 1;
-    border-radius: 8px;
+    border-radius: 4px;
     cursor: pointer;
 }
 
@@ -188,9 +190,10 @@ main>* {
     grid-template:
         "body" 1fr /
         1fr;
-    width: 244px;
+    width: 224px;
     margin: 8px auto;
-    height: 244px;
+    padding: 8px;
+    height: 224px;
     justify-content: center;
     align-items: center;
     justify-items: center;
@@ -276,7 +279,7 @@ form input[type="text"] {
     border: none;
     text-align: center;
     padding: 4px 2px;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 #colorInput {
@@ -295,7 +298,7 @@ form input[type="text"] {
 }
 
 #details div {
-    border-radius: 8px;
+    border-radius: 6px;
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap;
