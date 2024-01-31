@@ -6,6 +6,7 @@ var daynightButton, snackbar, colorsTab, detailsTab;
 var selectedColorDiv;
 var hex, srgb, oklab, oklch, lab, lch, hsv, hsl, hwb, displayP3, rec2020;
 var okhslCheckBox, valueLightnessLabel;
+var customLSlider, customLSection;
 
 function toggleDaynight() {
     if (root.classList.contains("light")) {
@@ -95,6 +96,8 @@ ready(function () {
     endLSlider = new TextSlider("LEndRange", "LEndText");
     okhslCheckBox = id("okhsl");
     valueLightnessLabel = id("valuelightness");
+    customLSlider = new TextSlider("CustomLRange", "CustomLText");
+    customLSection = id("customBaseColors");
 
     if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
         daynightButton.innerHTML = "light_mode";
@@ -166,12 +169,16 @@ ready(function () {
         endL.value = endLSlider.value;
     });
 
+    customLSlider.addListener((e) => {
+        customL.value = customLSlider.value / 100.0;
+    });
+
     colorSchemeSelect.addEventListener("change", (e) => {
         scheme.value = colorSchemeSelect.value;
     });
 
     mainColor.listen((color) => {
-        
+
         if (isOkhsl.value) {
             var okhsl = toOkhsl(color);
             hueInput.value = Number(loopDegrees(okhsl.h * 360.0).toFixed(2));
@@ -241,6 +248,7 @@ ready(function () {
 
     palette.listen((value) => {
         updateColors();
+        updateCustomLightness();
     });
 
     selectedColor.listen((value) => {
@@ -289,6 +297,10 @@ ready(function () {
         }
 
     });
+
+    customL.listen((x) => {
+        updateCustomLightness();
+    })
 
     okhslCheckBox.addEventListener("change", (e) => {
         isOkhsl.value = okhslCheckBox.checked;
@@ -361,7 +373,7 @@ function updateColors() {
                 discreteMix = false;
                 var headL = sortedPalette[0].oklab.l;
                 var tailL = sortedPalette[sortedPalette.length - 1].oklab.l;
-                if(headL > tailL){
+                if (headL > tailL) {
                     sortedPalette.reverse();
                 }
                 break;
@@ -402,7 +414,7 @@ function updateColors() {
             generatedShadesDiv.appendChild(div);
         }
 
-        if(startL.value > endL.value) {
+        if (startL.value > endL.value) {
             sortedPalette.reverse();
         }
 
@@ -438,5 +450,39 @@ function updateHash() {
     setTimeout(function () {
         history.replaceState(undefined, undefined, getHash());
         isUpdatingHash = false;
+    });
+}
+
+var isUpdatingCustomLightness = false;
+function updateCustomLightness() {
+    if (isUpdatingCustomLightness) {
+        return;
+    }
+    isUpdatingCustomLightness = true;
+    setTimeout(function () {
+
+        removeChilds(customLSection);
+
+        palette.value.forEach(color => {
+            var div = document.createElement("div");
+            //This prevents an exception thrown on Color.js
+            //when a value is too small. Probably caused by its
+            //string parser and exponential notation
+            if (Math.abs(color.oklab.a) <= 0.0001) {
+                color.oklab.a = 0.0;
+            }
+            if (Math.abs(color.oklab.b) <= 0.0001) {
+                color.oklab.b = 0.0;
+            }
+            var okhsl = toOkhsl(color);
+            okhsl.l = clamp(customL.value, 0.0005, 0.9999);
+            var customColor = fromOkhsl(okhsl);
+            div.style.backgroundColor = customColor.display();
+            div.addEventListener("click", selectBackgroundColor);
+            customLSection.appendChild(div);
+
+        });
+
+        isUpdatingCustomLightness = false;
     });
 }

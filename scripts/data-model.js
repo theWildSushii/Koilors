@@ -6,6 +6,7 @@ const endL = new LiveData(90.0);
 const palette = new LiveData([new Color("#7141ff"), new Color("#fff432")]);
 const selectedColor = new LiveData(new Color("#7141ff"));
 const isOkhsl = new LiveData(false);
+const customL = new LiveData(48.35);
 
 function getHash() {
     var code = mainColor.value.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
@@ -144,8 +145,10 @@ ready(function () {
                 break;
         }
     });
+
     setHash(window.location.hash);
     selectedColor.value = mainColor.value;
+    customL.value = toOkhsl(mainColor.value).l;
     window.addEventListener('hashchange', (e) => {
         setHash(window.location.hash);
     });

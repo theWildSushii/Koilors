@@ -69,8 +69,8 @@
         </div>
         <div>
             <span class="material-symbols-rounded" translate="no" onclick="randomize()" title="Randomize">casino</span>
-            <span id="daynight-button" class="material-symbols-rounded" translate="no"
-                onclick="toggleDaynight()" title="Toggle lights">dark_mode</span>
+            <span id="daynight-button" class="material-symbols-rounded" translate="no" onclick="toggleDaynight()"
+                title="Toggle lights">dark_mode</span>
             <a href="https://github.com/theWildSushii/Koilors" target="_blank" title="GitHub Repo">
                 <svg viewBox="0 0 24 24">
                     <use xlink:href="#github"></use>
@@ -90,14 +90,33 @@
 
     <main>
         <section id="colors">
-            <div id="generatedShades">
-            </div>
-            <h2>Base colors</h2>
-            <div id="baseColors">
-            </div>
-            <h2>Individual shades</h2>
-            <section id="individualShades">
+            <nav>
+                <input type="radio" name="colors_nav" id="shadesTab" checked>
+                <label for="shadesTab"><span class="material-symbols-rounded">palette</span><br />Shades</label>
+                <input type="radio" name="colors_nav" id="lightnessTab">
+                <label for="lightnessTab"><span class="material-symbols-rounded">light_mode</span><br />Custom
+                    Lightness</label>
+                <!-- <input type="radio" name="colors_nav" id="cssTab">
+                <label for="cssTab"><span class="material-symbols-rounded">css</span><br />Export to CSS</label> -->
+            </nav>
+            <section id="shadesPage">
+                <div id="generatedShades"></div>
+                <h2>Base colors</h2>
+                <div id="baseColors"></div>
+                <h2>Individual shades</h2>
+                <section id="individualShades"></section>
             </section>
+            <section id="lightnessPage">
+                <div id="customBaseColors"></div>
+                <form>
+                    <div>
+                        <label for="CustomLText">Lightness</label>
+                        <input type="number" min="0" max="100" value="48.32" step="0.1" id="CustomLText" name="CustomLText">
+                    </div>
+                    <input type="range" min="0" max="100" value="48.32" step="0.1" id="CustomLRange" name="CustomLRange">
+                </form>
+            </section>
+            <section id="cssPage"></section>
         </section>
         <aside id="tools">
             <div class="toggle">
@@ -182,68 +201,78 @@
             <p>Hex (sRGB)</p>
             <div>
                 <p id="hex"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hex')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hex')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>sRGB</p>
             <div>
                 <p id="srgb"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('srgb')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('srgb')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Oklab</p>
             <div>
                 <p id="oklab"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('oklab')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('oklab')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Oklch</p>
             <div>
                 <p id="oklch"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('oklch')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('oklch')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>HSV</p>
             <div>
                 <p id="hsv"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hsv')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hsv')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>HSL</p>
             <div>
                 <p id="hsl"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hsl')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hsl')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>HWB</p>
             <div>
                 <p id="hwb"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hwb')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hwb')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Lab</p>
             <div>
                 <p id="lab"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('lab')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('lab')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Lch</p>
             <div>
                 <p id="lch"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('lch')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('lch')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Display P3</p>
             <div>
                 <p id="display-p3"></p>
-                <span class="material-symbols-rounded" translate="no"
-                    onclick="copyFrom('display-p3')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('display-p3')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Rec.2020</p>
             <div>
                 <p id="rec2020"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('rec2020')" title="Copy to clipboard">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('rec2020')"
+                    title="Copy to clipboard">content_copy</span>
             </div>
         </aside>
     </main>

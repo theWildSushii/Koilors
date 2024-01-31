@@ -12,7 +12,9 @@ body {
     font-family: 'Lexend', sans-serif;
 }
 
-h1, h2, h3 {
+h1,
+h2,
+h3 {
     text-wrap: balance;
 }
 
@@ -104,14 +106,6 @@ main>* {
 
 nav {
     display: flex;
-    position: fixed;
-    bottom: 0px;
-    left: 0px;
-    right: 0px;
-    z-index: 10;
-    background-color: var(--surface-container);
-    color: var(--on-surface);
-    height: 56px;
     flex-wrap: nowrap;
     flex-direction: row;
     justify-content: space-evenly;
@@ -123,11 +117,7 @@ nav input {
 }
 
 input:checked+label>span {
-    font-variation-settings:
-        'FILL' 1,
-        'wght' 400,
-        'GRAD' 0,
-        'opsz' 24
+    font-variation-settings: 'FILL' 1;
 }
 
 nav label {
@@ -138,6 +128,17 @@ nav label {
     cursor: pointer;
 }
 
+body>nav {
+    height: 56px;
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    z-index: 10;
+    background-color: var(--surface-container);
+    color: var(--on-surface);
+}
+
 input[type="radio"]:checked+label,
 input[type="radio"]:hover+label {
     color: var(--accent);
@@ -145,7 +146,10 @@ input[type="radio"]:hover+label {
 
 #tools,
 #colors,
-#details {
+#details,
+#shadesPage,
+#lightnessPage,
+#cssPage {
     display: none;
 }
 
@@ -169,8 +173,27 @@ main>* {
     text-align: center;
 }
 
-#colors>div,
-#colors>section>div {
+#colors>nav {
+    margin: 4px;
+    padding: 8px 12px;
+    border-radius: 4px;
+    background-color: var(--surface-container);
+}
+
+nav:has(#shadesTab:checked)~#shadesPage {
+    display: block !important;
+}
+
+nav:has(#lightnessTab:checked)~#lightnessPage {
+    display: block !important;
+}
+
+nav:has(#cssTab:checked)~#cssPage {
+    display: block !important;
+}
+
+#colors>section>div,
+#colors>section>section>div {
     display: flex;
     overflow: hidden;
     height: 128px;
@@ -181,12 +204,25 @@ main>* {
     background-color: var(--gray, #777777);
 }
 
+#colors form {
+    margin: 32px;
+}
+
+#colors form label {
+    flex-grow: 2;
+}
+
 #generatedShades {
     height: 192px !important;
 }
 
-#colors>div>div,
-#colors>section>div>div {
+#customBaseColors {
+    height: 256px;
+    margin: 16px 4px!important;
+}
+
+#colors>section>div>div,
+#colors>section>section>div>div {
     flex-grow: 1;
     flex-shrink: 1;
     border-radius: 4px;
@@ -426,7 +462,8 @@ footer>* {
 
 .toggle input:checked~.on,
 .toggle input:not(:checked)~.off {
-    background-color: var(--accent);;
+    background-color: var(--accent);
+    ;
     color: var(--on-accent);
     font-weight: 700;
 }
@@ -478,7 +515,7 @@ footer>* {
         grid-area: details;
     }
 
-    nav {
+    body>nav {
         display: none;
     }
 
