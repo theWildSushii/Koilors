@@ -116,13 +116,13 @@
             </section>
             <section id="lightnessPage">
                 <div id="customBaseColors" class="colorSwatch"></div>
-                <form>
+                <form onsubmit="event.preventDefault();">
                     <div>
                         <label for="CustomLText">Lightness</label>
-                        <input type="number" min="0" max="100" value="48.32" step="0.1" id="CustomLText"
+                        <input type="number" min="0" max="100" value="48.32" step="0.01" id="CustomLText"
                             name="CustomLText">
                     </div>
-                    <input type="range" min="0" max="100" value="48.32" step="0.1" id="CustomLRange"
+                    <input type="range" min="0" max="100" value="48.32" step="0.01" id="CustomLRange"
                         name="CustomLRange">
                 </form>
             </section>
@@ -141,7 +141,7 @@
                 <canvas id="svBox" width="24" height="24"></canvas>
                 <canvas id="svBoxHandle" width="256" height="256"></canvas>
             </div>
-            <form>
+            <form onsubmit="event.preventDefault();">
                 <input type="text" value="#7141ff" id="colorInput" name="colorInput" title="Input any CSS color">
                 <div>
                     <label for="hue">Hue</label>
@@ -149,11 +149,11 @@
                 </div>
                 <div>
                     <label for="saturation">Saturation</label>
-                    <input type="number" value="90" min="0" max="100" step="0.1" id="saturation" name="saturation">
+                    <input type="number" value="90" min="0" max="100" step="0.01" id="saturation" name="saturation">
                 </div>
                 <div>
                     <label for="value" id="valuelightness">Value</label>
-                    <input type="number" value="100" min="0" max="100" step="0.1" id="value" name="value">
+                    <input type="number" value="100" min="0" max="100" step="0.01" id="value" name="value">
                 </div>
                 <div>
                     <label for="gradientSizeText">Steps</label>
