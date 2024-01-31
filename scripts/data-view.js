@@ -547,12 +547,14 @@ function updateCSS() {
         css += getPrimaryColor("--P17", 0.17);
         css += getPrimaryColor("--P20", 0.20);
         css += getPrimaryColor("--P22", 0.22);
+        css += getPrimaryColor("--P24", 0.24);
         css += getPrimaryColor("--P30", 0.30);
         css += getPrimaryColor("--P40", 0.40);
         css += getPrimaryColor("--P50", 0.50);
         css += getPrimaryColor("--P60", 0.60);
         css += getPrimaryColor("--P70", 0.70);
         css += getPrimaryColor("--P80", 0.80);
+        css += getPrimaryColor("--P87", 0.87);
         css += getPrimaryColor("--P90", 0.90);
         css += getPrimaryColor("--P92", 0.92);
         css += getPrimaryColor("--P94", 0.94);
