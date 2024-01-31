@@ -443,6 +443,9 @@ form input[type="text"] {
 
 #selectedColor {
     height: 56px;
+    border-color: var(--outline);
+    border-style: solid;
+    border-width: 1px;
 }
 
 #details div {
