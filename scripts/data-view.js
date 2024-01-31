@@ -10,6 +10,7 @@ var customLSlider, customLSection;
 var colorsCss;
 var sortedPalette = [];
 var discreteMix = true;
+var invertedLightness = new LiveData(false);
 
 function toggleDaynight() {
     if (root.classList.contains("light")) {
@@ -294,7 +295,6 @@ ready(function () {
                 sortedPalette = sortColors(sortedPalette);
                 break;
         }
-        validateSortedPaletteOrder();
         updateColors();
         updateCustomLightness();
         updateCSS();
@@ -355,6 +355,10 @@ ready(function () {
     okhslCheckBox.addEventListener("change", (e) => {
         isOkhsl.value = okhslCheckBox.checked;
     });
+
+    invertedLightness.listen((x) => {
+        updateCSS();
+    })
 
 });
 
@@ -507,18 +511,9 @@ function validateSortedPaletteOrder() {
     }
     isValidatingSortedPaletteOrder = true;
     setTimeout(function () {
-        var startOkhsl = toOkhsl(sortedPalette[0]);
-        var endOkhsl = toOkhsl(sortedPalette[sortedPalette.length - 1]);
-        if (startOkhsl.l > endOkhsl.l) {
-            if (startL.value <= endL.value) {
-                sortedPalette.reverse();
-                updateCSS();
-            }
-        } else {
-            if (startL.value > endL.value) {
-                sortedPalette.reverse();
-                updateCSS();
-            }
+        var isInverted = (startL.value > endL.value);
+        if(invertedLightness.value != isInverted) {
+            invertedLightness.value = isInverted;
         }
         isValidatingSortedPaletteOrder = false;
     });
@@ -564,6 +559,9 @@ function updateCSS() {
         css += getPrimaryColor("--P100", 1.00);
         css += "\n";
 
+        if(invertedLightness.value) {
+            sortedPalette.reverse();
+        }
         for (var i = 0; i <= 100; i += 10) {
             var color = mainColor.value;
             var shade = i / 100.0;
@@ -579,6 +577,9 @@ function updateCSS() {
             var cssColor = getShade(color, shade).display();
             root.style.setProperty("--A" + i, cssColor);
             css += "\n    --A" + i + ": " + cssColor + ";";
+        }
+        if(invertedLightness.value) {
+            sortedPalette.reverse();
         }
         css += "\n";
 
