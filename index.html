@@ -68,9 +68,9 @@
             <p>Generate beautiful color palettes by picking just one <span>color</span>.</p>
         </div>
         <div>
-            <span class="material-symbols-rounded" translate="no" onclick="randomize()">casino</span>
+            <span class="material-symbols-rounded" translate="no" onclick="randomize()" title="Randomize">casino</span>
             <span id="daynight-button" class="material-symbols-rounded" translate="no"
-                onclick="toggleDaynight()">dark_mode</span>
+                onclick="toggleDaynight()" title="Toggle lights">dark_mode</span>
             <a href="https://github.com/theWildSushii/Koilors" target="_blank" title="GitHub Repo">
                 <svg viewBox="0 0 24 24">
                     <use xlink:href="#github"></use>
@@ -113,7 +113,7 @@
                 <canvas id="svBoxHandle" width="256" height="256"></canvas>
             </div>
             <form>
-                <input type="text" value="#7141ff" id="colorInput" name="colorInput">
+                <input type="text" value="#7141ff" id="colorInput" name="colorInput" title="Input any CSS color">
                 <div>
                     <label for="hue">Hue</label>
                     <input type="number" value="286" min="0" max="360" step="0.36" id="hue" name="hue">
@@ -176,73 +176,74 @@
             </form>
         </aside>
         <aside id="details">
+            <p>Click on any color to see its details.</p>
             <div id="selectedColor"></div>
 
             <p>Hex (sRGB)</p>
             <div>
                 <p id="hex"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hex')">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hex')" title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>sRGB</p>
             <div>
                 <p id="srgb"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('srgb')">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('srgb')" title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Oklab</p>
             <div>
                 <p id="oklab"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('oklab')">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('oklab')" title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Oklch</p>
             <div>
                 <p id="oklch"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('oklch')">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('oklch')" title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>HSV</p>
             <div>
                 <p id="hsv"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hsv')">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hsv')" title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>HSL</p>
             <div>
                 <p id="hsl"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hsl')">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hsl')" title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>HWB</p>
             <div>
                 <p id="hwb"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hwb')">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('hwb')" title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Lab</p>
             <div>
                 <p id="lab"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('lab')">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('lab')" title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Lch</p>
             <div>
                 <p id="lch"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('lch')">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('lch')" title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Display P3</p>
             <div>
                 <p id="display-p3"></p>
                 <span class="material-symbols-rounded" translate="no"
-                    onclick="copyFrom('display-p3')">content_copy</span>
+                    onclick="copyFrom('display-p3')" title="Copy to clipboard">content_copy</span>
             </div>
 
             <p>Rec.2020</p>
             <div>
                 <p id="rec2020"></p>
-                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('rec2020')">content_copy</span>
+                <span class="material-symbols-rounded" translate="no" onclick="copyFrom('rec2020')" title="Copy to clipboard">content_copy</span>
             </div>
         </aside>
     </main>

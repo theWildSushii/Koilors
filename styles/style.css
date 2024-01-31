@@ -12,6 +12,14 @@ body {
     font-family: 'Lexend', sans-serif;
 }
 
+h1, h2, h3 {
+    text-wrap: balance;
+}
+
+p {
+    text-wrap: pretty;
+}
+
 .material-symbols-rounded {
     font-variation-settings:
         'FILL' 0,
@@ -168,7 +176,7 @@ main>* {
     height: 128px;
     margin: 8px 4px;
     padding: 2px;
-    gap: 1.5px;
+    gap: 2px;
     border-radius: 6px;
     background-color: var(--gray, #777777);
 }
@@ -315,7 +323,11 @@ form input[type="text"] {
     margin: 0px;
 }
 
-#details>P {
+#details>p:first-child {
+    margin: 8px;
+}
+
+#details>p {
     margin-top: 24px;
     margin-left: 8px;
     margin-right: 8px;
