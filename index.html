@@ -100,20 +100,30 @@
                 <label for="cssTab"><span class="material-symbols-rounded">css</span><br />Export to CSS</label> -->
             </nav>
             <section id="shadesPage">
-                <div id="generatedShades"></div>
-                <h2>Base colors</h2>
-                <div id="baseColors"></div>
-                <h2>Individual shades</h2>
-                <section id="individualShades"></section>
+                <div id="generatedShades" class="colorSwatch"></div>
+                <details open>
+                    <summary>
+                        <h2>Base colors</h2>
+                    </summary>
+                    <div id="baseColors" class="colorSwatch"></div>
+                </details>
+                <details>
+                    <summary>
+                        <h2>Individual shades</h2>
+                    </summary>
+                    <section id="individualShades"></section>
+                </details>
             </section>
             <section id="lightnessPage">
-                <div id="customBaseColors"></div>
+                <div id="customBaseColors" class="colorSwatch"></div>
                 <form>
                     <div>
                         <label for="CustomLText">Lightness</label>
-                        <input type="number" min="0" max="100" value="48.32" step="0.1" id="CustomLText" name="CustomLText">
+                        <input type="number" min="0" max="100" value="48.32" step="0.1" id="CustomLText"
+                            name="CustomLText">
                     </div>
-                    <input type="range" min="0" max="100" value="48.32" step="0.1" id="CustomLRange" name="CustomLRange">
+                    <input type="range" min="0" max="100" value="48.32" step="0.1" id="CustomLRange"
+                        name="CustomLRange">
                 </form>
             </section>
             <section id="cssPage"></section>

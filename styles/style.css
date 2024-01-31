@@ -192,16 +192,12 @@ nav:has(#cssTab:checked)~#cssPage {
     display: block !important;
 }
 
-#colors>section>div,
-#colors>section>section>div {
-    display: flex;
-    overflow: hidden;
-    height: 128px;
-    margin: 8px 4px;
-    padding: 2px;
-    gap: 2px;
-    border-radius: 6px;
-    background-color: var(--gray, #777777);
+summary {
+    margin: 16px;
+}
+
+summary > * {
+    display: inline-block;
 }
 
 #colors form {
@@ -221,8 +217,18 @@ nav:has(#cssTab:checked)~#cssPage {
     margin: 16px 4px!important;
 }
 
-#colors>section>div>div,
-#colors>section>section>div>div {
+.colorSwatch {
+    display: flex;
+    overflow: hidden;
+    height: 128px;
+    margin: 8px 4px;
+    padding: 2px;
+    gap: 2px;
+    border-radius: 6px;
+    background-color: var(--gray, #777777);
+}
+
+.colorSwatch>div {
     flex-grow: 1;
     flex-shrink: 1;
     border-radius: 4px;

@@ -299,6 +299,7 @@ ready(function () {
     });
 
     customL.listen((x) => {
+        customLSlider.value = clamp(Number((x * 100.0).toFixed(2)), 0.0, 100.0);
         updateCustomLightness();
     })
 
@@ -335,6 +336,7 @@ function updateColors() {
             baseColorsDiv.appendChild(div);
 
             var parentDiv = document.createElement("div");
+            parentDiv.classList.add("colorSwatch");
             for (var i = 0; i < gradientSteps.value; i++) {
                 var shade = i / (gradientSteps.value - 1.0);
 
