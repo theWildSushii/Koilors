@@ -126,7 +126,7 @@ function interactWithSVBox(x, y) {
     if (isOkhsl.value) {
         var okhsl = toOkhsl(mainColor.value);
         okhsl.s = clamp(point.x, 0.01, 1.0);
-        okhsl.l = clamp(1 - point.y, 0.01, 1.0);
+        okhsl.l = clamp(1 - point.y, 0.01, 0.999);
         mainColor.value = fromOkhsl(okhsl);
     } else {
         var okhsv = toOkhsv(mainColor.value);

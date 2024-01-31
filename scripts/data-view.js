@@ -582,9 +582,9 @@ function updateCSS() {
         }
         css += "\n";
 
-        var errorOkhsl = toOkhsl(mainColor.value);
-        errorOkhsl.h = getClosestHarmonicHue(errorOkhsl.h * 360.0, 27.0) / 360.0;
-        var errorColor = fromOkhsl(errorOkhsl);
+        var errorOkhsv = toOkhsv(mainColor.value);
+        errorOkhsv.h = getClosestHarmonicHue(errorOkhsv.h * 360.0, 27.0) / 360.0;
+        var errorColor = fromOkhsv(errorOkhsv);
         for (var i = 0; i <= 100; i += 10) {
             var shade = i / 100.0;
             var cssColor = getShade(errorColor, shade).display();
