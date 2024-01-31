@@ -7,6 +7,9 @@ var selectedColorDiv;
 var hex, srgb, oklab, oklch, lab, lch, hsv, hsl, hwb, displayP3, rec2020;
 var okhslCheckBox, valueLightnessLabel;
 var customLSlider, customLSection;
+var colorsCss;
+var sortedPalette = [];
+var discreteMix = true;
 
 function toggleDaynight() {
     if (root.classList.contains("light")) {
@@ -20,8 +23,15 @@ function toggleDaynight() {
     }
 }
 
-function copyFrom(elementId) {
+function copyFrom(elementId, customMessage) {
     var element = id(elementId);
+    if (!element.innerText) {
+        return;
+    }
+    if (!customMessage) {
+        copyFrom(elementId, "Copied: " + element.innerText);
+        return;
+    }
     var range = document.createRange();
     var selection = window.getSelection();
     range.selectNodeContents(element);
@@ -33,23 +43,49 @@ function copyFrom(elementId) {
                 navigator.clipboard.writeText(element.innerText).then(
                     () => {
                         /* clipboard successfully set */
-                        showSnackbar("Copied: " + element.innerText);
+                        showSnackbar(customMessage);
                     },
                     () => {
                         /* clipboard write failed */
                         document.execCommand("copy");
-                        showSnackbar("Copied: " + element.innerText);
+                        showSnackbar(customMessage);
                     },
                 );
             } else {
                 document.execCommand("copy");
-                showSnackbar("Copied: " + element.innerText);
+                showSnackbar(customMessage);
             }
         });
     } catch {
         document.execCommand("copy");
-        showSnackbar("Copied: " + element.innerText);
+        showSnackbar(customMessage);
     }
+}
+
+function downloadInto(element, path) {
+    const xhttp = new XMLHttpRequest();
+    xhttp.onload = function () {
+        element.innerText = this.responseText;
+    }
+    xhttp.open("GET", path, true);
+    xhttp.send();
+}
+
+function downloadFromElement(filename, elementId) {
+    var from = id(elementId);
+    if (!from.innerText) {
+        return;
+    }
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(from.innerText));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
 }
 
 var snackbarTimerId;
@@ -98,6 +134,10 @@ ready(function () {
     valueLightnessLabel = id("valuelightness");
     customLSlider = new TextSlider("CustomLRange", "CustomLText");
     customLSection = id("customBaseColors");
+    colorsCss = id("colors-css");
+
+    downloadInto(id("light-css"), "styles/roles-light.css");
+    downloadInto(id("dark-css"), "styles/roles-dark.css");
 
     if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
         daynightButton.innerHTML = "light_mode";
@@ -196,30 +236,10 @@ ready(function () {
         root.style.setProperty("--mainColor", color.display());
         root.style.setProperty("--onMainColor", color.oklab.l > 0.5 ? "#000000" : "#ffffff");
 
-        root.style.setProperty("--P0", getShade(mainColor.value, 0.00).to("oklab").display());
-        root.style.setProperty("--P4", getShade(mainColor.value, 0.04).to("oklab").display());
-        root.style.setProperty("--P6", getShade(mainColor.value, 0.06).to("oklab").display());
-        root.style.setProperty("--P10", getShade(mainColor.value, 0.10).to("oklab").display());
-        root.style.setProperty("--P12", getShade(mainColor.value, 0.12).to("oklab").display());
-        root.style.setProperty("--P17", getShade(mainColor.value, 0.17).to("oklab").display());
-        root.style.setProperty("--P20", getShade(mainColor.value, 0.20).to("oklab").display());
-        root.style.setProperty("--P22", getShade(mainColor.value, 0.22).to("oklab").display());
-        root.style.setProperty("--P30", getShade(mainColor.value, 0.30).to("oklab").display());
-        root.style.setProperty("--P40", getShade(mainColor.value, 0.40).to("oklab").display());
-        root.style.setProperty("--P50", getShade(mainColor.value, 0.50).to("oklab").display());
-        root.style.setProperty("--P60", getShade(mainColor.value, 0.60).to("oklab").display());
-        root.style.setProperty("--P80", getShade(mainColor.value, 0.80).to("oklab").display());
-        root.style.setProperty("--P90", getShade(mainColor.value, 0.90).to("oklab").display());
-        root.style.setProperty("--P92", getShade(mainColor.value, 0.92).to("oklab").display());
-        root.style.setProperty("--P94", getShade(mainColor.value, 0.94).to("oklab").display());
-        root.style.setProperty("--P95", getShade(mainColor.value, 0.95).to("oklab").display());
-        root.style.setProperty("--P96", getShade(mainColor.value, 0.96).to("oklab").display());
-        root.style.setProperty("--P98", getShade(mainColor.value, 0.98).to("oklab").display());
-        root.style.setProperty("--P100", getShade(mainColor.value, 1.0).to("oklab").display());
-
         updateHash();
 
         scheme.notifyListeners();
+        updateCSS();
 
     });
 
@@ -237,18 +257,47 @@ ready(function () {
     startL.listen((value) => {
         startLSlider.value = value;
         updateHash();
+        validateSortedPaletteOrder();
         updateColors();
     });
 
     endL.listen((value) => {
         endLSlider.value = value;
         updateHash();
+        validateSortedPaletteOrder();
         updateColors();
     });
 
     palette.listen((value) => {
+        sortedPalette = [...palette.value];
+        discreteMix = true;
+        switch (scheme.value) {
+            case "full": //All Colors
+                sortedPalette.push(sortedPalette[0]);
+                discreteMix = false;
+                break;
+            case "mono": //Monochromatic
+                discreteMix = false;
+                break;
+            case "anal3": //Analogous 3
+            case "anal5": //Analogous 5
+                discreteMix = false;
+                var headL = sortedPalette[0].oklab.l;
+                var tailL = sortedPalette[sortedPalette.length - 1].oklab.l;
+                if (headL > tailL) {
+                    sortedPalette.reverse();
+                }
+                break;
+            default:
+                sortedPalette.push(mainColor.value);
+                sortedPalette.push(...palette.value);
+                sortedPalette = sortColors(sortedPalette);
+                break;
+        }
+        validateSortedPaletteOrder();
         updateColors();
         updateCustomLightness();
+        updateCSS();
     });
 
     selectedColor.listen((value) => {
@@ -360,31 +409,6 @@ function updateColors() {
 
         });
 
-        var sortedPalette = [...palette.value];
-        var discreteMix = true;
-        switch (scheme.value) {
-            case "full": //All Colors
-                sortedPalette.push(sortedPalette[0]);
-                discreteMix = false;
-                break;
-            case "mono": //Monochromatic
-                discreteMix = false;
-                break;
-            case "anal3": //Analogous 3
-            case "anal5": //Analogous 5
-                discreteMix = false;
-                var headL = sortedPalette[0].oklab.l;
-                var tailL = sortedPalette[sortedPalette.length - 1].oklab.l;
-                if (headL > tailL) {
-                    sortedPalette.reverse();
-                }
-                break;
-            default:
-                sortedPalette.push(mainColor.value);
-                sortedPalette.push(...palette.value);
-                sortedPalette = sortColors(sortedPalette);
-                break;
-        }
         for (var i = 0; i < gradientSteps.value; i++) {
             var shade = i / (gradientSteps.value - 1.0);
 
@@ -416,31 +440,18 @@ function updateColors() {
             generatedShadesDiv.appendChild(div);
         }
 
-        if (startL.value > endL.value) {
-            sortedPalette.reverse();
-        }
-
-        for (var i = 0; i <= 100; i += 10) {
-            var color = mainColor.value;
-            var shade = i / 100.0;
-            if (discreteMix) {
-                var index = remap(i, 0.0, 100.0, 0.0, sortedPalette.length - 1);
-                var colorA = sortedPalette[Math.floor(index)];
-                var colorB = sortedPalette[Math.round(index)];
-                var colorC = sortedPalette[Math.ceil(index)];
-                color = colorSpline([colorA, colorB, colorC], index % 1);
-            } else {
-                color = colorSpline(sortedPalette, shade);
-            }
-            root.style.setProperty("--A" + i, getShade(color, shade).display());
-        }
-
         isUpdatingColors = false;
     });
 }
 
 function selectBackgroundColor(e) {
-    selectedColor.value = new Color(e.target.style.backgroundColor);
+    try {
+        selectedColor.value = new Color(e.target.style.backgroundColor);
+    } catch {
+        var propertyName = e.target.style.backgroundColor.slice(4, -1);
+        var computed = window.getComputedStyle(e.target).getPropertyValue(propertyName);
+        selectedColor.value = new Color(computed);
+    }
 }
 
 var isUpdatingHash = false;
@@ -486,5 +497,102 @@ function updateCustomLightness() {
         });
 
         isUpdatingCustomLightness = false;
+    });
+}
+
+var isValidatingSortedPaletteOrder = false;
+function validateSortedPaletteOrder() {
+    if (isValidatingSortedPaletteOrder) {
+        return;
+    }
+    isValidatingSortedPaletteOrder = true;
+    setTimeout(function () {
+        var startOkhsl = toOkhsl(sortedPalette[0]);
+        var endOkhsl = toOkhsl(sortedPalette[sortedPalette.length - 1]);
+        if (startOkhsl.l > endOkhsl.l) {
+            if (startL.value <= endL.value) {
+                sortedPalette.reverse();
+                updateCSS();
+            }
+        } else {
+            if (startL.value > endL.value) {
+                sortedPalette.reverse();
+                updateCSS();
+            }
+        }
+        isValidatingSortedPaletteOrder = false;
+    });
+}
+
+var isUpdatingCSS = false;
+function updateCSS() {
+    if (isUpdatingCSS) {
+        return;
+    }
+    isUpdatingCSS = true;
+    setTimeout(function () {
+        var css = ":root {";
+
+        function getPrimaryColor(prefix, l) {
+            var cssColor = getShade(mainColor.value, l).to("oklab").display();
+            root.style.setProperty(prefix, cssColor);
+            return "\n    " + prefix + ": " + cssColor + ";";
+        }
+
+        css += getPrimaryColor("--P0", 0.00);
+        css += getPrimaryColor("--P4", 0.04);
+        css += getPrimaryColor("--P6", 0.06);
+        css += getPrimaryColor("--P10", 0.10);
+        css += getPrimaryColor("--P12", 0.12);
+        css += getPrimaryColor("--P17", 0.17);
+        css += getPrimaryColor("--P20", 0.20);
+        css += getPrimaryColor("--P22", 0.22);
+        css += getPrimaryColor("--P30", 0.30);
+        css += getPrimaryColor("--P40", 0.40);
+        css += getPrimaryColor("--P50", 0.50);
+        css += getPrimaryColor("--P60", 0.60);
+        css += getPrimaryColor("--P70", 0.70);
+        css += getPrimaryColor("--P80", 0.80);
+        css += getPrimaryColor("--P90", 0.90);
+        css += getPrimaryColor("--P92", 0.92);
+        css += getPrimaryColor("--P94", 0.94);
+        css += getPrimaryColor("--P95", 0.95);
+        css += getPrimaryColor("--P96", 0.96);
+        css += getPrimaryColor("--P98", 0.98);
+        css += getPrimaryColor("--P100", 1.00);
+        css += "\n";
+
+        for (var i = 0; i <= 100; i += 10) {
+            var color = mainColor.value;
+            var shade = i / 100.0;
+            if (discreteMix) {
+                var index = remap(i, 0.0, 100.0, 0.0, sortedPalette.length - 1);
+                var colorA = sortedPalette[Math.floor(index)];
+                var colorB = sortedPalette[Math.round(index)];
+                var colorC = sortedPalette[Math.ceil(index)];
+                color = colorSpline([colorA, colorB, colorC], index % 1);
+            } else {
+                color = colorSpline(sortedPalette, shade);
+            }
+            var cssColor = getShade(color, shade).display();
+            root.style.setProperty("--A" + i, cssColor);
+            css += "\n    --A" + i + ": " + cssColor + ";";
+        }
+        css += "\n";
+
+        var errorOkhsl = toOkhsl(mainColor.value);
+        errorOkhsl.h = getClosestHarmonicHue(errorOkhsl.h * 360.0, 27.0) / 360.0;
+        var errorColor = fromOkhsl(errorOkhsl);
+        for (var i = 0; i <= 100; i += 10) {
+            var shade = i / 100.0;
+            var cssColor = getShade(errorColor, shade).display();
+            root.style.setProperty("--E" + i, cssColor);
+            css += "\n    --E" + i + ": " + cssColor + ";";
+        }
+
+        css += "\n}";
+        colorsCss.innerText = css;
+
+        isUpdatingCSS = false;
     });
 }

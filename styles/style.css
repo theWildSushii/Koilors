@@ -1,5 +1,5 @@
 * {
-    transition: all 0.1309s ease-in-out;
+    transition: all 42ms ease-in-out;
     border-color: var(--outline);
     min-width: 0px;
 }
@@ -144,59 +144,67 @@ input[type="radio"]:hover+label {
     color: var(--accent);
 }
 
-#tools,
-#colors,
-#details,
-#shadesPage,
-#lightnessPage,
-#cssPage {
+nav:has(#toolsTab:not(:checked))~main>#tools {
     display: none;
 }
 
-nav:has(#toolsTab:checked)~main>#tools {
-    display: block !important;
+nav:has(#colorsTab:not(:checked))~main>#colors {
+    display: none;
 }
 
-nav:has(#colorsTab:checked)~main>#colors {
-    display: block !important;
-}
-
-nav:has(#detailsTab:checked)~main>#details {
-    display: block !important;
+nav:has(#detailsTab:not(:checked))~main>#details {
+    display: none;
 }
 
 main>* {
     padding: 4px;
 }
 
+main a {
+    color: var(--accent);
+    text-decoration: none;
+}
+
+main a:hover, main a:active {
+    text-decoration: underline;
+}
+
 #colors h2 {
     text-align: center;
 }
 
-#colors>nav {
+#colors nav {
     margin: 4px;
     padding: 8px 12px;
     border-radius: 4px;
     background-color: var(--surface-container);
 }
 
-nav:has(#shadesTab:checked)~#shadesPage {
-    display: block !important;
+#colors p {
+    margin: 16px 16px;
 }
 
-nav:has(#lightnessTab:checked)~#lightnessPage {
-    display: block !important;
+nav:has(#shadesTab:not(:checked))~#shadesPage {
+    display: none;
 }
 
-nav:has(#cssTab:checked)~#cssPage {
-    display: block !important;
+nav:has(#lightnessTab:not(:checked))~#lightnessPage {
+    display: none;
+}
+
+nav:has(#cssTab:not(:checked))~#cssPage {
+    display: none;
+}
+
+details {
+    margin: 8px;
 }
 
 summary {
-    margin: 16px;
+    margin: 4px;
 }
 
-summary > * {
+summary>* {
     display: inline-block;
 }
 
@@ -214,7 +222,7 @@ summary > * {
 
 #customBaseColors {
     height: 256px;
-    margin: 16px 4px!important;
+    margin: 16px 4px !important;
 }
 
 .colorSwatch {
@@ -233,6 +241,96 @@ summary > * {
     flex-shrink: 1;
     border-radius: 4px;
     cursor: pointer;
+}
+
+.code {
+    background-color: var(--surface-container-low);
+    color: var(--on-surface);
+    display: flex;
+    margin: 4px;
+    padding: 8px;
+    border-radius: 8px;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-content: flex-start;
+    gap: 8px;
+}
+
+code {
+    background-color: var(--primary-container);
+    color: var(--on-primary-container);
+    font-family: 'Noto Sans Mono', monospace;
+}
+
+.code>code {
+    background-color: var(--surface-container-lowest);
+    color: var(--on-surface);
+    flex-basis: 100%;
+    flex-grow: 1;
+    max-height: 320px;
+    overflow-y: auto;
+    margin: 0px !important;
+    padding: 8px;
+    border-radius: 4px;
+    white-space: pre;
+}
+
+.code>div {
+    display: flex;
+    padding: 0px 8px;
+    border-radius: 4px;
+    background-color: var(--surface-container-low);
+    color: var(--accent);
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.code>div>* {
+    margin: 0px;
+}
+
+.code>div:hover,
+.code>div:active {
+    background-color: var(--accent);
+    color: var(--on-accent);
+}
+
+.code>div:hover span,
+.code>div:active span {
+    font-variation-settings: 'FILL' 1;
+}
+
+nav:has(#lightModeTab:not(:checked))~#lightCode {
+    display: none;
+}
+
+nav:has(#darkModeTab:not(:checked))~#darkCode {
+    display: none;
+}
+
+.chips {
+    display: flex;
+    padding: 16px;
+    gap: 16px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+}
+
+.chips > * {
+    padding: 8px 16px;
+    border-radius: 32px;
+    border-color: var(--outline);
+    border-width: 1px;
+    border-style: solid;
 }
 
 #canvasHolder {
@@ -503,21 +601,19 @@ footer>* {
     }
 
     main>* {
+        display: block!important;
         border-radius: 4px;
     }
 
     #tools {
-        display: block;
         grid-area: tools;
     }
 
     #colors {
-        display: block;
         grid-area: colors;
     }
 
     #details {
-        display: block;
         grid-area: details;
     }
 

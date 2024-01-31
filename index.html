@@ -43,7 +43,11 @@
         href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;200;300;400;500;600;700;800;900&display=swap">
     <link rel="stylesheet"
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Sans+Mono:wght@100;200;300;400;500;600;700;800;900&display=swap"
+        rel="stylesheet">
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Quicksand:400,700'>
+
     <link rel="stylesheet" href="styles/roles.css">
     <link rel="stylesheet" href="styles/style.css">
     <link rel="stylesheet" href="styles/kofi.css">
@@ -96,8 +100,8 @@
                 <input type="radio" name="colors_nav" id="lightnessTab">
                 <label for="lightnessTab"><span class="material-symbols-rounded">light_mode</span><br />Custom
                     Lightness</label>
-                <!-- <input type="radio" name="colors_nav" id="cssTab">
-                <label for="cssTab"><span class="material-symbols-rounded">css</span><br />Export to CSS</label> -->
+                <input type="radio" name="colors_nav" id="cssTab">
+                <label for="cssTab"><span class="material-symbols-rounded">css</span><br />Export to CSS</label>
             </nav>
             <section id="shadesPage">
                 <div id="generatedShades" class="colorSwatch"></div>
@@ -126,7 +130,144 @@
                         name="CustomLRange">
                 </form>
             </section>
-            <section id="cssPage"></section>
+            <section id="cssPage">
+                <p>The following CSS is the generated CSS that this website uses. If you like how this website looks
+                    with your colors, using this CSS will make you website look the same!</p>
+                <details open>
+                    <summary>
+                        <h2>Generated colors</h2>
+                    </summary>
+                    <div class="code">
+                        <code id="colors-css"></code>
+                        <div onclick="copyFrom('colors-css', 'Copied CSS!')">
+                            <span class="material-symbols-rounded" translate="no"
+                                title="Copy to clipboard">content_copy</span>
+                            <p>Copy to clipboard</p>
+                        </div>
+                        <div onclick="downloadFromElement('colors.css', 'colors-css')">
+                            <span class="material-symbols-rounded" translate="no"
+                                title="Copy to clipboard">download</span>
+                            <p>Download CSS file</p>
+                        </div>
+                    </div>
+                    <details>
+                        <summary>
+                            <h3>Color meanings and usage.</h3>
+                        </summary>
+                        <p>The <code>--P</code> (Primary) colors are a gradient generated from you main color.</p>
+                        <p>The <code>--A</code> (Accent) colors are a gradient generated from your selected color
+                            harmony. </p>
+                        <p>The <code>--E</code> (Error) colors are a gradient generated from the best suiting red for
+                            your main color.</p>
+                        <p>All colors ignore your <code>Start Lightness</code> and <code>End Lightness</code> values,
+                            but respect which is greater.</p>
+                        <p>The number after the <code>--P</code>, <code>--A</code> and <code>--E</code> prefixes is the
+                            lightness value for that color.</p>
+                    </details>
+                </details>
+                <details open>
+                    <summary>
+                        <h2>Color Roles</h2>
+                    </summary>
+                    <p>Use the following CSS properties to correctly apply the colors generated above.</p>
+                    <p>The color roles are slightly based from <a href="https://m3.material.io/"
+                            target="_blank">Material Design</a>
+                        color system. <a href="https://m3.material.io/styles/color/roles" target="_blank">Click here to
+                            read more</a>.
+                    </p>
+                    <p>Color roles are defined for both light mode and dark mode. This website uses this exact color
+                        roles.</p>
+                    <nav>
+                        <input type="radio" name="roles-nav" id="lightModeTab" checked>
+                        <label for="lightModeTab"><span class="material-symbols-rounded">light_mode</span><br />Light
+                            Mode</label>
+                        <input type="radio" name="roles-nav" id="darkModeTab">
+                        <label for="darkModeTab"><span class="material-symbols-rounded">dark_mode</span><br />Dark
+                            Mode</label>
+                    </nav>
+                    <div class="code" id="lightCode">
+                        <code id="light-css"></code>
+                        <div onclick="copyFrom('light-css', 'Copied Light Mode CSS!')">
+                            <span class="material-symbols-rounded" translate="no"
+                                title="Copy to clipboard">content_copy</span>
+                            <p>Copy to clipboard</p>
+                        </div>
+                        <div onclick="downloadFromElement('roles-light.css', 'light-css')">
+                            <span class="material-symbols-rounded" translate="no"
+                                title="Copy to clipboard">download</span>
+                            <p>Download CSS file</p>
+                        </div>
+                    </div>
+                    <div class="code" id="darkCode">
+                        <code id="dark-css"></code>
+                        <div onclick="copyFrom('dark-css', 'Copied Dark Mode CSS!')">
+                            <span class="material-symbols-rounded" translate="no"
+                                title="Copy to clipboard">content_copy</span>
+                            <p>Copy to clipboard</p>
+                        </div>
+                        <div onclick="downloadFromElement('roles-dark.css', 'dark-css')">
+                            <span class="material-symbols-rounded" translate="no"
+                                title="Copy to clipboard">download</span>
+                            <p>Download CSS file</p>
+                        </div>
+                    </div>
+                </details>
+                <details>
+                    <summary>
+                        <h2>Preview color roles.</h2>
+                    </summary>
+                    <div class="chips">
+                        <div style="background-color: var(--accent); color: var(--on-accent);"
+                            onclick="selectBackgroundColor(event)">Accent</div>
+                        <div style="background-color: var(--on-accent); color: var(--accent);"
+                            onclick="selectBackgroundColor(event)">On Accent</div>
+                        <div style="background-color: var(--accent-container); color: var(--on-accent-container);"
+                            onclick="selectBackgroundColor(event)">Accent Container</div>
+                        <div style="background-color: var(--on-accent-container); color: var(--accent-container);"
+                            onclick="selectBackgroundColor(event)">On Accent Container</div>
+                        <div style="background-color: var(--inverse-accent); color: var(--accent);"
+                            onclick="selectBackgroundColor(event)">Inverse Accent</div>
+                        <div style="background-color: var(--surface); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface</div>
+                        <div style="background-color: var(--on-surface); color: var(--surface);"
+                            onclick="selectBackgroundColor(event)">On Surface</div>
+                        <div style="background-color: var(--surface-dim); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Dim</div>
+                        <div style="background-color: var(--surface-bright); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Bright</div>
+                        <div style="background-color: var(--surface-variant); color: var(--on-surface-variant);"
+                            onclick="selectBackgroundColor(event)">Surface Variant</div>
+                        <div style="background-color: var(--on-surface-variant); color: var(--surface-variant);"
+                            onclick="selectBackgroundColor(event)">On Surface Variant</div>
+                        <div style="background-color: var(--surface-container-highest); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Container Highest</div>
+                        <div style="background-color: var(--surface-container-high); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Container High</div>
+                        <div style="background-color: var(--surface-container); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Container</div>
+                        <div style="background-color: var(--surface-container-low); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Container Low</div>
+                        <div style="background-color: var(--surface-container-lowest); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Surface Container Lowest</div>
+                        <div style="background-color: var(--inverse-surface); color: var(--inverse-on-surface);"
+                            onclick="selectBackgroundColor(event)">Inverse Surface</div>
+                        <div style="background-color: var(--inverse-on-surface); color: var(--inverse-surface);"
+                            onclick="selectBackgroundColor(event)">Inverse On Surface</div>
+                        <div style="background-color: var(--outline); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Outline</div>
+                        <div style="background-color: var(--outline-variant); color: var(--on-surface);"
+                            onclick="selectBackgroundColor(event)">Outline Variant</div>
+                        <div style="background-color: var(--error); color: var(--on-error);"
+                            onclick="selectBackgroundColor(event)">Error</div>
+                        <div style="background-color: var(--on-error); color: var(--error);"
+                            onclick="selectBackgroundColor(event)">On Error</div>
+                        <div style="background-color: var(--error-container); color: var(--on-error-container);"
+                            onclick="selectBackgroundColor(event)">Error Container</div>
+                        <div style="background-color: var(--on-error-container); color: var(--error-container);"
+                            onclick="selectBackgroundColor(event)">On Error Container</div>
+                    </div>
+                </details>
+            </section>
         </section>
         <aside id="tools">
             <div class="toggle">

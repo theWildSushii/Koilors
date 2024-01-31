@@ -1,0 +1,30 @@
+:root {
+    --surface: var(--P6, #0b0b0b);
+    --surface-dim: var(--P6, #0b0b0b);
+    --surface-bright: var(--P24, #373737);
+    --on-surface: var(--P90, #e2e2e2);
+    --surface-variant: var(--P30, #464646);
+    --on-surface-variant: var(--P80, #c7c7c7);
+    --surface-container-highest: var(--P22, #333333);
+    --surface-container-high: var(--P17, #272727);
+    --surface-container: var(--P12, #1b1b1b);
+    --surface-container-low: var(--P10, #161616);
+    --surface-container-lowest: var(--P4, #060606);
+    --inverse-surface: var(--P90, #e2e2e2);
+    --inverse-on-surface: var(--P20, #2e2e2e);
+    --outline: var(--P60, #919191);
+    --outline-variant: var(--P30, #464646);
+
+    --accent: var(--A80, var(--P80, #c7c7c7));
+    --inverse-accent: var(--A40, var(--P40, #5e5e5e));
+    --on-accent: var(--A20, var(--P20, #2e2e2e));
+    --accent-container: var(--A30, var(--P30, #464646));
+    --on-accent-container: var(--A90, var(--P90, #e2e2e2));
+
+    --error: var(--E80, var(--P80, #5e5e5e));
+    --on-error: var(--E20, var(--P20, #ffffff));
+    --error-container: var(--E30, var(--P30, #e2e2e2));
+    --on-error-container: var(--E90, var(--P90, #161616));
+    
+    color-scheme: dark;
+}

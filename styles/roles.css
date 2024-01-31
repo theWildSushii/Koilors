@@ -4,10 +4,9 @@
 
 :root,
 :root.dark {
-
-    color-scheme: dark;
-
     --surface: var(--P6, #0b0b0b);
+    --surface-dim: var(--P6, #0b0b0b);
+    --surface-bright: var(--P24, #373737);
     --on-surface: var(--P90, #e2e2e2);
     --surface-variant: var(--P30, #464646);
     --on-surface-variant: var(--P80, #c7c7c7);
@@ -18,24 +17,29 @@
     --surface-container-lowest: var(--P4, #060606);
     --inverse-surface: var(--P90, #e2e2e2);
     --inverse-on-surface: var(--P20, #2e2e2e);
-
     --outline: var(--P60, #919191);
     --outline-variant: var(--P30, #464646);
 
     --accent: var(--A80, var(--P80, #c7c7c7));
+    --inverse-accent: var(--A40, var(--P40, #5e5e5e));
     --on-accent: var(--A20, var(--P20, #2e2e2e));
     --accent-container: var(--A30, var(--P30, #464646));
     --on-accent-container: var(--A90, var(--P90, #e2e2e2));
 
+    --error: var(--E80, var(--P80, #5e5e5e));
+    --on-error: var(--E20, var(--P20, #ffffff));
+    --error-container: var(--E30, var(--P30, #e2e2e2));
+    --on-error-container: var(--E90, var(--P90, #161616));
+
+    color-scheme: dark;
 }
 
 @media (prefers-color-scheme: light) {
 
     :root {
-
-        color-scheme: light;
-
         --surface: var(--P98, #f9f9f9);
+        --surface-dim: var(--P87, #dadada);
+        --surface-bright: var(--P98, #f9f9f9);
         --on-surface: var(--P10, #161616);
         --surface-variant: var(--P90, #e2e2e2);
         --on-surface-variant: var(--P30, #464646);
@@ -46,21 +50,28 @@
         --surface-container-lowest: var(--P100, #ffffff);
         --inverse-surface: var(--P20, #2e2e2e);
         --inverse-on-surface: var(--P95, #f1f1f1);
-
         --outline: var(--P50, #777777);
         --outline-variant: var(--P80, #c7c7c7);
-
+    
         --accent: var(--A40, var(--P40, #5e5e5e));
+        --inverse-accent: var(--A80, var(--P80, #c7c7c7));
         --on-accent: var(--A100, var(--P100, #ffffff));
         --accent-container: var(--A90, var(--P90, #e2e2e2));
         --on-accent-container: var(--A10, var(--P10, #161616));
+    
+        --error: var(--E40, var(--P40, #5e5e5e));
+        --on-error: var(--E100, var(--P100, #ffffff));
+        --error-container: var(--E90, var(--P90, #e2e2e2));
+        --on-error-container: var(--E10, var(--P10, #161616));
+
+        color-scheme: light;
     }
 }
 
 :root.light {
-    color-scheme: light;
-
     --surface: var(--P98, #f9f9f9);
+    --surface-dim: var(--P87, #dadada);
+    --surface-bright: var(--P98, #f9f9f9);
     --on-surface: var(--P10, #161616);
     --surface-variant: var(--P90, #e2e2e2);
     --on-surface-variant: var(--P30, #464646);
@@ -71,13 +82,19 @@
     --surface-container-lowest: var(--P100, #ffffff);
     --inverse-surface: var(--P20, #2e2e2e);
     --inverse-on-surface: var(--P95, #f1f1f1);
-
     --outline: var(--P50, #777777);
     --outline-variant: var(--P80, #c7c7c7);
 
     --accent: var(--A40, var(--P40, #5e5e5e));
+    --inverse-accent: var(--A80, var(--P80, #c7c7c7));
     --on-accent: var(--A100, var(--P100, #ffffff));
     --accent-container: var(--A90, var(--P90, #e2e2e2));
     --on-accent-container: var(--A10, var(--P10, #161616));
 
+    --error: var(--E40, var(--P40, #5e5e5e));
+    --on-error: var(--E100, var(--P100, #ffffff));
+    --error-container: var(--E90, var(--P90, #e2e2e2));
+    --on-error-container: var(--E10, var(--P10, #161616));
+    
+    color-scheme: light;
 }
