@@ -22,6 +22,11 @@ p {
     text-wrap: pretty;
 }
 
+input {
+    font-family: 'Noto Sans Mono', monospace;
+    font-size: 9pt;
+}
+
 .material-symbols-rounded {
     font-variation-settings:
         'FILL' 0,
@@ -464,6 +469,7 @@ form input[type="text"] {
 #details div>p {
     flex-grow: 1;
     margin: 0px;
+    font-family: 'Noto Sans Mono', monospace;
 }
 
 #details>p:first-child {
