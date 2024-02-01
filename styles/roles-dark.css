@@ -25,6 +25,6 @@
     --on-error: var(--E20, var(--P20, #ffffff));
     --error-container: var(--E30, var(--P30, #e2e2e2));
     --on-error-container: var(--E90, var(--P90, #161616));
-    
+
     color-scheme: dark;
 }

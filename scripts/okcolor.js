@@ -305,12 +305,12 @@ function fromOkhsv(okhsv) {
 }
 
 function getShade(color, shade) {
-    if(shade <= 0.0) {
+    if (shade <= 0.0) {
         var color = getShade(color, 0.02);
         color.oklab.l = 0.0;
         return color;
     }
-    if(shade >= 1.0) {
+    if (shade >= 1.0) {
         var color = getShade(color, 0.98);
         color.oklab.l = 1.0;
         return color;

@@ -170,7 +170,8 @@ main a {
     text-decoration: none;
 }
 
-main a:hover, main a:active {
+main a:hover,
+main a:active {
     text-decoration: underline;
 }
 
@@ -330,7 +331,7 @@ nav:has(#darkModeTab:not(:checked))~#darkCode {
     align-items: center;
 }
 
-.chips > * {
+.chips>* {
     padding: 8px 16px;
     border-radius: 32px;
     border-color: var(--outline);
@@ -610,7 +611,7 @@ footer>* {
     }
 
     main>* {
-        display: block!important;
+        display: block !important;
         border-radius: 4px;
     }
 

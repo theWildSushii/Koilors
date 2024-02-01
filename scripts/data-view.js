@@ -523,7 +523,7 @@ function validateSortedPaletteOrder() {
     isValidatingSortedPaletteOrder = true;
     setTimeout(function () {
         var isInverted = (startL.value > endL.value);
-        if(invertedLightness.value != isInverted) {
+        if (invertedLightness.value != isInverted) {
             invertedLightness.value = isInverted;
         }
         isValidatingSortedPaletteOrder = false;
@@ -573,7 +573,7 @@ function updateCSS() {
         css += getPrimaryColor("--P100", 1.00);
         css += "\n";
 
-        if(invertedLightness.value) {
+        if (invertedLightness.value) {
             sortedPalette.reverse();
         }
         for (var i = 0; i <= 100; i += 10) {
@@ -592,7 +592,7 @@ function updateCSS() {
             root.style.setProperty("--A" + i, cssColor);
             css += "\n    --A" + i + ": " + cssColor + ";";
         }
-        if(invertedLightness.value) {
+        if (invertedLightness.value) {
             sortedPalette.reverse();
         }
         css += "\n";

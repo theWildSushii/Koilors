@@ -83,7 +83,7 @@ function polarCoordinates(u, v) {
 
 function colorToHex(color) {
     var string = color.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
-    if(string.length == 4) {
+    if (string.length == 4) {
         string = string[0] + string[1] + string[1] + string[2] + string[2] + string[3] + string[3];
     }
     return string;
