@@ -6,7 +6,7 @@ var daynightButton, snackbar, colorsTab, detailsTab;
 var selectedColorDiv;
 var hex, srgb, oklab, oklch, lab, lch, hsv, hsl, hwb, displayP3, rec2020;
 var okhslCheckBox, valueLightnessLabel;
-var customLSlider, customLSection;
+var customLSlider, customLSection, uiSatSlider;
 var colorsCss;
 var sortedPalette = [];
 var discreteMix = true;
@@ -136,6 +136,7 @@ ready(function () {
     customLSlider = new TextSlider("CustomLRange", "CustomLText");
     customLSection = id("customBaseColors");
     colorsCss = id("colors-css");
+    uiSatSlider = new TextSlider("uisatRange", "uisatText");
 
     downloadInto(id("light-css"), "styles/roles-light.css");
     downloadInto(id("dark-css"), "styles/roles-dark.css");
@@ -298,6 +299,16 @@ ready(function () {
         updateColors();
         updateCustomLightness();
         updateCSS();
+    });
+
+    uiSaturation.listen((x) => {
+        updateHash();
+        updateCSS();
+        uiSatSlider.value = Number((x * 100.0).toFixed(2));
+    });
+
+    uiSatSlider.addListener((e) => {
+        uiSaturation.value = clamp(uiSatSlider.value / 100.0, 0.0, 1.0);
     });
 
     selectedColor.listen((value) => {
@@ -527,9 +538,12 @@ function updateCSS() {
     isUpdatingCSS = true;
     setTimeout(function () {
         var css = ":root {";
+        var okhsl = toOkhsl(mainColor.value);
+        okhsl.s *= uiSaturation.value;
 
         function getPrimaryColor(prefix, l) {
-            var cssColor = getShade(mainColor.value, l).to("oklab").display();
+            okhsl.l = l;
+            var cssColor = fromOkhsl(okhsl).to("oklab").display();
             root.style.setProperty(prefix, cssColor);
             return "\n    " + prefix + ": " + cssColor + ";";
         }

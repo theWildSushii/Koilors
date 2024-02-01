@@ -7,6 +7,7 @@ const palette = new LiveData([new Color("#7141ff"), new Color("#fff432")]);
 const selectedColor = new LiveData(new Color("#7141ff"));
 const isOkhsl = new LiveData(false);
 const customL = new LiveData(48.35);
+const uiSaturation = new LiveData(1.0);
 
 function getHash() {
     var code = mainColor.value.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
@@ -14,6 +15,7 @@ function getHash() {
     code += "/" + Math.round(gradientSteps.value);
     code += "/" + startL.value;
     code += "/" + endL.value;
+    code += "/" + (uiSaturation.value * 100.0).toFixed(2);
     return code;
 }
 
@@ -22,11 +24,16 @@ function setHash(string) {
     randomize();
     try {
         mainColor.value = new Color(keywords[0]);
-        scheme.value = keywords[1];
-        gradientSteps.value = Math.round(Number(keywords[2]));
-        startL.value = Number(keywords[3]);
-        endL.value = Number(keywords[4]);
-    } catch { }
+    } catch {
+        try {
+            mainColor.value = new Color(keywords[0].slice(1));
+        } catch { }
+    }
+    scheme.value = keywords[1] || scheme.value;
+    gradientSteps.value = Math.round(Number(keywords[2] || gradientSteps.value));
+    startL.value = Number(keywords[3] || startL.value);
+    endL.value = Number(keywords[4] || endL.value);
+    uiSaturation.value = keywords[5] ? Number(keywords[5]) / 100.0 : 1.0;
 }
 
 function L(l) {
