@@ -33,7 +33,7 @@ function setHash(string) {
     gradientSteps.value = Math.round(Number(keywords[2] || gradientSteps.value));
     startL.value = Number(keywords[3] || startL.value);
     endL.value = Number(keywords[4] || endL.value);
-    uiSaturation.value = keywords[5] ? Number(keywords[5]) / 100.0 : 1.0;
+    uiSaturation.value = keywords[5] ? Number(keywords[5]) / 100.0 : uiSaturation.value;
 }
 
 function L(l) {
@@ -50,12 +50,15 @@ function randomize() {
     };
     mainColor.value = fromOkhsv(okhsv);
     scheme.value = schemes[Math.floor(Math.pow(Math.random(), 1.618) * schemes.length)];
+    var saturation = lerp(0.85, 1.0, Math.random());
     switch (scheme.value) {
         case "mono": //Monochromatic
+            saturation = lerp(0.0, 0.618, Math.random());
         case "comp": //Complementary
             gradientSteps.value = Math.round(lerp(3, 11, Math.random()));
             break;
         case "anal3": //Analogous 3
+            saturation = lerp(0.382, 1.0, Math.random());
         case "split": //Split Complementary
         case "tri": //Triadic
             gradientSteps.value = Math.random() < 0.618 ? 9 : Math.random() < 0.618 ? 6 : 3;
@@ -67,6 +70,7 @@ function randomize() {
             gradientSteps.value = Math.random() < 0.618 ? 8 : 4;
             break;
         case "anal5": //Analogous 5
+            saturation = lerp(0.618, 1.0, Math.random());
         case "dsc": //Double Split Complementary
             gradientSteps.value = Math.random() < 0.618 ? 10 : 5;
             break;
@@ -78,6 +82,15 @@ function randomize() {
             gradientSteps.value = 10
             break;
     }
+
+    okhsv.s = 1.0;
+    okhsv.v = 1.0;
+
+    var maxChromaLightness = toOkhsl(fromOkhsv(okhsv)).l;
+
+    saturation = lerp(saturation, saturation * 0.382, maxChromaLightness);
+
+    uiSaturation.value = saturation;
 
     var sl = 0.0;
     var el = 1.0;
