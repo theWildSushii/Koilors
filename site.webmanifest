@@ -15,7 +15,7 @@
         }
     ],
     "start_url": "/Koilors/",
-    "theme_color": "#12004b",
-    "background_color": "#12004b",
+    "theme_color": "#a033ee",
+    "background_color": "#130123",
     "display": "standalone"
 }
