@@ -8,6 +8,7 @@ var hex, srgb, oklab, oklch, lab, lch, hsv, hsl, hwb, displayP3, rec2020;
 var okhslCheckBox, valueLightnessLabel;
 var customLSlider, customLSection, uiSatSlider;
 var colorsCss;
+var palette = [];
 var sortedPalette = [];
 var discreteMix = true;
 var invertedLightness = new LiveData(false);
@@ -270,30 +271,16 @@ ready(function () {
         updateColors();
     });
 
-    palette.listen((value) => {
-        sortedPalette = [...palette.value];
+    generatedColors.listen((value) => {
+        palette = value[0];
+        sortedPalette = value[1];
         discreteMix = true;
         switch (scheme.value) {
             case "full": //All Colors
-                sortedPalette.push(sortedPalette[0]);
-                discreteMix = false;
-                break;
             case "mono": //Monochromatic
-                discreteMix = false;
-                break;
             case "anal3": //Analogous 3
             case "anal5": //Analogous 5
                 discreteMix = false;
-                var headL = sortedPalette[0].oklab.l;
-                var tailL = sortedPalette[sortedPalette.length - 1].oklab.l;
-                if (headL > tailL) {
-                    sortedPalette.reverse();
-                }
-                break;
-            default:
-                sortedPalette.push(mainColor.value);
-                sortedPalette.push(...palette.value);
-                sortedPalette = sortColors(sortedPalette);
                 break;
         }
         updateColors();
@@ -384,7 +371,7 @@ function updateColors() {
         removeChilds(generatedShadesDiv);
         removeChilds(individualShadesSection);
 
-        palette.value.forEach(color => {
+        palette.forEach(color => {
             var div = document.createElement("div");
             //This prevents an exception thrown on Color.js
             //when a value is too small. Probably caused by its
@@ -491,7 +478,7 @@ function updateCustomLightness() {
 
         removeChilds(customLSection);
 
-        palette.value.forEach(color => {
+        palette.forEach(color => {
             var div = document.createElement("div");
             //This prevents an exception thrown on Color.js
             //when a value is too small. Probably caused by its
@@ -542,6 +529,24 @@ function updateCSS() {
         okhsl.s *= uiSaturation.value;
 
         function getPrimaryColor(prefix, l) {
+            if (l <= 0.0) {
+                okhsl.l = 0.02;
+                var color = fromOkhsl(okhsl);
+                okhsl.l = l;
+                color.oklab.l = 0.0;
+                var cssColor = color.to("oklab").display();
+                root.style.setProperty(prefix, cssColor);
+                return "\n    " + prefix + ": " + cssColor + ";";
+            }
+            if (l >= 1.0) {
+                okhsl.l = 0.02;
+                var color = fromOkhsl(okhsl);
+                okhsl.l = l;
+                color.oklab.l = 1.0;
+                var cssColor = color.to("oklab").display();
+                root.style.setProperty(prefix, cssColor);
+                return "\n    " + prefix + ": " + cssColor + ";";
+            }
             okhsl.l = l;
             var cssColor = fromOkhsl(okhsl).to("oklab").display();
             root.style.setProperty(prefix, cssColor);

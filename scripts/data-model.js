@@ -1,10 +1,10 @@
-const mainColor = new LiveData(new Color("#7141ff"));
-const scheme = new LiveData("comp");
+const mainColor = new LiveData(new Color("#a033ee"));
+const scheme = new LiveData("mono");
 const gradientSteps = new LiveData(9);
 const startL = new LiveData(10.0);
 const endL = new LiveData(90.0);
-const palette = new LiveData([new Color("#7141ff"), new Color("#fff432")]);
-const selectedColor = new LiveData(new Color("#7141ff"));
+const generatedColors = new LiveData([[mainColor.value], [mainColor.value]]);
+const selectedColor = new LiveData(new Color("#a033ee"));
 const isOkhsl = new LiveData(false);
 const customL = new LiveData(48.35);
 const uiSaturation = new LiveData(1.0);
@@ -95,17 +95,15 @@ function randomize() {
     var sl = 0.0;
     var el = 1.0;
 
-    var sortedPalette = sortColors(palette.value);
-
     sl = spline([
         0.0,
-        toOkhsl(sortedPalette[0]).l,
+        toOkhsl(generatedColors.value[1][0]).l,
         1.0 / (gradientSteps.value + 1.0)
     ], Math.random());
 
     el = spline([
         1.0,
-        toOkhsl(sortedPalette[sortedPalette.length - 1]).l,
+        toOkhsl(generatedColors.value[1][generatedColors.value[1].length - 1]).l,
         1.0 - sl
     ], Math.random());
 
@@ -122,46 +120,46 @@ ready(function () {
     scheme.listen((value) => {
         switch (value) {
             case "mono": //Monochromatic
-                palette.value = [mainColor.value];
+                generatedColors.value = [[mainColor.value], [mainColor.value]];
                 break;
             case "comp": //Complementary
-                palette.value = getComplementaryScheme(mainColor.value);
+                generatedColors.value = getComplementaryScheme(mainColor.value);
                 break;
             case "anal3": //Analogous 3
-                palette.value = getAnalogous3Scheme(mainColor.value);
+                generatedColors.value = getAnalogous3Scheme(mainColor.value);
                 break;
             case "split": //Split Complementary
-                palette.value = getSplitComplementaryScheme(mainColor.value);
+                generatedColors.value = getSplitComplementaryScheme(mainColor.value);
                 break;
             case "tri": //Triadic
-                palette.value = getTriadicScheme(mainColor.value);
+                generatedColors.value = getTriadicScheme(mainColor.value);
                 break;
             case "square": //Square
-                palette.value = getSquareScheme(mainColor.value);
+                generatedColors.value = getSquareScheme(mainColor.value);
                 break;
             case "tetral": //Tetradic Left
-                palette.value = getTetradicLeftScheme(mainColor.value);
+                generatedColors.value = getTetradicLeftScheme(mainColor.value);
                 break;
             case "tetrar": //Tetradic Right
-                palette.value = getTetradicRightScheme(mainColor.value);
+                generatedColors.value = getTetradicRightScheme(mainColor.value);
                 break;
             case "cmpd": //Tetradic Right
-                palette.value = getCompoundScheme(mainColor.value);
+                generatedColors.value = getCompoundScheme(mainColor.value);
                 break;
             case "anal5": //Analogous 5
-                palette.value = getAnalogous5Scheme(mainColor.value);
+                generatedColors.value = getAnalogous5Scheme(mainColor.value);
                 break;
             case "dsc": //Double Split Complementary
-                palette.value = getDoubleSplitComplementaryScheme(mainColor.value);
+                generatedColors.value = getDoubleSplitComplementaryScheme(mainColor.value);
                 break;
             case "poly": //Polychromatic
-                palette.value = getPolychromaticScheme(mainColor.value);
+                generatedColors.value = getPolychromaticScheme(mainColor.value);
                 break;
             case "analc": //Complementary Analogous
-                palette.value = getComplementaryAnalogous(mainColor.value);
+                generatedColors.value = getComplementaryAnalogous(mainColor.value);
                 break;
             case "full": //All Colors
-                palette.value = getAllColors(mainColor.value);
+                generatedColors.value = getAllColors(mainColor.value);
                 break;
         }
     });

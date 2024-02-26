@@ -83,7 +83,7 @@ ready(function () {
     svBoxHandle = new CanvasWrapper(svBoxHandleCanvas);
 
     mainColor.listen((x) => { renderGradients(); });
-    palette.listen((x) => { renderHandles(); });
+    generatedColors.listen((x) => { renderHandles(); });
     startL.listen((x) => { renderSVBoxHandles(); });
     endL.listen((x) => { renderSVBoxHandles(); });
     gradientSteps.listen((x) => { renderSVBoxHandles(); });
@@ -146,8 +146,8 @@ function onWorkerDone(e) {
 
 function renderHueWheelHandles() {
     hueWheelHandle.clear();
-    for (var i = 0; i < palette.value.length; i++) {
-        renderHueWheelHandle(hueWheelHandle, palette.value[i], 0.618, isOkhsl.value);
+    for (var i = 0; i < generatedColors.value[0].length; i++) {
+        renderHueWheelHandle(hueWheelHandle, generatedColors.value[0][i], 0.618, isOkhsl.value);
     }
     renderHueWheelHandle(hueWheelHandle, mainColor.value, 1.0, isOkhsl.value);
 }
