@@ -1,4 +1,4 @@
-:root {
+:root, .dark {
     --surface: var(--P6, #0b0b0b);
     --surface-dim: var(--P6, #0b0b0b);
     --surface-bright: var(--P24, #373737);
