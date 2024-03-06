@@ -12,7 +12,7 @@ const uiSaturation = new LiveData(1.0);
 function getHash() {
     var code = mainColor.value.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
     code += "/" + scheme.value;
-    code += "/" + Math.round(gradientSteps.value);
+    code += "/" + Math.round(clamp(gradientSteps.value, 3, 21));
     code += "/" + startL.value;
     code += "/" + endL.value;
     code += "/" + (uiSaturation.value * 100.0).toFixed(2);

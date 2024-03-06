@@ -94,29 +94,10 @@ function getSquareScheme(color) {
         rotateOkhsv(color, 90.0),
         rotateOkhsv(color, 180.0)
     ];
-    var innerPalette = [palette[0], palette[1], palette[2]];
-    if (innerPalette[0].oklab.l >= innerPalette[2].oklab.l) {
-        innerPalette.reverse();
-    }
-    if (palette[1].oklab.l < palette[3].oklab.l) {
-        return [palette, [
-            innerPalette[0],
-            innerPalette[1],
-            innerPalette[1],
-            innerPalette[2],
-            palette[3],
-            palette[3]
-        ]];
-    } else {
-        return [palette, [
-            palette[3],
-            palette[3],
-            innerPalette[0],
-            innerPalette[1],
-            innerPalette[1],
-            innerPalette[2]
-        ]];
-    }
+    var sortedPalette = [...palette];
+    sortedPalette.push(color);
+    sortedPalette = sortColors(sortedPalette);
+    return [palette, sortedPalette];
 }
 
 function getTetradicLeftScheme(color) {
@@ -196,7 +177,7 @@ function getDoubleSplitComplementaryScheme(color) {
         rotateOkhsv(color, 36.0),
         rotateOkhsv(color, 180.0 + 36.0)
     ];
-    var innerPalette = [palette[1], palette[1], palette[3]];
+    var innerPalette = [palette[1], palette[2], palette[3]];
     if (innerPalette[0].oklab.l >= innerPalette[2].oklab.l) {
         innerPalette.reverse();
     }

@@ -201,7 +201,7 @@ ready(function () {
     });
 
     gradientSizeSlider.addListener((e) => {
-        gradientSteps.value = gradientSizeSlider.value;
+        gradientSteps.value = clamp(gradientSizeSlider.value, 3, 21);
     });
 
     startLSlider.addListener((e) => {
@@ -252,7 +252,7 @@ ready(function () {
     });
 
     gradientSteps.listen((value) => {
-        gradientSizeSlider.value = value;
+        gradientSizeSlider.value = clamp(value, 3, 21);
         updateHash();
         updateColors();
     });
