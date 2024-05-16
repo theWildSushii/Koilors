@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en_US">
 
 <head>
     <meta charset="utf-8" />
@@ -284,40 +284,40 @@
             </div>
             <form onsubmit="event.preventDefault();">
                 <div id="colorInputWrapper">
-                    <label class="material-symbols-rounded">
+                    <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="color_lock" name="color_lock">
+                        <input type="checkbox" id="color_lock" name="color_lock" onchange="colorLock = this.checked;">
                     </label>
                     <input type="text" value="#7141ff" id="colorInput" name="colorInput" title="Input any CSS color">
                 </div>
                 <div>
-                    <label class="material-symbols-rounded">
+                    <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="hue_lock" name="hue_lock">
+                        <input type="checkbox" id="hue_lock" name="hue_lock" onchange="hueLock = this.checked;">
                     </label>
                     <label class="expand" for="hue">Hue</label>
                     <input type="number" value="286" min="0" max="360" step="0.36" id="hue" name="hue">
                 </div>
                 <div>
-                    <label class="material-symbols-rounded">
+                    <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="saturation_lock" name="saturation_lock">
+                        <input type="checkbox" id="saturation_lock" name="saturation_lock" onchange="saturationLock = this.checked;">
                     </label>
                     <label class="expand" for="saturation">Saturation</label>
                     <input type="number" value="90" min="0" max="100" step="0.01" id="saturation" name="saturation">
                 </div>
                 <div>
-                    <label class="material-symbols-rounded">
+                    <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="valuelightness_lock" name="valuelightness_lock">
+                        <input type="checkbox" id="valuelightness_lock" name="valuelightness_lock" onchange="valueLightnessLock = this.checked;">
                     </label>
                     <label class="expand" for="value" id="valuelightness">Value</label>
                     <input type="number" value="100" min="0" max="100" step="0.01" id="value" name="value">
                 </div>
                 <div>
-                    <label class="material-symbols-rounded">
+                    <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="gradientSize_lock" name="gradientSize_lock">
+                        <input type="checkbox" id="gradientSize_lock" name="gradientSize_lock" onchange="gradientSizeLock = this.checked;">
                     </label>
                     <label class="expand" for="gradientSizeText">Steps</label>
                     <input type="number" min="3" max="21" value="9" step="1" id="gradientSizeText"
@@ -325,27 +325,27 @@
                 </div>
                 <input type="range" min="3" max="21" value="9" step="1" id="gradientSizeRange" name="gradientSizeRange">
                 <div>
-                    <label class="material-symbols-rounded">
+                    <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="LStart_lock" name="LStart_lock">
+                        <input type="checkbox" id="LStart_lock" name="LStart_lock" onchange="startLLock = this.checked;">
                     </label>
                     <label class="expand" for="LStartText">Start Lightness</label>
                     <input type="number" min="0" max="100" value="10" step="0.1" id="LStartText" name="LStartText">
                 </div>
                 <input type="range" min="0" max="100" value="10" step="0.1" id="LStartRange" name="LStartRange">
                 <div>
-                    <label class="material-symbols-rounded">
+                    <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="LEnd_lock" name="LEnd_lock">
+                        <input type="checkbox" id="LEnd_lock" name="LEnd_lock" onchange="endLLock = this.checked;">
                     </label>
                     <label class="expand" for="LEndText">End Lightness</label>
                     <input type="number" min="0" max="100" value="90" step="0.1" id="LEndText" name="LEndText">
                 </div>
                 <input type="range" min="0" max="100" value="90" step="0.1" id="LEndRange" name="LEndRange">
                 <div>
-                    <label class="material-symbols-rounded">
+                    <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="colorScheme_lock" name="colorScheme_lock">
+                        <input type="checkbox" id="colorScheme_lock" name="colorScheme_lock" onchange="colorSchemeLock = this.checked;">
                     </label>
                     <label class="expand" for="colorScheme">Color harmony</label>
                 </div>
@@ -381,9 +381,9 @@
                 </select>
                 <br>
                 <div>
-                    <label class="material-symbols-rounded">
+                    <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="uisat_lock" name="uisat_lock">
+                        <input type="checkbox" id="uisat_lock" name="uisat_lock" onchange="uiSatLock = this.checked;">
                     </label>
                     <label class="expand" for="uisatText">UI color saturation</label>
                     <input type="number" min="0" max="100" value="100" step="0.1" id="uisatText" name="uisatText">

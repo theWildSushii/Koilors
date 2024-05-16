@@ -6,8 +6,18 @@ const endL = new LiveData(90.0);
 const generatedColors = new LiveData([[mainColor.value], [mainColor.value]]);
 const selectedColor = new LiveData(new Color("#a033ee"));
 const isOkhsl = new LiveData(false);
-const customL = new LiveData(48.35);
+const customL = new LiveData(50.0);
 const uiSaturation = new LiveData(1.0);
+
+var colorLock = false;
+var hueLock = false;
+var saturationLock = false;
+var valueLightnessLock = false;
+var gradientSizeLock = false;
+var startLLock = false;
+var endLLock = false;
+var colorSchemeLock = false;
+var uiSatLock = false;
 
 function getHash() {
     var code = mainColor.value.to("srgb").toGamut({ method: "clip" }).toString({ format: "hex" });
@@ -43,54 +53,96 @@ function L(l) {
 const schemes = ["mono", "comp", "anal3", "anal5", "split", "tri", "tetral", "tetrar", "square", "cmpd", "dsc", "poly", "analc"];
 
 function randomize() {
-    var okhsv = {
-        h: Math.random(),
-        s: lerp(0.618, 1.0, Math.random()),
-        v: lerp(0.75, 1.0, Math.random())
-    };
-    mainColor.value = fromOkhsv(okhsv);
-    scheme.value = schemes[Math.floor(Math.pow(Math.random(), 1.618) * schemes.length)];
-    var saturation = lerp(0.85, 1.0, Math.random());
-    switch (scheme.value) {
-        case "mono": //Monochromatic
-            saturation = lerp(0.0, 0.618, Math.random());
-        case "comp": //Complementary
-            gradientSteps.value = Math.round(lerp(3, 11, Math.random()));
-            break;
-        case "anal3": //Analogous 3
-            saturation = lerp(0.382, 1.0, Math.random());
-        case "split": //Split Complementary
-        case "tri": //Triadic
-            gradientSteps.value = Math.random() < 0.618 ? 9 : Math.random() < 0.618 ? 6 : 3;
-            break;
-        case "square": //Square
-        case "tetral": //Tetradic Left
-        case "tetrar": //Tetradic Right
-        case "cmpd": //Compound
-            gradientSteps.value = Math.random() < 0.618 ? 8 : 4;
-            break;
-        case "anal5": //Analogous 5
-            saturation = lerp(0.618, 1.0, Math.random());
-        case "dsc": //Double Split Complementary
-            gradientSteps.value = Math.random() < 0.618 ? 10 : 5;
-            break;
-        case "poly": //Polychromatic
-        case "analc": //Complementary Analogous
-            gradientSteps.value = 6;
-            break;
-        case "full": //All Colors
-            gradientSteps.value = 10
-            break;
+    if (!colorLock) {
+        var okhsv = {
+            h: Math.random(),
+            s: lerp(0.618, 1.0, Math.random()),
+            v: lerp(0.75, 1.0, Math.random())
+        };
+        let newColor = fromOkhsv(okhsv);
+        if (isOkhsl.value) {
+            let okhsl = toOkhsl(mainColor.value);
+            let newOkhsl = toOkhsl(newColor);
+            if (hueLock) {
+                newOkhsl.h = okhsl.h;
+            }
+            if (saturationLock) {
+                newOkhsl.s = okhsl.s;
+            }
+            if (valueLightnessLock) {
+                newOkhsl.l = okhsl.l;
+            }
+            mainColor.value = fromOkhsl(newOkhsl);
+        } else {
+            let okhsv = toOkhsv(mainColor.value);
+            let newOkhsv = toOkhsv(newColor);
+            if (hueLock) {
+                newOkhsv.h = okhsv.h;
+            }
+            if (saturationLock) {
+                newOkhsv.s = okhsv.s;
+            }
+            if (valueLightnessLock) {
+                newOkhsv.v = okhsv.v;
+            }
+            mainColor.value = fromOkhsv(newOkhsv);
+        }
+    }
+    if (!colorSchemeLock) {
+        scheme.value = schemes[Math.floor(Math.pow(Math.random(), 1.618) * schemes.length)];
     }
 
-    okhsv.s = 1.0;
-    okhsv.v = 1.0;
+    if (!uiSatLock) {
+        var saturation = lerp(0.85, 1.0, Math.random());
+        switch (scheme.value) {
+            case "mono": //Monochromatic
+                saturation = lerp(0.0, 0.618, Math.random());
+                break;
+            case "anal3": //Analogous 3
+                saturation = lerp(0.382, 1.0, Math.random());
+                break;
+            case "anal5": //Analogous 5
+                saturation = lerp(0.618, 1.0, Math.random());
+                break;
+        }
+        let currentOkhsv = toOkhsv(mainColor.value);
+        currentOkhsv.s = 1.0;
+        currentOkhsv.v = 1.0;
+        var maxChromaLightness = toOkhsl(fromOkhsv(currentOkhsv)).l;
+        saturation = lerp(saturation, saturation * 0.382, maxChromaLightness);
+        uiSaturation.value = saturation;
+    }
 
-    var maxChromaLightness = toOkhsl(fromOkhsv(okhsv)).l;
-
-    saturation = lerp(saturation, saturation * 0.382, maxChromaLightness);
-
-    uiSaturation.value = saturation;
+    if (!gradientSizeLock) {
+        switch (scheme.value) {
+            case "mono": //Monochromatic
+            case "comp": //Complementary
+                gradientSteps.value = Math.round(lerp(3, 11, Math.random()));
+                break;
+            case "anal3": //Analogous 3
+            case "split": //Split Complementary
+            case "tri": //Triadic
+                gradientSteps.value = Math.random() < 0.618 ? 9 : Math.random() < 0.618 ? 6 : 3;
+                break;
+            case "square": //Square
+            case "tetral": //Tetradic Left
+            case "tetrar": //Tetradic Right
+            case "cmpd": //Compound
+                gradientSteps.value = Math.random() < 0.618 ? 8 : 4;
+                break;
+            case "anal5": //Analogous 5
+            case "dsc": //Double Split Complementary
+                gradientSteps.value = Math.random() < 0.618 ? 10 : 5;
+                break;
+            case "poly": //Polychromatic
+            case "analc": //Complementary Analogous
+                gradientSteps.value = 6;
+                break;
+            case "full": //All Colors
+                gradientSteps.value = 10
+                break;
+        }
+    }
 
     var sl = 0.0;
     var el = 1.0;
@@ -111,8 +163,12 @@ function randomize() {
         sl = 1.0 - sl;
         el = 1.0 - el;
     }
-    startL.value = Number((sl * 100.0).toFixed(1));
-    endL.value = Number((el * 100.0).toFixed(1));
+    if (!startLLock) {
+        startL.value = Number((sl * 100.0).toFixed(1));
+    }
+    if (!endLLock) {
+        endL.value = Number((el * 100.0).toFixed(1));
+    }
 
 }
 

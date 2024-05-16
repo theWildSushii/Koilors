@@ -49,6 +49,7 @@ header {
     background-color: var(--surface-container);
     color: var(--on-surface);
     padding: 0px 16px;
+    z-index: 100;
 }
 
 header>div {
