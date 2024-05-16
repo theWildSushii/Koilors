@@ -69,7 +69,11 @@ header>div:first-child {
 header>div:last-child {
     justify-content: flex-end;
     align-items: center;
-    gap: 24px;
+    gap: 8px;
+}
+
+header>div:last-child>* {
+    padding: 8px;
 }
 
 .material-symbols-rounded {
@@ -411,16 +415,19 @@ form select {
 
 form>div {
     display: flex;
+    flex-direction: row;
+    align-items: center;
+    flex-wrap: nowrap;
+    gap: 8px;
 }
 
-form>div>* {
+form>div>input {
+    flex-basis: 64px;
+}
+
+form>div>*.expand {
     flex-grow: 1;
-    flex-shrink: 1;
-    flex-basis: 0%;
-}
-
-form>div>*:first-child {
-    flex-grow: 2;
+    flex-basis: 0px;
 }
 
 form input {
@@ -436,9 +443,31 @@ form input[type="text"] {
     border-radius: 6px;
 }
 
+label.material-symbols-rounded:has(input[type="checkbox"]) {
+    width: 24px;
+    flex-basis: 24px;
+}
+
+label.material-symbols-rounded:has(input[type="checkbox"]:not(:checked)) {
+    opacity: 0.5;
+    font-variation-settings: 'FILL' 0 !important;
+}
+
+label.material-symbols-rounded:has(input[type="checkbox"]:checked) {
+    opacity: 1;
+    font-variation-settings: 'FILL' 1 !important;
+}
+
+label.material-symbols-rounded>input[type="checkbox"] {
+    display: none;
+}
+
+#colorInputWrapper {
+    gap: 16px;
+}
+
 #colorInput {
-    display: block;
-    margin: 16px auto;
+    flex-grow: 1;
     padding: 8px 4px;
     border-radius: 32px;
     background-color: var(--mainColor, #777777);
