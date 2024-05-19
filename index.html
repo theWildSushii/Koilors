@@ -36,6 +36,7 @@
     <script src="scripts/rendering.js" defer></script>
     <script src="scripts/colorpicker.js" defer></script>
     <script src="scripts/data-view.js" defer></script>
+    <script src="scripts/app.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -72,7 +73,9 @@
             <p>Generate beautiful color palettes by picking just one <span>color</span>.</p>
         </div>
         <div>
-            <span class="material-symbols-rounded" translate="no" onclick="randomize()" title="Randomize">casino</span>
+            <span class="material-symbols-rounded" translate="no" onclick="randomize();" title="Randomize">casino</span>
+            <span id="folder-button" class="material-symbols-rounded" translate="no" onclick="openFolder();"
+                title="Open Storage">save</span>
             <span id="daynight-button" class="material-symbols-rounded" translate="no" onclick="toggleDaynight()"
                 title="Toggle lights">dark_mode</span>
             <a href="https://github.com/theWildSushii/Koilors" target="_blank" title="GitHub Repo">
@@ -85,23 +88,26 @@
 
     <nav>
         <input type="radio" name="nav" id="toolsTab">
-        <label for="toolsTab"><span class="material-symbols-rounded">tune</span><br />Tune</label>
+        <label for="toolsTab"><span class="material-symbols-rounded" translate="no">tune</span><br />Tune</label>
         <input type="radio" name="nav" id="colorsTab" checked>
-        <label for="colorsTab"><span class="material-symbols-rounded">palette</span><br />Colors</label>
+        <label for="colorsTab"><span class="material-symbols-rounded" translate="no">palette</span><br />Colors</label>
         <input type="radio" name="nav" id="detailsTab">
-        <label for="detailsTab"><span class="material-symbols-rounded">code</span><br />Details</label>
+        <label for="detailsTab"><span class="material-symbols-rounded" translate="no">code</span><br />Details</label>
     </nav>
 
     <main>
         <section id="colors">
             <nav>
                 <input type="radio" name="colors_nav" id="shadesTab" checked>
-                <label for="shadesTab"><span class="material-symbols-rounded">palette</span><br />Shades</label>
+                <label for="shadesTab"><span class="material-symbols-rounded"
+                        translate="no">palette</span><br />Shades</label>
                 <input type="radio" name="colors_nav" id="lightnessTab">
-                <label for="lightnessTab"><span class="material-symbols-rounded">light_mode</span><br />Custom
+                <label for="lightnessTab"><span class="material-symbols-rounded"
+                        translate="no">light_mode</span><br />Custom
                     Lightness</label>
                 <input type="radio" name="colors_nav" id="cssTab">
-                <label for="cssTab"><span class="material-symbols-rounded">css</span><br />Export to CSS</label>
+                <label for="cssTab"><span class="material-symbols-rounded" translate="no">css</span><br />Export to
+                    CSS</label>
             </nav>
             <section id="shadesPage">
                 <div id="generatedShades" class="colorSwatch"></div>
@@ -301,7 +307,8 @@
                 <div>
                     <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="saturation_lock" name="saturation_lock" onchange="saturationLock = this.checked;">
+                        <input type="checkbox" id="saturation_lock" name="saturation_lock"
+                            onchange="saturationLock = this.checked;">
                     </label>
                     <label class="expand" for="saturation">Saturation</label>
                     <input type="number" value="90" min="0" max="100" step="0.01" id="saturation" name="saturation">
@@ -309,7 +316,8 @@
                 <div>
                     <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="valuelightness_lock" name="valuelightness_lock" onchange="valueLightnessLock = this.checked;">
+                        <input type="checkbox" id="valuelightness_lock" name="valuelightness_lock"
+                            onchange="valueLightnessLock = this.checked;">
                     </label>
                     <label class="expand" for="value" id="valuelightness">Value</label>
                     <input type="number" value="100" min="0" max="100" step="0.01" id="value" name="value">
@@ -317,7 +325,8 @@
                 <div>
                     <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="gradientSize_lock" name="gradientSize_lock" onchange="gradientSizeLock = this.checked;">
+                        <input type="checkbox" id="gradientSize_lock" name="gradientSize_lock"
+                            onchange="gradientSizeLock = this.checked;">
                     </label>
                     <label class="expand" for="gradientSizeText">Steps</label>
                     <input type="number" min="3" max="21" value="9" step="1" id="gradientSizeText"
@@ -327,7 +336,8 @@
                 <div>
                     <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="LStart_lock" name="LStart_lock" onchange="startLLock = this.checked;">
+                        <input type="checkbox" id="LStart_lock" name="LStart_lock"
+                            onchange="startLLock = this.checked;">
                     </label>
                     <label class="expand" for="LStartText">Start Lightness</label>
                     <input type="number" min="0" max="100" value="10" step="0.1" id="LStartText" name="LStartText">
@@ -345,7 +355,8 @@
                 <div>
                     <label class="material-symbols-rounded" translate="no">
                         lock
-                        <input type="checkbox" id="colorScheme_lock" name="colorScheme_lock" onchange="colorSchemeLock = this.checked;">
+                        <input type="checkbox" id="colorScheme_lock" name="colorScheme_lock"
+                            onchange="colorSchemeLock = this.checked;">
                     </label>
                     <label class="expand" for="colorScheme">Color harmony</label>
                 </div>
@@ -488,6 +499,49 @@
     <div id="snackbar">
         #7141ff copied to clipboard!
     </div>
+
+    <dialog id="changelog" onmousedown="event.target==this && this.close()">
+        <div class="dialogContent">
+
+        </div>
+    </dialog>
+
+    <dialog id="folder" onmousedown="event.target==this && this.close()">
+        <div class="dialogContent">
+            <h2>Saved Colors</h2>
+            <form id="savedList" onsubmit="loadColors(event, this)" action="none">
+                <label>
+                    <input type="radio" name="savedColor" value="#7141ff/comp/11/0/100/100.00">
+                    <p>theWildSushii</p>
+                    <div class="preview">
+                        <div style="background-color: #7141ff;"></div>
+                        <div style="background-color: #fff432;"></div>
+                    </div>
+                    <label>
+                        <span class="material-symbols-rounded" translate="no">download</span>
+                        Load colors
+                        <input type="submit">
+                    </label>
+                </label>
+                <label>
+                    <input type="radio" name="savedColor" value="#fff432/comp/11/0/100/100.00">
+                    <p>theWildSushii 2</p>
+                    <div class="preview">
+                        <div style="background-color: #fff432;"></div>
+                        <div style="background-color: #7141ff;"></div>
+                    </div>
+                    <label>
+                        <span class="material-symbols-rounded" translate="no">download</span>
+                        Load colors
+                        <input type="submit">
+                    </label>
+                </label>
+            </form>
+            <section>
+
+            </section>
+        </div>
+    </dialog>
 
     <script>
         if ("serviceWorker" in navigator) {

@@ -70,7 +70,7 @@ header>div:first-child {
 header>div:last-child {
     justify-content: flex-end;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
 }
 
 header>div:last-child>* {
@@ -612,6 +612,99 @@ footer>* {
     font-weight: 700;
 }
 
+dialog {
+    background-color: var(--surface);
+    color: var(--on-surface);
+    border-color: var(--outline);
+    padding: 0px;
+    border-width: 0px;
+    border-radius: 8px;
+}
+
+dialog::backdrop {
+    backdrop-filter: blur(16px);
+}
+
+.dialogContent {
+    padding: 4px;
+    width: min(768px, 90vw);
+    display: flex;
+    gap: 4px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+}
+
+.dialogContent > h2 {
+    background-color: var(--surface-container);
+    padding: 8px;
+    border-radius: 8px;
+    margin: 0px;
+}
+
+#savedList {
+    display: flex;
+    background-color: var(--surface-container-lowest);
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    align-items: stretch;
+    /* max-height: 61.8vh; */
+    overflow-y: auto;
+}
+
+#savedList input {
+    display: none;
+}
+
+#savedList > label {
+    border-radius: 8px;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: stretch;
+}
+
+#savedList > label > label {
+    display: none;
+}
+
+#savedList > label:has(input:checked) {
+    background-color: var(--surface-container-high);
+}
+
+#savedList > label:has(input:checked) > label {
+    display: unset;
+}
+
+#savedList .preview {
+    height: 56px;
+    border-radius: 4px;
+    padding: 2px;
+    display: flex;
+    gap: 2px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    background-color: var(--gray);
+}
+
+#savedList .preview > div {
+    flex-basis: 56px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    border-radius: 2px;
+}
+
+form label:has(:user-invalid) {
+    color: var(--error);
+}
+
+form *:user-invalid {
+    border-color: var(--error);
+}
 
 @media only screen and (min-width: 768px) {
 
