@@ -510,36 +510,14 @@
         <div class="dialogContent">
             <h2>Saved Colors</h2>
             <form id="savedList" onsubmit="loadColors(event, this)" action="none">
-                <label>
-                    <input type="radio" name="savedColor" value="#7141ff/comp/11/0/100/100.00">
-                    <p>theWildSushii</p>
-                    <div class="preview">
-                        <div style="background-color: #7141ff;"></div>
-                        <div style="background-color: #fff432;"></div>
-                    </div>
-                    <label>
-                        <span class="material-symbols-rounded" translate="no">download</span>
-                        Load colors
-                        <input type="submit">
-                    </label>
-                </label>
-                <label>
-                    <input type="radio" name="savedColor" value="#fff432/comp/11/0/100/100.00">
-                    <p>theWildSushii 2</p>
-                    <div class="preview">
-                        <div style="background-color: #fff432;"></div>
-                        <div style="background-color: #7141ff;"></div>
-                    </div>
-                    <label>
-                        <span class="material-symbols-rounded" translate="no">download</span>
-                        Load colors
-                        <input type="submit">
-                    </label>
-                </label>
             </form>
-            <section>
-
-            </section>
+            <form id="saveForm" onsubmit="saveColors(event, this)" action="none">
+                <label>File name <input type="text" name="fileName"></label>
+                <div>
+                    <input type="submit" value="Save colors">
+                    <button type="reset" onclick="closeFolder();">Cancel</button>
+                </div>
+            </form>
         </div>
     </dialog>
 

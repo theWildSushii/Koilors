@@ -1,5 +1,5 @@
-const VERSION_NAME = "2.3.0";
-const VERSION_CODE = 20300;
+const VERSION_NAME = "2.3.1";
+const VERSION_CODE = 20301;
 
 const CACHE_NAME = `koilors-${VERSION_NAME}`;
 

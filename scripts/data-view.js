@@ -411,6 +411,8 @@ function updateColors() {
 
         });
 
+        currentPreviewList = [];
+
         for (var i = 0; i < gradientSteps.value; i++) {
             var shade = i / (gradientSteps.value - 1.0);
 
@@ -438,6 +440,7 @@ function updateColors() {
 
             var div = document.createElement("div");
             div.style.backgroundColor = color.display();
+            currentPreviewList.push(color.display());
             div.addEventListener("click", selectBackgroundColor);
             generatedShadesDiv.appendChild(div);
         }

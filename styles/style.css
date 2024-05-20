@@ -1,7 +1,11 @@
+:root {
+    scrollbar-color: var(--inverse-surface) var(--inverse-on-surface);
+}
+
 * {
     transition: all 42ms ease-in-out;
     border-color: var(--outline);
-    min-width: 0px;
+    /* min-width: 0px; */
 }
 
 body {
@@ -285,6 +289,7 @@ code {
     padding: 8px;
     border-radius: 4px;
     white-space: pre;
+    scrollbar-width: thin;
 }
 
 .code>div {
@@ -617,12 +622,16 @@ dialog {
     color: var(--on-surface);
     border-color: var(--outline);
     padding: 0px;
-    border-width: 0px;
+    border-width: 1px;
     border-radius: 8px;
 }
 
 dialog::backdrop {
     backdrop-filter: blur(16px);
+}
+
+dialog, dialog * {
+    scrollbar-width: thin;
 }
 
 .dialogContent {
@@ -636,7 +645,7 @@ dialog::backdrop {
     align-items: stretch;
 }
 
-.dialogContent > h2 {
+.dialogContent>h2 {
     background-color: var(--surface-container);
     padding: 8px;
     border-radius: 8px;
@@ -650,34 +659,43 @@ dialog::backdrop {
     flex-wrap: nowrap;
     justify-content: flex-start;
     align-items: stretch;
-    /* max-height: 61.8vh; */
-    overflow-y: auto;
+    max-height: 61.8vh;
+    overflow-y: scroll;
 }
 
 #savedList input {
     display: none;
 }
 
-#savedList > label {
+#savedList>label {
     border-radius: 8px;
-    padding: 4px;
+    padding: 8px;
     display: flex;
     flex-direction: column;
     flex-wrap: nowrap;
     justify-content: center;
-    align-items: stretch;
+    align-items: flex-start;
+    gap: 8px;
 }
 
-#savedList > label > label {
+#savedList>label>label {
     display: none;
+    padding: 16px 8px;
+    border-radius: 8px;
+    background-color: var(--surface-container-highest);
 }
 
-#savedList > label:has(input:checked) {
+#savedList>label:has(input:checked) {
     background-color: var(--surface-container-high);
 }
 
-#savedList > label:has(input:checked) > label {
-    display: unset;
+#savedList>label:has(input:checked)>label {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 #savedList .preview {
@@ -689,13 +707,63 @@ dialog::backdrop {
     flex-direction: row;
     flex-wrap: nowrap;
     background-color: var(--gray);
+    align-self: stretch;
 }
 
-#savedList .preview > div {
+#savedList .preview>div {
     flex-basis: 56px;
     flex-grow: 1;
     flex-shrink: 1;
     border-radius: 2px;
+}
+
+#saveForm>label {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    gap: 16px;
+}
+
+#saveForm>label>input {
+    flex-grow: 1;
+    text-align: left;
+}
+
+#saveForm * {
+    font-family: "Lexend", sans-serif;
+}
+
+#saveForm>div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    gap: 16px;
+}
+
+#saveForm input[type=submit],
+#saveForm button {
+    border-radius: 8px;
+    border-width: 0px;
+    padding: 8px 16px;
+    background-color: var(--surface-container-high);
+    color: var(--on-surface);
+    min-width: 128px;
+    font-size: 12pt;
+}
+
+#saveForm input[type=submit]:hover,
+#saveForm button:hover,
+#saveForm input[type=submit]:focus,
+#saveForm button:focus {
+    background-color: var(--surface-container-highest);
+}
+
+#saveForm input[type=submit]:active,
+#saveForm button:active {
+    background-color: var(--accent);
+    color: var(--on-accent);
 }
 
 form label:has(:user-invalid) {
