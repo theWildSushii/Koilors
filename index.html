@@ -36,7 +36,7 @@
     <script src="scripts/rendering.js" defer></script>
     <script src="scripts/colorpicker.js" defer></script>
     <script src="scripts/data-view.js" defer></script>
-    <script src="scripts/app.js" defer></script>
+    <script src="scripts/filesystem.js" defer></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -500,12 +500,6 @@
         #7141ff copied to clipboard!
     </div>
 
-    <dialog id="changelog" onmousedown="event.target==this && this.close()">
-        <div class="dialogContent">
-
-        </div>
-    </dialog>
-
     <dialog id="folder" onmousedown="event.target==this && this.close()">
         <div class="dialogContent">
             <h2>Saved Colors</h2>
@@ -518,6 +512,18 @@
                     <button type="reset" onclick="closeFolder();">Cancel</button>
                 </div>
             </form>
+        </div>
+    </dialog>
+
+    <dialog id="saveConfirm">
+        <div class="dialogContent">
+            <h2>Confirm Save</h2>
+            <p><span id="overwritedFileName"></span> already exists.</p>
+            <p>Overwrite file?</p>
+            <div>
+                <button type="submit" onclick="confirmOverwrite();">Save file</button>
+                <button type="reset" onclick="closeConfirm();">Cancel</button>
+            </div>
         </div>
     </dialog>
 

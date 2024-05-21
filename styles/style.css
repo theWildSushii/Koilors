@@ -774,6 +774,51 @@ form *:user-invalid {
     border-color: var(--error);
 }
 
+#saveConfirm .dialogContent {
+    width: min(61.8vw, 512px)!important;
+}
+
+#saveConfirm p {
+    text-align: center;
+    margin: 4px;
+}
+
+#saveConfirm > .dialogContent > div {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: flex-end;
+    align-items: center;
+    gap: 8px;
+}
+
+#saveConfirm span {
+    color: var(--accent);
+}
+
+#saveConfirm button {
+    padding: 8px 16px;
+    border-radius: 8px;
+    border-width: 0px;
+    font-family: "Lexend", sans-serif;
+    font-size: 12pt;
+    background-color: var(--surface-container);
+    color: var(--on-surface);
+}
+
+#saveConfirm button:hover {
+    background-color: var(--surface-container-high);
+}
+
+#saveConfirm button:focus {
+    background-color: var(--surface-container-highest);
+}
+
+#saveConfirm button:active {
+    background-color: var(--accent);
+    color: var(--on-accent);
+}
+
 @media only screen and (min-width: 768px) {
 
     header p {

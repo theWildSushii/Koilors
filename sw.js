@@ -1,17 +1,17 @@
-const VERSION_NAME = "2.3.1";
-const VERSION_CODE = 20301;
+const VERSION_NAME = "2.3.2";
+const VERSION_CODE = 20302;
 
 const CACHE_NAME = `koilors-${VERSION_NAME}`;
 
 const APP_STATIC_RESOURCES = [
     "/Koilors/",
     "/Koilors/index.html",
-    "/Koilors/scripts/app.js",
     "/Koilors/scripts/canvas-worker.js",
     "/Koilors/scripts/color.global.js",
     "/Koilors/scripts/colorpicker.js",
     "/Koilors/scripts/data-model.js",
     "/Koilors/scripts/data-view.js",
+    "/Koilors/scripts/filesystem.js",
     "/Koilors/scripts/livedata.js",
     "/Koilors/scripts/okcolor.js",
     "/Koilors/scripts/rendering.js",
