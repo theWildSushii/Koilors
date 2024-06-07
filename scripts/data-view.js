@@ -14,15 +14,7 @@ var discreteMix = true;
 var invertedLightness = new LiveData(false);
 
 function toggleDaynight() {
-    if (root.classList.contains("light")) {
-        daynightButton.innerText = "dark_mode";
-        root.classList.add("dark");
-        root.classList.remove("light");
-    } else {
-        daynightButton.innerText = "light_mode";
-        root.classList.add("light");
-        root.classList.remove("dark");
-    }
+    isLightMode.value = !isLightMode.value;
 }
 
 function copyFrom(elementId, customMessage) {
@@ -141,16 +133,6 @@ ready(function () {
 
     downloadInto(id("light-css"), "styles/roles-light.css");
     downloadInto(id("dark-css"), "styles/roles-dark.css");
-
-    if (window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches) {
-        daynightButton.innerHTML = "light_mode";
-        root.classList.add("light");
-        root.classList.remove("dark");
-    } else {
-        daynightButton.innerHTML = "dark_mode";
-        root.classList.add("dark");
-        root.classList.remove("light");
-    }
 
     root.style.setProperty("--gray", (fromOkhsl({ h: 0.5, s: 0.0, l: 0.5 })).to("oklab").display());
 
@@ -357,6 +339,19 @@ ready(function () {
     invertedLightness.listen((x) => {
         updateCSS();
     })
+
+    isLightMode.listen((x) => {
+        if(x) {
+            daynightButton.innerText = "light_mode";
+            root.classList.add("light");
+            root.classList.remove("dark");
+        } else {
+            daynightButton.innerText = "dark_mode";
+            root.classList.add("dark");
+            root.classList.remove("light");
+        }
+        updateHash();
+    });
 
 });
 

@@ -8,6 +8,7 @@ const selectedColor = new LiveData(new Color("#a033ee"));
 const isOkhsl = new LiveData(false);
 const customL = new LiveData(50.0);
 const uiSaturation = new LiveData(1.0);
+const isLightMode = new LiveData(false);
 
 var colorLock = false;
 var hueLock = false;
@@ -26,6 +27,7 @@ function getHash() {
     code += "/" + startL.value;
     code += "/" + endL.value;
     code += "/" + (uiSaturation.value * 100.0).toFixed(2);
+    code += "/" + (isLightMode.value ? "l" : "d");
     return code;
 }
 
@@ -44,6 +46,15 @@ function setHash(string) {
     startL.value = Number(keywords[3] || startL.value);
     endL.value = Number(keywords[4] || endL.value);
     uiSaturation.value = keywords[5] ? Number(keywords[5]) / 100.0 : uiSaturation.value;
+
+    if (keywords[6] == "l") {
+        isLightMode.value = true;
+    } else if(keywords[6] == "d") {
+        isLightMode.value = false;
+    } else {
+        isLightMode.value = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+    }
+
 }
 
 function L(l) {
