@@ -203,7 +203,7 @@ nav:has(#shadesTab:not(:checked))~#shadesPage {
     display: none;
 }
 
-nav:has(#lightnessTab:not(:checked))~#lightnessPage {
+nav:has(#extrasTab:not(:checked))~#extrasPage {
     display: none;
 }
 

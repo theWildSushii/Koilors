@@ -6,7 +6,6 @@ const endL = new LiveData(90.0);
 const generatedColors = new LiveData([[mainColor.value], [mainColor.value]]);
 const selectedColor = new LiveData(new Color("#a033ee"));
 const isOkhsl = new LiveData(false);
-const customL = new LiveData(50.0);
 const uiSaturation = new LiveData(1.0);
 const isLightMode = new LiveData(false);
 
@@ -233,7 +232,6 @@ ready(function () {
 
     setHash(window.location.hash);
     selectedColor.value = mainColor.value;
-    customL.value = toOkhsl(mainColor.value).l;
     window.addEventListener('hashchange', (e) => {
         setHash(window.location.hash);
     });

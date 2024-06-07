@@ -1,5 +1,5 @@
-const VERSION_NAME = "2.3.3";
-const VERSION_CODE = 20303;
+const VERSION_NAME = "2.4.0dev";
+const VERSION_CODE = 20399;
 
 const CACHE_NAME = `koilors-${VERSION_NAME}`;
 
@@ -11,6 +11,7 @@ const APP_STATIC_RESOURCES = [
     "/Koilors/scripts/colorpicker.js",
     "/Koilors/scripts/data-model.js",
     "/Koilors/scripts/data-view.js",
+    "/Koilors/scripts/extras.js",
     "/Koilors/scripts/filesystem.js",
     "/Koilors/scripts/livedata.js",
     "/Koilors/scripts/okcolor.js",
