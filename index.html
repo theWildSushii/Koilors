@@ -104,25 +104,15 @@
                         translate="no">palette</span><br />Shades</label>
                 <input type="radio" name="colors_nav" id="extrasTab">
                 <label for="extrasTab"><span class="material-symbols-rounded"
-                        translate="no">tune</span><br />Additional Tools</label>
+                        translate="no">light_mode</span><br />Custom Lightness</label>
                 <input type="radio" name="colors_nav" id="cssTab">
                 <label for="cssTab"><span class="material-symbols-rounded" translate="no">css</span><br />Export to
                     CSS</label>
             </nav>
             <section id="shadesPage">
+                <div id="baseColors" class="colorSwatch"></div>
                 <div id="generatedShades" class="colorSwatch"></div>
-                <details open>
-                    <summary>
-                        <h2>Base colors</h2>
-                    </summary>
-                    <div id="baseColors" class="colorSwatch"></div>
-                </details>
-                <details>
-                    <summary>
-                        <h2>Individual shades</h2>
-                    </summary>
-                    <section id="individualShades"></section>
-                </details>
+                <section id="individualShades"></section>
             </section>
             <section id="extrasPage">
                 <div id="customBaseColors" class="colorSwatch"></div>
