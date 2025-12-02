@@ -1,5 +1,4 @@
-const VERSION_NAME = "2.4.0dev";
-const VERSION_CODE = 20399;
+const VERSION_NAME = "2.5.0-legacy";
 
 const CACHE_NAME = `koilors-${VERSION_NAME}`;
 

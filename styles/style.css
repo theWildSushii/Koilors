@@ -537,22 +537,62 @@ label.material-symbols-rounded>input[type="checkbox"] {
     font-size: 10pt;
 }
 
+
+
 footer {
-    display: grid;
-    grid-template:
-        "body" 1fr /
-        1fr;
-    align-content: center;
-    justify-content: center;
-    align-items: center;
-    justify-items: center;
+    padding: 2rem 8px;
     background-color: var(--surface-container-lowest);
-    margin-top: 4px;
+    font-size: 0.8em;
 }
 
-footer>* {
-    grid-area: body;
-    margin: 16px;
+footer>section {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    margin: 0px auto;
+    max-width: 768px;
+    gap: 16px;
+}
+
+footer>section>* {
+    flex-grow: 2;
+    flex-basis: 256px;
+    text-align: center;
+}
+
+footer a {
+    color: var(--on-surface);
+    text-decoration: none;
+}
+
+footer a:hover {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+#socials {
+    flex-grow: 1;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+#socials a {
+    display: block;
+    width: 16px;
+    height: 16px;
+    flex-basis: 16px;
+}
+
+#socials svg {
+    width: 100;
+    height: 100%;
+}
+
+#socials a:hover {
+    text-decoration: none;
 }
 
 #snackbar {
